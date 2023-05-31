@@ -12,7 +12,7 @@ CREATE TABLE public.user(
 	prenom         VARCHAR (50) NOT NULL ,
 	nom            VARCHAR (50) NOT NULL ,
 	age            INT  NOT NULL ,
-	mail           VARCHAR (50) NOT NULL ,
+	mail           VARCHAR (50) NOT NULL UNIQUE ,
 	mdp            VARCHAR (150) NOT NULL ,
 	photo_profil   VARCHAR (150)  DEFAULT '/ressources/images/users_pp/default_user_pp.png',
 	CONSTRAINT user_PK PRIMARY KEY (id_user)
@@ -24,7 +24,7 @@ CREATE TABLE public.user(
 ------------------------------------------------------------
 CREATE TABLE public.artiste(
 	id_artiste            SERIAL NOT NULL ,
-	nom_artiste           VARCHAR (50) NOT NULL ,
+	nom_artiste           VARCHAR (50) NOT NULL UNIQUE ,
 	type_artiste          VARCHAR (50) NOT NULL ,
 	description_artiste   VARCHAR (50) NOT NULL ,
 	photo_artiste         VARCHAR (150)  DEFAULT '/ressources/images/artistes_pp/default_artiste_pp.png',
