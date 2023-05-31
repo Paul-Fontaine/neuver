@@ -7,11 +7,12 @@
 ------------------------------------------------------------
 -- Table: user
 ------------------------------------------------------------
+drop table if exists public.user CASCADE ;
 CREATE TABLE public.user(
 	id_user        SERIAL NOT NULL ,
 	prenom         VARCHAR (50) NOT NULL ,
 	nom            VARCHAR (50) NOT NULL ,
-	age            INT  NOT NULL ,
+	date_naissance DATE NOT NULL ,
 	mail           VARCHAR (50) NOT NULL UNIQUE ,
 	mdp            VARCHAR (150) NOT NULL ,
 	photo_profil   VARCHAR (150)  DEFAULT '/ressources/images/users_pp/default_user_pp.png',
@@ -22,11 +23,12 @@ CREATE TABLE public.user(
 ------------------------------------------------------------
 -- Table: artiste
 ------------------------------------------------------------
+drop table if exists public.artiste CASCADE ;
 CREATE TABLE public.artiste(
 	id_artiste            SERIAL NOT NULL ,
 	nom_artiste           VARCHAR (50) NOT NULL UNIQUE ,
 	type_artiste          VARCHAR (50) NOT NULL ,
-	description_artiste   VARCHAR (50) NOT NULL ,
+	description_artiste   TEXT NOT NULL ,
 	photo_artiste         VARCHAR (150)  DEFAULT '/ressources/images/artistes_pp/default_artiste_pp.png',
 	CONSTRAINT artiste_PK PRIMARY KEY (id_artiste)
 )WITHOUT OIDS;
@@ -35,6 +37,7 @@ CREATE TABLE public.artiste(
 ------------------------------------------------------------
 -- Table: album
 ------------------------------------------------------------
+drop table if exists public.album CASCADE ;
 CREATE TABLE public.album(
 	id_album              SERIAL NOT NULL ,
 	nom_album             VARCHAR (50) NOT NULL ,
@@ -51,10 +54,11 @@ CREATE TABLE public.album(
 ------------------------------------------------------------
 -- Table: morceau
 ------------------------------------------------------------
+drop table if exists public.morceau CASCADE ;
 CREATE TABLE public.morceau(
 	id_morceau      SERIAL NOT NULL ,
 	nom_morceau     VARCHAR (50) NOT NULL ,
-	duree_morceau   VARCHAR (50) NOT NULL ,
+	duree_morceau   INT NOT NULL ,
 	lien            VARCHAR (150) NOT NULL ,
 	explicit        BOOL  NOT NULL DEFAULT FALSE,
 	id_album        INT  NOT NULL  ,
@@ -67,6 +71,7 @@ CREATE TABLE public.morceau(
 ------------------------------------------------------------
 -- Table: playlist
 ------------------------------------------------------------
+drop table if exists public.playlist CASCADE ;
 CREATE TABLE public.playlist(
 	id_playlist      SERIAL NOT NULL ,
 	nom_playlist     VARCHAR (50) NOT NULL ,
@@ -78,6 +83,7 @@ CREATE TABLE public.playlist(
 ------------------------------------------------------------
 -- Table: user_playlist
 ------------------------------------------------------------
+drop table if exists public.user_playlist CASCADE ;
 CREATE TABLE public.user_playlist(
 	id_playlist              INT  NOT NULL ,
 	id_user                  INT  NOT NULL ,
@@ -92,6 +98,7 @@ CREATE TABLE public.user_playlist(
 ------------------------------------------------------------
 -- Table: playlist_morceau
 ------------------------------------------------------------
+drop table if exists public.playlist_morceau CASCADE ;
 CREATE TABLE public.playlist_morceau(
 	id_morceau            INT  NOT NULL ,
 	id_playlist           INT  NOT NULL ,
@@ -106,6 +113,7 @@ CREATE TABLE public.playlist_morceau(
 ------------------------------------------------------------
 -- Table: récemment écoutés
 ------------------------------------------------------------
+drop table if exists public.recemment_ecoutes CASCADE ;
 CREATE TABLE public.recemment_ecoutes(
 	id_morceau   INT  NOT NULL ,
 	id_user      INT  NOT NULL  ,
