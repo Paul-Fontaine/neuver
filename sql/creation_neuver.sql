@@ -55,9 +55,8 @@ CREATE TABLE public.morceau(
 	id_morceau      SERIAL NOT NULL ,
 	nom_morceau     VARCHAR (50) NOT NULL ,
 	duree_morceau   VARCHAR (50) NOT NULL ,
-	nom_artiste     VARCHAR (50) NOT NULL ,
-	nom_album       VARCHAR (50) NOT NULL ,
 	lien            VARCHAR (150) NOT NULL ,
+	explicit        BOOL  NOT NULL ,
 	id_album        INT  NOT NULL  ,
 	CONSTRAINT morceau_PK PRIMARY KEY (id_morceau)
 
