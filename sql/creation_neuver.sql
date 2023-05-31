@@ -8,12 +8,13 @@
 -- Table: user
 ------------------------------------------------------------
 CREATE TABLE public.user(
-	id_user   SERIAL NOT NULL ,
-	prenom    VARCHAR (50) NOT NULL ,
-	nom       VARCHAR (50) NOT NULL ,
-	age       INT  NOT NULL ,
-	mail      VARCHAR (50) NOT NULL ,
-	mdp       VARCHAR (150) NOT NULL  ,
+	id_user        SERIAL NOT NULL ,
+	prenom         VARCHAR (50) NOT NULL ,
+	nom            VARCHAR (50) NOT NULL ,
+	age            INT  NOT NULL ,
+	mail           VARCHAR (50) NOT NULL ,
+	mdp            VARCHAR (150) NOT NULL ,
+	photo_profil   VARCHAR (150)   ,
 	CONSTRAINT user_PK PRIMARY KEY (id_user)
 )WITHOUT OIDS;
 
@@ -25,7 +26,8 @@ CREATE TABLE public.artiste(
 	id_artiste            SERIAL NOT NULL ,
 	nom_artiste           VARCHAR (50) NOT NULL ,
 	type_artiste          VARCHAR (50) NOT NULL ,
-	description_artiste   VARCHAR (50) NOT NULL  ,
+	description_artiste   VARCHAR (50) NOT NULL ,
+	photo_artiste         VARCHAR (150)   ,
 	CONSTRAINT artiste_PK PRIMARY KEY (id_artiste)
 )WITHOUT OIDS;
 
@@ -38,6 +40,7 @@ CREATE TABLE public.album(
 	nom_album             VARCHAR (50) NOT NULL ,
 	date_parution_album   VARCHAR (50) NOT NULL ,
 	style_album           VARCHAR (50) NOT NULL ,
+	cover_album           VARCHAR (150)  ,
 	id_artiste            INT  NOT NULL  ,
 	CONSTRAINT album_PK PRIMARY KEY (id_album)
 
@@ -66,8 +69,9 @@ CREATE TABLE public.morceau(
 -- Table: playlist
 ------------------------------------------------------------
 CREATE TABLE public.playlist(
-	id_playlist    SERIAL NOT NULL ,
-	nom_playlist   VARCHAR (50) NOT NULL  ,
+	id_playlist      SERIAL NOT NULL ,
+	nom_playlist     VARCHAR (50) NOT NULL ,
+	photo_playlist   VARCHAR (150)   ,
 	CONSTRAINT playlist_PK PRIMARY KEY (id_playlist)
 )WITHOUT OIDS;
 
