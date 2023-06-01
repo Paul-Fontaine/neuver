@@ -5,18 +5,18 @@
 
 
 ------------------------------------------------------------
--- Table: user
+-- Table: utilisateur
 ------------------------------------------------------------
-drop table if exists public.user CASCADE ;
-CREATE TABLE public.user(
-	id_user        SERIAL NOT NULL ,
+drop table if exists public.utilisateur CASCADE ;
+CREATE TABLE public.utilisateur(
+	id_utilisateur        SERIAL NOT NULL ,
 	prenom         VARCHAR (50) NOT NULL ,
 	nom            VARCHAR (50) NOT NULL ,
 	date_naissance DATE NOT NULL ,
 	mail           VARCHAR (50) NOT NULL UNIQUE ,
 	mdp            VARCHAR (150) NOT NULL ,
 	photo_profil   VARCHAR (150)  DEFAULT '/ressources/images/users_pp/default_user_pp.png',
-	CONSTRAINT user_PK PRIMARY KEY (id_user)
+	CONSTRAINT utilisateur_PK PRIMARY KEY (id_utilisateur)
 )WITHOUT OIDS;
 
 
@@ -43,7 +43,7 @@ CREATE TABLE public.album(
 	nom_album             VARCHAR (50) NOT NULL ,
 	date_parution_album   VARCHAR (50) NOT NULL ,
 	style_album           VARCHAR (50) NOT NULL ,
-	cover_album           VARCHAR (150) DEFAULT '/ressources/images/album_covers/default_album_cover.png',
+	cover_album           VARCHAR (150) DEFAULT '/ressources/images/albums_cover/default_album_cover.png',
 	id_artiste            INT  NOT NULL  ,
 	CONSTRAINT album_PK PRIMARY KEY (id_album)
 
@@ -86,12 +86,12 @@ CREATE TABLE public.playlist(
 drop table if exists public.user_playlist CASCADE ;
 CREATE TABLE public.user_playlist(
 	id_playlist              INT  NOT NULL ,
-	id_user                  INT  NOT NULL ,
+	id_utilisateur                 INT  NOT NULL ,
 	date_creation_playlist   DATE  NOT NULL DEFAULT current_timestamp,
-	CONSTRAINT user_playlist_PK PRIMARY KEY (id_playlist,id_user)
+	CONSTRAINT user_playlist_PK PRIMARY KEY (id_playlist,id_utilisateur)
 
 	,CONSTRAINT user_playlist_playlist_FK FOREIGN KEY (id_playlist) REFERENCES public.playlist(id_playlist)
-	,CONSTRAINT user_playlist_user0_FK FOREIGN KEY (id_user) REFERENCES public.user(id_user)
+	,CONSTRAINT user_playlist_user0_FK FOREIGN KEY (id_utilisateur) REFERENCES public.utilisateur (id_utilisateur)
 )WITHOUT OIDS;
 
 
@@ -116,11 +116,11 @@ CREATE TABLE public.playlist_morceau(
 drop table if exists public.recemment_ecoutes CASCADE ;
 CREATE TABLE public.recemment_ecoutes(
 	id_morceau   INT  NOT NULL ,
-	id_user      INT  NOT NULL  ,
-	CONSTRAINT recemment_ecoutes_PK PRIMARY KEY (id_morceau,id_user)
+	id_utilisateur      INT  NOT NULL  ,
+	CONSTRAINT recemment_ecoutes_PK PRIMARY KEY (id_morceau,id_utilisateur)
 
 	,CONSTRAINT recemment_ecoutes_morceau_FK FOREIGN KEY (id_morceau) REFERENCES public.morceau(id_morceau)
-	,CONSTRAINT recemment_ecoutes_user0_FK FOREIGN KEY (id_user) REFERENCES public.user(id_user)
+	,CONSTRAINT recemment_ecoutes_user0_FK FOREIGN KEY (id_utilisateur) REFERENCES public.utilisateur (id_utilisateur)
 )WITHOUT OIDS;
 
 

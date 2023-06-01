@@ -1,4 +1,4 @@
-INSERT INTO "user"(prenom, nom, date_naissance, mail, mdp) VALUES
+INSERT INTO utilisateur(prenom, nom, date_naissance, mail, mdp) VALUES
 ('Paul', 'Fontaine', '2003-06-03', 'paul.fontaine@isen-ouest.yncrea.fr', crypt('paul', gen_salt('md5'))),
 ('Ryan', 'Collobert', '2003-12-28', 'ryan.collobert@isen-ouest.yncrea.fr', crypt('ryan', gen_salt('md5')))
 ;
@@ -25,7 +25,7 @@ INSERT INTO morceau (nom_morceau, duree_morceau, lien, id_album) VALUES
 INSERT INTO playlist(nom_playlist) VALUES
 ('notre playlist');
 
-INSERT INTO user_playlist(id_playlist, id_user) VALUES
+INSERT INTO user_playlist(id_playlist, id_utilisateur) VALUES
 (1, 1),
 (1, 2)
 ;
@@ -37,7 +37,7 @@ INSERT INTO playlist_morceau(id_playlist, id_morceau) VALUES
 (1, 5)
 ;
 
-INSERT INTO recemment_ecoutes(id_user, id_morceau) VALUES
+INSERT INTO recemment_ecoutes(id_utilisateur, id_morceau) VALUES
 (1, 1),
 (1, 2),
 (1, 3),
