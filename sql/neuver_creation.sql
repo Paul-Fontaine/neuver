@@ -41,7 +41,7 @@ drop table if exists public.album CASCADE ;
 CREATE TABLE public.album(
 	id_album              SERIAL NOT NULL ,
 	nom_album             VARCHAR (50) NOT NULL ,
-	date_parution_album   VARCHAR (50) NOT NULL ,
+	date_parution_album   DATE NOT NULL ,
 	style_album           VARCHAR (50) NOT NULL ,
 	cover_album           VARCHAR (150) DEFAULT '/ressources/images/albums_cover/default_album_cover.png',
 	id_artiste            INT  NOT NULL  ,
