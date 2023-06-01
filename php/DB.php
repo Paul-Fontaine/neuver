@@ -14,7 +14,8 @@ class DB {
             $db = new PDO(
                 "pgsql:dbname=".DB_NAME.";host=".DB_SERVER.";port=".DB_PORT,
                 DB_USER,
-                DB_PASSWORD);
+                DB_PASSWORD
+            );
         }
         catch (PDOException $e) {
             echo 'Connexion échouée : ' . $e->getMessage() . "<br>code d'erreur : " . (int)$e->getCode();
