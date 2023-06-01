@@ -30,5 +30,3 @@ function auth_state(string $mail, string $mdp){
     }
     return "connected";
 }
-
-// coucou ryan
