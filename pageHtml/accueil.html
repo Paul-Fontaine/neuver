@@ -13,7 +13,7 @@
             font-size: 60px;
         }
         .footer {
-          position: fixed;
+          position:relative;
           left: 0;
           bottom: 0;
           width: 100%;
@@ -28,6 +28,20 @@
           justify-content: center;
           color: #8E8E8E;
           margin: 0 10px;
+        }
+        html, body {
+          height: 100%;
+        }
+        .container {
+          min-height: 100%;
+          padding-bottom: 100px; /* Hauteur du div fixé en bas de la page */
+        }
+        #foot{
+          position:fixed;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 213px;
         }
     </style>
     <header>
@@ -45,71 +59,214 @@
         </div>
     </header>
     <div class="container">
-        <div class="row col-md-3 ">
-            <p class="text bg-black text-white">Dernière musique écoutées :</p>
-        </div>
-        <div class="row">
-          <div class="col-md-6 p-4" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 text-white p-3" style="background-color: #00EB0A;">
-                <p>cover</p>
-              </div>
-              <div class="col-md-4">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <p class="text-white" id="artiste">Artiste</p>
+      <div class="row col-md-5 ">
+        <p class="text bg-black text-white">Dernière musique écoutées :</p>
+      </div>
+      <div class="row">
+        <div class="col-md-5 p-4" style="background-color: #2C2C2C;">
+          <div class="row">
+            <div class="col-md-3 p-3" style="background-color: #00EB0A;">
+            </div>
+            <div class="col-md-9 p-3">
+              <h3 class="text-white" id="titre_music">Titre musique</h3>
+              <p></p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-white" id="artiste">Artiste</p>
+                </div>
+                <div class="col-md-2 offset-md-6">
+                  <p class="text-white" id="durée">Durée</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-    </div>
-    <div class="container" id="foot">
-      <footer class="footer">
-        <div class="row" style="background-color: #3B3B3B;">
-          <div class="col-md-1">
-            <a href="#" >
-              <i class="bi bi-play-fill custom-icon "></i>
-            </a>
-          </div>
-          <div class="col-md-4">
-            <p></p>
-            <h3 class="text-white" id="titre_music_play">Titre musique</h3>
-            <p class="text-white" id="artiste_play">Artiste</p>
-          </div>
-          <div class="col-md-1 offset-md-5">
-            <a href="#">
-              <i class="bi bi-suit-heart-fill" style="font-size: 60px;"></i>
-            </a>
-          </div>
-          <div class="col-md-1">
-            <a href="#">
-              <i class="bi bi-skip-end-fill custom-icon"></i>
-            </a>
+        <div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">
+          <div class="row">
+            <div class="col-md-3 p-3" style="background-color: #eb2300;">
+            </div>
+            <div class="col-md-9 p-3">
+              <h3 class="text-white" id="titre_music">Titre musique</h3>
+              <p></p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-white" id="artiste">Artiste</p>
+                </div>
+                <div class="col-md-2 offset-md-6">
+                  <p class="text-white" id="durée">Durée</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row" style="background-color: #2C2C2C;">
-          <div class="col">
-            <a href="#" style="color: #FFFFFF;">
-              <i class="bi bi-house-door-fill custom-icon "></i>
-              Accueil
-            </a>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-5 p-4" style="background-color: #2C2C2C;">
+          <div class="row">
+            <div class="col-md-3 p-3" style="background-color: #00EB0A;">
+            </div>
+            <div class="col-md-9 p-3">
+              <h3 class="text-white" id="titre_music">Titre musique</h3>
+              <p></p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-white" id="artiste">Artiste</p>
+                </div>
+                <div class="col-md-2 offset-md-6">
+                  <p class="text-white" id="durée">Durée</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col">
-            <a href="#">
-              <i class="bi bi-stack custom-icon" ></i>
-              Playlist
-            </a>
+        </div>
+        <div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">
+          <div class="row">
+            <div class="col-md-3 p-3" style="background-color: #eb2300;">
+            </div>
+            <div class="col-md-9 p-3">
+              <h3 class="text-white" id="titre_music">Titre musique</h3>
+              <p></p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-white" id="artiste">Artiste</p>
+                </div>
+                <div class="col-md-2 offset-md-6">
+                  <p class="text-white" id="durée">Durée</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col">
-            <a href="#">
-              <i class="bi bi-zoom-out custom-icon"></i>
-              Rechercher
-            </a>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-5 p-4" style="background-color: #2C2C2C;">
+          <div class="row">
+            <div class="col-md-3 p-3" style="background-color: #00EB0A;">
+            </div>
+            <div class="col-md-9 p-3">
+              <h3 class="text-white" id="titre_music">Titre musique</h3>
+              <p></p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-white" id="artiste">Artiste</p>
+                </div>
+                <div class="col-md-2 offset-md-6">
+                  <p class="text-white" id="durée">Durée</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">
+          <div class="row">
+            <div class="col-md-3 p-3" style="background-color: #eb2300;">
+            </div>
+            <div class="col-md-9 p-3">
+              <h3 class="text-white" id="titre_music">Titre musique</h3>
+              <p></p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-white" id="artiste">Artiste</p>
+                </div>
+                <div class="col-md-2 offset-md-6">
+                  <p class="text-white" id="durée">Durée</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-5 p-4" style="background-color: #2C2C2C;">
+          <div class="row">
+            <div class="col-md-3 p-3" style="background-color: #00EB0A;">
+            </div>
+            <div class="col-md-9 p-3">
+              <h3 class="text-white" id="titre_music">Titre musique</h3>
+              <p></p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-white" id="artiste">Artiste</p>
+                </div>
+                <div class="col-md-2 offset-md-6">
+                  <p class="text-white" id="durée">Durée</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">
+          <div class="row">
+            <div class="col-md-3 p-3" style="background-color: #eb2300;">
+            </div>
+            <div class="col-md-9 p-3">
+              <h3 class="text-white" id="titre_music">Titre musique</h3>
+              <p></p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p class="text-white" id="artiste">Artiste</p>
+                </div>
+                <div class="col-md-2 offset-md-6">
+                  <p class="text-white" id="durée">Durée</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="fixed-bottom">
+          <div class="container py-3" id="foot">
+            <div id="foot">
+              <div class="row" style="background-color: #3B3B3B;">
+                <div class="col-md-1">
+                  <a href="#" >
+                    <i class="bi bi-play-fill custom-icon "></i>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <p></p>
+                  <h3 class="text-white" id="titre_music_play">Titre musique</h3>
+                  <p class="text-white" id="artiste_play">Artiste</p>
+                </div>
+                <div class="col-md-1 offset-md-5">
+                  <a href="#">
+                    <i class="bi bi-suit-heart-fill" style="font-size: 60px;"></i>
+                  </a>
+                </div>
+                <div class="col-md-1">
+                  <a href="#">
+                    <i class="bi bi-skip-end-fill custom-icon"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="row" style="background-color: #2C2C2C;">
+                <div class="col">
+                  <a href="#" style="color: #FFFFFF;">
+                    <i class="bi bi-house-door-fill custom-icon "></i>
+                    Accueil
+                  </a>
+                </div>
+                <div class="col">
+                  <a href="#">
+                    <i class="bi bi-stack custom-icon" ></i>
+                    Playlist
+                  </a>
+                </div>
+                <div class="col">
+                  <a href="#">
+                    <i class="bi bi-zoom-out custom-icon"></i>
+                    Rechercher
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
-    </div>
-
-        
+    </div>     
 </body>
 </html>
