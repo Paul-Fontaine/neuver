@@ -15,11 +15,7 @@
         left: 0;
         bottom: 0;
         width: 100%;
-        height: 120px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #343a40;
+        height: 240px;
         color: white;
       }
 
@@ -28,7 +24,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: #8E8E8E;
         margin: 0 10px;
       }
   </style>
@@ -52,34 +48,50 @@
         <div class="row col-md-3 ">
             <p class="text bg-black text-white">Dernière musique écoutées :</p>
         </div>
-        <div class="row col-md-5">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text bg-black border-green text-white" id="basic-addon1">Enter mot de passe :</span>
+        <div class="row justify-content-center">
+          <div class="col-md-6 p-4" style="background-color: #2C2C2C;">
+            <div class="row">
+              <div class="col-md-3 text-white p-3" style="background-color: #00EB0A;">
+                <p>cover</p>
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control border-none text-white" style="background-color: #2C2C2C;">
+                <input type="text" class="form-control" placeholder="Zone de texte 2">
+              </div>
             </div>
-            <input type="password" class="form-control bg-black border-green text-white" name="pwd" id="exampleInputPassword1">
           </div>
         </div>
-        <div class="row col-md-5">
-          <button class="btn btn-success bg-light-green">Se connecter</button>
-        </div>
-        <br>
-        <div class="row col-md-5">
-          <button class="btn btn-secondary" style="background-color: #8E8E8E;">S'inscrire</button>
-        </div>
     </div>
-    <footer class="footer">
-      <div class="container">
-        <div class="row">
+    <div class="container">
+      <footer class="footer">
+        <div class="row" style="background-color: #3B3B3B;">
           <div class="col">
-            <a href="#">
-              <i class="bi bi-house-door-fill custom-icon"></i>
+            <a href="#" style="color: #FFFFFF;">
+              <i class="bi bi-play-fill custom-icon "></i>
               Accueil
             </a>
           </div>
           <div class="col">
             <a href="#">
-              <i class="bi bi-stack custom-icon"></i>
+              <i class="bi bi-stack custom-icon" ></i>
+            </a>
+          </div>
+          <div class="col">
+            <a href="#">
+              <i class="bi bi-zoom-out custom-icon"></i>
+            </a>
+          </div>
+        </div>
+        <div class="row" style="background-color: #2C2C2C;">
+          <div class="col">
+            <a href="#" style="color: #FFFFFF;">
+              <i class="bi bi-house-door-fill custom-icon "></i>
+              Accueil
+            </a>
+          </div>
+          <div class="col">
+            <a href="#">
+              <i class="bi bi-stack custom-icon" ></i>
               Playlist
             </a>
           </div>
@@ -90,8 +102,9 @@
             </a>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
+
         
 </body>
 </html>
