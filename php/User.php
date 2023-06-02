@@ -8,23 +8,30 @@ class User
 
     public $id_utilisateur;
     public $age;
+    public $date_naissance;
 
     function __construct($id)
     {
-        $db = DB::connexion();
-        $request = "
-        SELECT * FROM utilisateur
-        WHERE id_utilisateur = :id_utilisateur
-        ;";
-        $statement = $db->prepare($request);
-        $statement->bindParam(':id_utilisateur', $id, PDO::PARAM_INT);
-        $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        try {
+            $db = DB::connexion();
+            $request = "
+            SELECT * FROM utilisateur
+            WHERE id_utilisateur = :id_utilisateur
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_utilisateur', $id, PDO::PARAM_INT);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        foreach (array_keys($result) as $attribut){
-            $this->$attribut = $result[$attribut];
+            foreach (array_keys($result) as $attribut){
+                $this->$attribut = $result[$attribut];
+            }
+            $this->age = $this->calcAge();
         }
-        $this->age = $this->calcAge();
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+        }
     }
 
     function calcAge(){
@@ -47,9 +54,9 @@ class User
             if (!empty($mail) and !empty($mdp)){
 
                 $request = '
-            SELECT id_utilisateur FROM utilisateur
-            WHERE mail =:mail AND mdp=crypt(:mdp,mdp)
-            ';
+                SELECT id_utilisateur FROM utilisateur
+                WHERE mail =:mail AND mdp=crypt(:mdp,mdp)
+                ';
                 $statement = $db->prepare($request);
                 $statement->bindParam(':username', $mail);
                 $statement->bindParam(':mdp', $mdp);
@@ -70,7 +77,8 @@ class User
 
 
     /**
-     * create a new user in the db. It will also create a new playlist favoris and link it with the new user
+     * create a new user in the db. It will also create a new playlist favoris and link it with the new user<br>
+     * tested, it works
      * @param string $mail
      * @param string $prenom
      * @param string $nom
@@ -118,7 +126,41 @@ class User
 
 
     /**
+     * 
+     */
+    function modifyInfoUser(string $nom, string $prenom, string $date_naissance, string $mail, string $mdp)
+    {
+        try {
+            $db = DB::connexion();
+            $request = "
+            UPDATE utilisateur
+            SET prenom=:prenom,
+                nom=:nom,
+                date_naissance=:date_naissance,
+                mail=:mail,
+                mdp=crypt('$mdp', gen_salt('md5'))
+            WHERE id_utilisateur=:id
+            ";
+            $stmt=$db->prepare($request);
+            $stmt->bindParam(':prenom', $prenom);
+            $stmt->bindParam(':nom', $nom);
+            $stmt->bindParam(':date_naissance', $date_naissance);
+            $stmt->bindParam(':mail', $mail);
+            $stmt->bindParam(':id', $this->id_utilisateur);
+            $stmt->execute();
+            return true;
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
+
+
+    /**
      * We'll probably won't use the m.id_morceau and should consider remove it later
+     * tested, it works
      * @return array|false the ten last songs listenned
      */
     function recemment_ecoutes()
@@ -152,3 +194,4 @@ class User
 }
 
 $paul = new User(1);
+
