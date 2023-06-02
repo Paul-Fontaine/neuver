@@ -15,14 +15,8 @@
         .plus-icon {
             font-size: 10vw;
         }
-        #nouv_playlist{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #fav_playlist{
+        
+        #choix_cover{
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -56,71 +50,38 @@
           width: 100%;
           
         }
+        
     </style>
     <header>
         <div class="row">
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <div class="input-group mb-1">
-                    <h3 class="text-white">Playlist</h3>
+                    <h3 class="text-white">Créer une playlist</h3>
                 </div>
             </div>
-            <div class="col-md-1 offset-md-10">
+            <div class="col-md-1 offset-md-9">
               <a href="#">
                 <i class="bi bi-person-circle text-white custom-icon"></i>
               </a>
             </div>
         </div>
     </header>
-
-    <div class="container">
-        
+<br>
+    <div class="container">   
         <div class="row">
-            <div class="col-md-3">
-                <a href="#">
-                    <div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">
-            
-                         <i class="bi bi-plus-lg text-white plus-icon"></i></i>
-                    </div>
-                </a>
-            </div>
-
-
-            <div class="col-md-3 offset-md-1">
-                <a href="#">
-                    <div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">
-            
-                        <i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>
-                    </div>
-                </a>
-            </div>
-
-
-            <div class="col-md-3 offset-md-1">
-                <a href="#">
-                    <div class="col-md-12 " style="background-color: #0af731; height: 15vw;">
-                    </div>
-                </a>
-            </div>
-        </div>
-        <br>
-        <br>
-
-        <div class="row">
-
-            <div class="col-md-3">
-                <a href="#">
-                    <div class="col-md-12 " style="background-color: #eb00a5; height: 15vw;">
-                    </div>
-                </a>
+            <div class="col-md-4">
+            <a href="#">
+                <div class="col-md-12" style="background-color: #00EBEB; height: 21vw;" id="choix_cover">
+                    <h3>Choisissez une cover</h3>
+                </div>
+            </a>
             </div>
             
-            <div class="col-md-3 offset-md-1">
-                <a href="#">
-                    <div class="col-md-12" style="background-color: #220af7; height: 15vw;" id="fav_playlist">
-                    </div>
-                </a>
-            </div>
-
+            <div class="col-md-4 offset-md-2 ">
+                <input type="text" class="form-control" placeholder="Nom de la cover">
+                <br>
+                <button class="btn btn-success bg-light-green">Créer la playlist</button>
+              </div>
 
         </div>
 
