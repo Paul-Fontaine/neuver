@@ -2,8 +2,12 @@
 
 require_once "DB.php";
 
-class playlist
+class Playlist
 {
+    public $id_playlist;
+    public $nom_playlist;
+    public $photo_playlist;
+
     function __construct($id)
     {
         try {
@@ -28,6 +32,7 @@ class playlist
     }
 
     /**
+     * tested, it works
      * @return array|false all songs of the playlist with various infos for each song (cf SELECT)
      */
     function getSongs()
@@ -53,7 +58,7 @@ class playlist
             $statement = $db->prepare($request);
             $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
             $statement->execute();
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             return $result;
         }
@@ -64,23 +69,31 @@ class playlist
         }
     }
 
-
+    /**
+     * delete a song from the playlist instance
+     * tested, it works
+     * @param $id_morceau
+     * @return array|false the updated list of songs of the playlist
+     */
     function deleteSong($id_morceau)
     {
         try {
             $db = DB::connexion();
             $request = "
-            
+            DELETE FROM playlist_morceau
+            WHERE id_morceau = :id_morceau AND id_playlist = :id_playlist
             ;";
             $statement = $db->prepare($request);
+            $statement->bindParam(':id_morceau', $id_morceau, PDO::PARAM_INT);
             $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
             $statement->execute();
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
 
+            return $this->getSongs();
         }
         catch (PDOException $exception)
         {
             error_log('Request error: '.$exception->getMessage());
+            return false;
         }
     }
 }
