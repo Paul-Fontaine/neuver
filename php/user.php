@@ -137,7 +137,7 @@ class User
                 nom=:nom,
                 date_naissance=:date_naissance,
                 mail=:mail,
-                mdp=:mdp
+                mdp=crypt('$mdp', gen_salt('md5'))
             WHERE id_utilisateur=:id
             ";
             $stmt=$db->prepare($request);
@@ -145,7 +145,6 @@ class User
             $stmt->bindParam(':nom', $nom);
             $stmt->bindParam(':date_naissance', $date_naissance);
             $stmt->bindParam(':mail', $mail);
-            $stmt->bindParam(':mdp', $mdp);
             $stmt->bindParam(':id', $this->id_utilisateur);
             $stmt->execute();
             return true;
