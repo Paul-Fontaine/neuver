@@ -31,6 +31,7 @@ class Playlist
         }
     }
 
+
     /**
      * tested, it works
      * @return array|false all songs of the playlist with various infos for each song (cf SELECT)
@@ -69,6 +70,7 @@ class Playlist
         }
     }
 
+
     /**
      * delete a song from the playlist instance
      * tested, it works
@@ -97,6 +99,13 @@ class Playlist
         }
     }
 
+
+    /**
+     * add a song to the current instance of playlist
+     * tested, it works
+     * @param $id_morceau
+     * @return array|false
+     */
     function addSong($id_morceau)
     {
         try {
@@ -129,3 +138,7 @@ class Playlist
         }
     }
 }
+
+$playliste = new Playlist(3);
+echo "songs : <br>";
+var_dump(json_encode($playliste->addSong(4)));
