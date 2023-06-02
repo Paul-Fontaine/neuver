@@ -3,6 +3,18 @@
 ------------------------------------------------------------
 
 
+------------------------------------------------------------
+-- Table: playlist
+------------------------------------------------------------
+drop table if exists public.playlist CASCADE ;
+CREATE TABLE public.playlist(
+    id_playlist      SERIAL NOT NULL ,
+    nom_playlist     VARCHAR (50) NOT NULL ,
+    photo_playlist   VARCHAR (150)  DEFAULT '/ressources/images/playlists_photo/default_playlist_photo.png',
+    CONSTRAINT playlist_PK PRIMARY KEY (id_playlist)
+)WITHOUT OIDS;
+
+
 
 ------------------------------------------------------------
 -- Table: utilisateur
@@ -67,18 +79,6 @@ CREATE TABLE public.morceau(
 	CONSTRAINT morceau_PK PRIMARY KEY (id_morceau)
 
 	,CONSTRAINT morceau_album_FK FOREIGN KEY (id_album) REFERENCES public.album(id_album)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: playlist
-------------------------------------------------------------
-drop table if exists public.playlist CASCADE ;
-CREATE TABLE public.playlist(
-	id_playlist      SERIAL NOT NULL ,
-	nom_playlist     VARCHAR (50) NOT NULL ,
-	photo_playlist   VARCHAR (150)  DEFAULT '/ressources/images/playlists_photo/default_playlist_photo.png',
-	CONSTRAINT playlist_PK PRIMARY KEY (id_playlist)
 )WITHOUT OIDS;
 
 
