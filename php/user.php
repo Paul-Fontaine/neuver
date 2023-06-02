@@ -126,6 +126,39 @@ class User
 
 
     /**
+     * 
+     */
+    function modifyInfoUser(string $nom, string $prenom, string $date_naissance, string $mail, string $mdp)
+    {
+        try {
+            $db = DB::connexion();
+            $request = "
+            UPDATE utilisateur
+            SET prenom=:prenom,
+                nom=:nom,
+                date_naissance=:date_naissance,
+                mail=:mail,
+                mdp=crypt('$mdp', gen_salt('md5'))
+            WHERE id_utilisateur=:id
+            ";
+            $stmt=$db->prepare($request);
+            $stmt->bindParam(':prenom', $prenom);
+            $stmt->bindParam(':nom', $nom);
+            $stmt->bindParam(':date_naissance', $date_naissance);
+            $stmt->bindParam(':mail', $mail);
+            $stmt->bindParam(':id', $this->id_utilisateur);
+            $stmt->execute();
+            return true;
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
+
+
+    /**
      * We'll probably won't use the m.id_morceau and should consider remove it later
      * tested, it works
      * @return array|false the ten last songs listenned
@@ -161,3 +194,4 @@ class User
 }
 
 $paul = new User(1);
+
