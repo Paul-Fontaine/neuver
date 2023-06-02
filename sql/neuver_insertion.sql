@@ -1,7 +1,7 @@
-INSERT INTO playlist(nom_playlist) VALUES
-('favoris'),
-('favoris'),
-('notre playlist');
+INSERT INTO playlist(nom_playlist, photo_playlist) VALUES
+('favoris', '/ressources/images/playlists_photo/favoris.png'),
+('favoris', '/ressources/images/playlists_photo/favoris.png'),
+('notre playlist', default);
 
 INSERT INTO utilisateur(prenom, nom, date_naissance, mail, mdp, id_playlist_favoris)VALUES
 ('Paul', 'Fontaine', '2003-06-03', 'paul.fontaine@isen-ouest.yncrea.fr', crypt('paul', gen_salt('md5')), 1),
@@ -32,8 +32,8 @@ INSERT INTO morceau (nom_morceau, duree_morceau, lien, id_album) VALUES
 ;
 
 INSERT INTO user_playlist(id_playlist, id_utilisateur) VALUES
-(1, 1),
-(1, 2)
+(3, 1),
+(3, 2)
 ;
 
 INSERT INTO playlist_morceau(id_playlist, id_morceau) VALUES

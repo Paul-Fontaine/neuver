@@ -5,7 +5,7 @@ require_once "DB.php";
 class Research
 {
     /**
-     * make a case insensitive search that returns all song where the string searched matched the name of the song/album/artist
+     * make a case insensitive search that returns all song where the string searched matched the name of the song/album/artist<br>
      * tested but not in every scenario possible
      * @param string $textToSearch
      * @return array|false choose what you want to be returned by adding some columns in the SELECT
