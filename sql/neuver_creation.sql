@@ -15,8 +15,10 @@ CREATE TABLE public.utilisateur(
 	date_naissance DATE NOT NULL ,
 	mail           VARCHAR (50) NOT NULL UNIQUE ,
 	mdp            VARCHAR (150) NOT NULL ,
-	photo_profil   VARCHAR (150)  DEFAULT '/ressources/images/users_pp/default_user_pp.png',
-	CONSTRAINT utilisateur_PK PRIMARY KEY (id_utilisateur)
+	photo_profil   VARCHAR (150) NOT NULL DEFAULT '/ressources/images/users_pp/default_user_pp.png',
+	id_playlist_favoris INT NOT NULL,
+	CONSTRAINT utilisateur_PK PRIMARY KEY (id_utilisateur),
+    CONSTRAINT favoris_FK FOREIGN KEY (id_playlist_favoris) REFERENCES public.playlist(id_playlist)
 )WITHOUT OIDS;
 
 
