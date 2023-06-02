@@ -1,3 +1,8 @@
+INSERT INTO playlist(nom_playlist) VALUES
+('favoris'),
+('favoris'),
+('notre playlist');
+
 INSERT INTO utilisateur(prenom, nom, date_naissance, mail, mdp, id_playlist_favoris)VALUES
 ('Paul', 'Fontaine', '2003-06-03', 'paul.fontaine@isen-ouest.yncrea.fr', crypt('paul', gen_salt('md5')), 1),
 ('Ryan', 'Collobert', '2003-12-28', 'ryan.collobert@isen-ouest.yncrea.fr', crypt('ryan', gen_salt('md5')), 2)
@@ -25,11 +30,6 @@ INSERT INTO morceau (nom_morceau, duree_morceau, lien, id_album) VALUES
 ('Dutty', 163, '/ressources/songs/Dutty - Vibe Tracks.mp3', 3),
 ('About that Oldie', 114, '/ressources/songs/About That Oldie - Vibe Tracks.mp3', 3)
 ;
-
-INSERT INTO playlist(nom_playlist) VALUES
-('favoris'),
-('favoris'),
-('notre playlist');
 
 INSERT INTO user_playlist(id_playlist, id_utilisateur) VALUES
 (1, 1),
