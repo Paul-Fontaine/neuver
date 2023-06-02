@@ -8,23 +8,30 @@ class User
 
     public $id_utilisateur;
     public $age;
+    public $date_naissance;
 
     function __construct($id)
     {
-        $db = DB::connexion();
-        $request = "
-        SELECT * FROM utilisateur
-        WHERE id_utilisateur = :id_utilisateur
-        ;";
-        $statement = $db->prepare($request);
-        $statement->bindParam(':id_utilisateur', $id, PDO::PARAM_INT);
-        $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        try {
+            $db = DB::connexion();
+            $request = "
+            SELECT * FROM utilisateur
+            WHERE id_utilisateur = :id_utilisateur
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_utilisateur', $id, PDO::PARAM_INT);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        foreach (array_keys($result) as $attribut){
-            $this->$attribut = $result[$attribut];
+            foreach (array_keys($result) as $attribut){
+                $this->$attribut = $result[$attribut];
+            }
+            $this->age = $this->calcAge();
         }
-        $this->age = $this->calcAge();
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+        }
     }
 
     function calcAge(){
@@ -47,9 +54,9 @@ class User
             if (!empty($mail) and !empty($mdp)){
 
                 $request = '
-            SELECT id_utilisateur FROM utilisateur
-            WHERE mail =:mail AND mdp=crypt(:mdp,mdp)
-            ';
+                SELECT id_utilisateur FROM utilisateur
+                WHERE mail =:mail AND mdp=crypt(:mdp,mdp)
+                ';
                 $statement = $db->prepare($request);
                 $statement->bindParam(':username', $mail);
                 $statement->bindParam(':mdp', $mdp);
