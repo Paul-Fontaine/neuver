@@ -1,5 +1,4 @@
 $('#button-se-connecter').on("click", () => {
-    console.log('connecter clicked')
     let mail = $('#Email').val();
     let mdp = $('#Password').val();
 
@@ -15,5 +14,12 @@ $('#button-se-connecter').on("click", () => {
 
 function authentification(data)
 {
-    console.log(data)
+    switch (data){
+        case 'connected':
+            window.location.href = "accueil.html";
+            break;
+        case 'incorrect':
+            $('#alert-erreur-connexion').toggleClass('d-none');
+            break;
+    }
 }
