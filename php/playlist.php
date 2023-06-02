@@ -83,4 +83,31 @@ class playlist
             error_log('Request error: '.$exception->getMessage());
         }
     }
+
+    function addSong($id_morceau)
+    {
+        try {
+            $db = DB::connexion();
+            $request = "
+                INSERT INTO playlist_morceau (
+                    id_morceau,
+                    id_playlist,
+                    date_ajout_playlist )
+                VALUES (:id_morceau, :id_playlist, CURRENT_DATE)
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_morceau', $id_morceau);
+            $statement->bindParam(':id_playlist', $this->id_playlist);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            
+            return $this->getSongs();
+
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
 }
