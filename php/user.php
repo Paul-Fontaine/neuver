@@ -77,7 +77,8 @@ class User
 
 
     /**
-     * create a new user in the db. It will also create a new playlist favoris and link it with the new user
+     * create a new user in the db. It will also create a new playlist favoris and link it with the new user<br>
+     * tested, it works
      * @param string $mail
      * @param string $prenom
      * @param string $nom
@@ -126,6 +127,7 @@ class User
 
     /**
      * We'll probably won't use the m.id_morceau and should consider remove it later
+     * tested, it works
      * @return array|false the ten last songs listenned
      */
     function recemment_ecoutes()
