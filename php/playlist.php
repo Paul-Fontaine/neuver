@@ -27,12 +27,16 @@ class playlist
         }
     }
 
+    /**
+     * @return array|false all songs of the playlist with various infos for each song (cf SELECT)
+     */
     function getSongs()
     {
         try {
             $db = DB::connexion();
             $request = "
-            SELECT m.nom_morceau,
+            SELECT m.id_morceau,
+                   m.nom_morceau,
                    m.duree_morceau,
                    m.lien,
                    m.explicit,
@@ -51,9 +55,28 @@ class playlist
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-            foreach (array_keys($result) as $attribut) {
-                $this->$attribut = $result[$attribut];
-            }
+            return $result;
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
+
+
+    function deleteSong($id_morceau)
+    {
+        try {
+            $db = DB::connexion();
+            $request = "
+            
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
         }
         catch (PDOException $exception)
         {
