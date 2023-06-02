@@ -126,7 +126,13 @@ class User
 
 
     /**
-     * 
+     * tested, it works
+     * @param string $nom
+     * @param string $prenom
+     * @param string $date_naissance
+     * @param string $mail
+     * @param string $mdp
+     * @return bool
      */
     function modifyInfoUser(string $nom, string $prenom, string $date_naissance, string $mail, string $mdp)
     {
@@ -191,7 +197,46 @@ class User
             return false;
         }
     }
+
+    /**
+     * @return array|false the list of the user's playlist
+     */
+    function getPlaylists()
+    {
+        try {
+            $db = DB::connexion();
+            $request = "
+            SELECT p.* FROM user_playlist u_p
+            JOIN playlist p on p.id_playlist = u_p.id_playlist
+            WHERE u_p.id_utilisateur = :id_utilisateur
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            $request = "
+            SELECT p.* FROM utilisateur u
+            JOIN playlist p on p.id_playlist = u.id_playlist_favoris
+            WHERE u.id_utilisateur = :id_utilisateur
+            ";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
+            $statement->execute();
+            $playlist_favoris = $statement->fetch(PDO::FETCH_ASSOC);
+            array_push($result, $playlist_favoris);
+
+            return $result;
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
 }
 
 $paul = new User(1);
+$ryan = new User(2);
+var_dump(json_encode($ryan->getPlaylists()));
 
