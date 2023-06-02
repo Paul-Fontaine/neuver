@@ -105,8 +105,13 @@ class Playlist
                 INSERT INTO playlist_morceau (
                     id_morceau,
                     id_playlist,
-                    date_ajout_playlist )
-                VALUES (:id_morceau, :id_playlist, CURRENT_DATE)
+                    date_ajout_playlist
+                )
+                VALUES (
+                    :id_morceau,
+                    :id_playlist,
+                    CURRENT_DATE
+                )
             ;";
             $statement = $db->prepare($request);
             $statement->bindParam(':id_morceau', $id_morceau);
