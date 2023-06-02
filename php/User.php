@@ -58,7 +58,7 @@ class User
                 WHERE mail =:mail AND mdp=crypt(:mdp,mdp)
                 ';
                 $statement = $db->prepare($request);
-                $statement->bindParam(':username', $mail);
+                $statement->bindParam(':mail', $mail);
                 $statement->bindParam(':mdp', $mdp);
                 $statement->execute();
 
@@ -236,7 +236,44 @@ class User
     }
 }
 
-$paul = new User(1);
-$ryan = new User(2);
-var_dump(json_encode($ryan->getPlaylists()));
+$requestMethod = $_SERVER['REQUEST_METHOD'];
+$request = substr($_SERVER['PATH_INFO'], 1);
+$request = explode('/', $request);
+$requestRessource = array_shift($request);
 
+try {
+    DB::connexion();
+}
+catch (PDOException $exception){
+    header('HTTP/1.1 503 Service Unavailable');
+    echo $exception->getMessage();
+    exit();
+}
+
+switch ($requestRessource)
+{
+    case 'authentification':
+        authentification();
+    case 'favoris':
+
+}
+
+function authentification()
+{
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'GET':
+            if (isset($_GET['mail']) and isset($_GET['mdp'])){
+                header('Content-Type: text/json; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+                echo User::auth_state($_GET['mail'], $_GET['mdp']);
+            }
+            else {
+                header('HTTP/1.1 400 Bad Request');
+            }
+            exit();
+    }
+}
