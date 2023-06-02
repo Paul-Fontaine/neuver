@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+   <meta charset="utf-8">
+   <title> index </title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+ </head>
+ <body style="background-color: #000000;">
+    <style>
+        .custom-icon {
+            font-size: 3vw;
+        }
+        .custom-icon2{
+            font-size: 4vw;
+            color: #8E8E8E;
+        }
+        .footer {
+          position:relative;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 20vw;
+          color: white;
+        }
+
+        .footer a {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          color: #8E8E8E;
+          margin: 0 1vw;
+        }
+        html, body {
+          height: 100%;
+        }
+        #foot{
+          position:inherit;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          
+        }
+    </style>
+    <header>
+        <div class="row">
+            <div class="col-md-1">
+                <div class="input-group mb-1">
+                    <h3 class="text-white">Morceau</h3>
+                </div>
+            </div>
+            <div class="col-md-1 offset-md-10">
+              <a href="#">
+                <i class="bi bi-person-circle text-white custom-icon"></i>
+              </a>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-1" style="background-color: #00EBEB; height: 24vw;">
+            </div>
+            <div class="col-md-4 offset-md-1 text-white">
+                <br>
+                <h1 class="text bg-black text-white" id="titre_album">Titre du morceau</h1>
+                <br>
+                <br>
+                <h3 class="text bg-black text-white" id="album">Album</h3>
+                <br>
+                <h3 class="text bg-black text-white" id="artiste">Artiste</h3>
+                <br><br>
+                <div class="row">
+                    <div class="col-md-1">
+                        <a href="#">
+                            <i class="bi bi-plus-circle-dotted custom-icon2"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-1 offset-md-3">
+                        <a href="#">
+                            <i class="bi bi-suit-heart custom-icon2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2 offset-md-3">
+                <h2 class="text bg-black text-white" id="duree_actuel">1:01</h2>
+            </div>
+            <div class="col-md-2 offset-md-4">
+                <h2 class="text bg-black text-white" id="duree_totale">3:46</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 offset-md-3">
+                <input type="range" class="form-range" id="slider" min="0" max="100" value="30" step="1">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 offset-md-1">
+                <a href="#">
+                    <i class="bi bi-arrow-repeat custom-icon2"></i>
+                </a>
+            </div>
+            <div class="col-md-1 offset-md-3">
+                <a href="#">
+                    <i class="bi bi-skip-start-fill custom-icon2"></i>
+                </a>
+            </div>
+            <div class="col-md-1 ">
+                <a href="#">
+                    <i class="bi bi-pause-fill custom-icon2"></i>
+                </a>
+            </div>
+            <div class="col-md-1 ">
+                <a href="#">
+                    <i class="bi bi-skip-end-fill custom-icon2"></i>
+                </a>
+            </div>
+            <div class="col-md-1 offset-md-3">
+                <a href="#">
+                    <i class="bi bi-shuffle custom-icon2"></i>
+                </a>
+            </div>
+        </div>
+
+      
+      <footer class="footer">
+        <div class="fixed-bottom">
+            <div class="row" style="background-color: #2C2C2C;">
+                <div class="col">
+                  <a href="#">
+                    <i class="bi bi-house-door-fill custom-icon "></i>
+                    Accueil
+                  </a>
+                </div>
+                <div class="col">
+                  <a href="#">
+                    <i class="bi bi-stack custom-icon" ></i>
+                    Playlist
+                  </a>
+                </div>
+                <div class="col">
+                  <a href="#">
+                    <i class="bi bi-zoom-out custom-icon"></i>
+                    Rechercher
+                  </a>
+                </div>
+            </div>
+        </div>
+      </footer>
+    </div>      
+</body>
+</html>
