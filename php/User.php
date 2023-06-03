@@ -257,6 +257,8 @@ switch ($requestRessource)
     case 'favoris':
     case 'inscription':
         inscription();
+    case 'accueil':
+        accueil();
 
 }
 
@@ -305,6 +307,24 @@ function inscription()
                 //header('HTTP/1.1 400 Bad Request');
             }
             
+            exit();
+    }
+}
+
+
+
+function accueil()
+{
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'GET':
+            header('Content-Type: text/json; charset=utf-8');
+            header('Cache-control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('HTTP/1.1 200 OK');
+            echo json_encode(User::recemment_ecoutes(1)); 
+           
             exit();
     }
 }

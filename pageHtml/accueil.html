@@ -11,17 +11,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"
           integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
   <script src="../js/ajax.js" defer></script>
+  <script src="../js/user.js" defer></script>
   <script src="../js/icon.js" defer></script>
 <!--   Style  -->
   <link href="style.css" rel="stylesheet">
  </head>
- <body id="accueil">
+ <body>
     <span id="current_page">
       <header>
         <div class="row">
             <div class="col-md-1">
                 <div class="input-group mb-1">
-                    <h3 class="text-white">Accueil</h3>
+                    <h3 class="text-white" id="name_page">Accueil</h3>
                 </div>
             </div>
             <div class="col-md-1 offset-md-10">
@@ -35,161 +36,9 @@
         <div class="row col-md-5 ">
           <p class="text bg-black text-white">Dernière musique écoutées :</p>
         </div>
-        <div class="row">
-          <div class="col-md-5 p-4" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 p-3" style="background-color: #00EB0A;">
-              </div>
-              <div class="col-md-9 p-3">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <p class="text-white" id="artiste">Artiste</p>
-                  </div>
-                  <div class="col-md-2 offset-md-6">
-                    <p class="text-white" id="durée">Durée</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 p-3" style="background-color: #eb2300;">
-              </div>
-              <div class="col-md-9 p-3">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <p class="text-white" id="artiste">Artiste</p>
-                  </div>
-                  <div class="col-md-2 offset-md-6">
-                    <p class="text-white" id="durée">Durée</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-md-5 p-4" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 p-3" style="background-color: #00EB0A;">
-              </div>
-              <div class="col-md-9 p-3">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <p class="text-white" id="artiste">Artiste</p>
-                  </div>
-                  <div class="col-md-2 offset-md-6">
-                    <p class="text-white" id="durée">Durée</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 p-3" style="background-color: #eb2300;">
-              </div>
-              <div class="col-md-9 p-3">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <p class="text-white" id="artiste">Artiste</p>
-                  </div>
-                  <div class="col-md-2 offset-md-6">
-                    <p class="text-white" id="durée">Durée</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-md-5 p-4" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 p-3" style="background-color: #00EB0A;">
-              </div>
-              <div class="col-md-9 p-3">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <p class="text-white" id="artiste">Artiste</p>
-                  </div>
-                  <div class="col-md-2 offset-md-6">
-                    <p class="text-white" id="durée">Durée</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 p-3" style="background-color: #eb2300;">
-              </div>
-              <div class="col-md-9 p-3">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <p class="text-white" id="artiste">Artiste</p>
-                  </div>
-                  <div class="col-md-2 offset-md-6">
-                    <p class="text-white" id="durée">Durée</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-md-5 p-4" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 p-3" style="background-color: #00EB0A;">
-              </div>
-              <div class="col-md-9 p-3">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <p class="text-white" id="artiste">Artiste</p>
-                  </div>
-                  <div class="col-md-2 offset-md-6">
-                    <p class="text-white" id="durée">Durée</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">
-            <div class="row">
-              <div class="col-md-3 p-3" style="background-color: #eb2300;">
-              </div>
-              <div class="col-md-9 p-3">
-                <h3 class="text-white" id="titre_music">Titre musique</h3>
-                <p></p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <p class="text-white" id="artiste">Artiste</p>
-                  </div>
-                  <div class="col-md-2 offset-md-6">
-                    <p class="text-white" id="durée">Durée</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <span id="recemment_ecoutes">
+
+        </span>
       </div>
     </span>
       <footer class="footer">
@@ -225,7 +74,7 @@
               </div>
               <div class="row" style="background-color: #2C2C2C;">
                 <div class="col">
-                  <a href="#" style="color: #FFFFFF;">
+                  <a href="#" id="bouton_acceuil" style="color: #FFFFFF;">
                     <i class="bi bi-house-door-fill custom-icon "></i>
                     Accueil
                   </a>
