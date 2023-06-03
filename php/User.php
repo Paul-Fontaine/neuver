@@ -255,6 +255,8 @@ switch ($requestRessource)
     case 'authentification':
         authentification();
     case 'favoris':
+    case 'inscription':
+        inscription();
 
 }
 
@@ -274,6 +276,35 @@ function authentification()
             else {
                 header('HTTP/1.1 400 Bad Request');
             }
+            exit();
+    }
+}
+
+function inscription()
+{
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'PUT':
+            parse_str(file_get_contents('php://input'), $_PUT);
+            if (($_PUT['prenom'] != "") && ($_PUT['nom'] != "") && ($_PUT['date_naissance'] != "") && ($_PUT['mail'] != "") && ($_PUT['mdp'] != "")){
+                if($_PUT['mdp'] == $_PUT['mdp_conf']){
+                    header('Content-Type: text/json; charset=utf-8');
+                    header('Cache-control: no-store, no-cache, must-revalidate');
+                    header('Pragma: no-cache');
+                    header('HTTP/1.1 200 OK');
+                    User::addUser($_PUT['mail'], $_PUT['prenom'], $_PUT['nom'], $_PUT['date_naissance'], $_PUT['mdp']);
+                    echo'inscrit';
+                }
+                else{
+                    echo 'probleme_mdp';
+                }
+                
+            }else {
+                echo 'non_inscrit';
+                //header('HTTP/1.1 400 Bad Request');
+            }
+            
             exit();
     }
 }
