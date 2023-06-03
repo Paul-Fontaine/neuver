@@ -1,3 +1,5 @@
+//=========================Paul===================================
+
 $('#button-se-connecter').on("click", () => {
     let mail = $('#Email').val();
     let mdp = $('#Password').val();
@@ -24,6 +26,8 @@ $('#button-se-connecter').on("click", () => {
     }
   }
   
+  
+  //=========================RYAN===================================
   
   $('#button_page_inscription').on("click", () => {
     window.location.href = 'inscription.html';
@@ -60,6 +64,20 @@ $('#button-se-connecter').on("click", () => {
               break;
     }
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  //========================Gauthier===================================
   
   
   
