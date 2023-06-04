@@ -8,9 +8,15 @@ class User
 {
 
     public $id_utilisateur;
-    public $age;
+    public $prenom;
+    public $nom;
     public $date_naissance;
-    
+    public $age;
+    public $mail;
+    public $photo_profil;
+    public $id_playlist_favoris;
+    public $mdp;
+
 
     function __construct($id)
     {
@@ -100,7 +106,7 @@ class User
 
             $id_favoris_new_user = $statement->fetch(PDO::FETCH_NUM)[0];
 
-            // create the new user and get its id_utilisateur
+            // create the new user and link the playlist favoris
             $request = "
             INSERT INTO utilisateur(prenom, nom, date_naissance, mail, mdp, id_playlist_favoris) VALUES 
             (:prenom, :nom, :date_naissance, :mail, crypt('$mdp', gen_salt('md5')), :favoris)
@@ -299,20 +305,22 @@ function inscription()
         case 'POST':
             if (($_POST['prenom'] != "") && ($_POST['nom'] != "") && ($_POST['date_naissance'] != "") && ($_POST['mail'] != "") && ($_POST['mdp'] != "")){
                 if($_POST['mdp'] == $_POST['mdp_conf']){
-                    header('Content-Type: text/json; charset=utf-8');
+                    header('Content-Type: text/plain; charset=utf-8');
                     header('Cache-control: no-store, no-cache, must-revalidate');
                     header('Pragma: no-cache');
                     header('HTTP/1.1 200 OK');
                     User::addUser($_POST['mail'], $_POST['prenom'], $_POST['nom'], $_POST['date_naissance'], $_POST['mdp']);
-                    echo'inscrit';
+                    echo 'inscrit';
+
                 }
                 else{
+                    header('HTTP/1.1 400 Bad Request');
                     echo 'probleme_mdp';
                 }
                 
             }else {
+                header('HTTP/1.1 400 Bad Request');
                 echo 'non_inscrit';
-                //header('HTTP/1.1 400 Bad Request');
             }
             
             exit();
@@ -331,10 +339,9 @@ function accueil()
             header('Cache-control: no-store, no-cache, must-revalidate');
             header('Pragma: no-cache');
             header('HTTP/1.1 200 OK');
-            $actual_user = new User($_SESSION['id_utilisateur']);
-            echo json_encode($actual_user->recemment_ecoutes()); 
-            unset($actual_user);
-           
+            $current_user = new User($_SESSION['id_utilisateur']);
+            echo json_encode($current_user->recemment_ecoutes());
+            unset($current_user);
             exit();
     }
 }
