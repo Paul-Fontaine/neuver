@@ -16,7 +16,12 @@ class Research
             $db = DB::connexion();
 
             $request = "
-            SELECT m.nom_morceau FROM morceau m
+            SELECT m.nom_morceau,
+                   m.duree_morceau,
+                   al.nom_album,
+                   al.cover_album,
+                   ar.nom_artiste
+            FROM morceau m
             JOIN album al on al.id_album = m.id_album
             JOIN artiste ar on ar.id_artiste = al.id_artiste
             WHERE m.nom_morceau ILIKE CONCAT('%', :textToSearch::text, '%')
@@ -51,8 +56,11 @@ class Research
             $db = DB::connexion();
 
             $request = "
-            SELECT nom_album FROM album
-            JOIN artiste on artiste.id_artiste = album.id_artiste
+            SELECT al.nom_album,
+                   al.cover_album,
+                   ar.nom_artiste                   
+            FROM album al
+            JOIN artiste ar on ar.id_artiste = al.id_artiste
             WHERE nom_album ILIKE CONCAT('%', :textToSearch::text, '%')
             OR nom_artiste ILIKE CONCAT('%', :textToSearch::text, '%')
             ";
@@ -83,7 +91,9 @@ class Research
             $db = DB::connexion();
 
             $request = "
-            SELECT nom_artiste FROM artiste
+            SELECT nom_artiste,
+                   photo_artiste
+            FROM artiste
             WHERE nom_artiste ILIKE CONCAT('%', :textToSearch::text, '%')
             ";
             $statement = $db->prepare($request);
@@ -101,9 +111,3 @@ class Research
     }
 }
 
-$result = Research::searchArtists('e');
-if ($result){
-    var_dump($result);
-} else {
-    echo "error";
-}
