@@ -17,7 +17,7 @@
   <link href="style.css" rel="stylesheet">
  </head>
  <body>
-    <span id="current_page">
+    <span>
       <header>
         <div class="row">
             <div class="col-md-1">
@@ -32,12 +32,11 @@
             </div>
         </div>
       </header>
-      <div class="container">
+      <div class="container" id="current_page">
         <div class="row col-md-5 ">
           <p class="text bg-black text-white">Dernière musique écoutées :</p>
         </div>
         <span id="recemment_ecoutes">
-
         </span>
       </div>
     </span>
@@ -47,8 +46,8 @@
             <div id="foot">
               <div class="row" style="background-color: #3B3B3B;">
                 <div class="col-md-1">
-                  <a href="#" >
-                    <i class="bi bi-play-fill custom-icon "></i>
+                  <a href="#" id="play_music">
+                    <i class="bi bi-play-fill custom-icon " id="icon_play_stop"></i>
                   </a>
                 </div>
                 <div class="col-md-4">
@@ -62,12 +61,12 @@
                   
                 </div>
                 <div class="col-md-1 offset-md-5">
-                  <a href="#">
-                    <i class="bi bi-suit-heart-fill custom-icon "></i>
+                  <a href="#" id="add_favoris">
+                    <i class="bi bi-suit-heart-fill custom-icon " id="icon_favori"></i>
                   </a>
                 </div>
                 <div class="col-md-1">
-                  <a href="#">
+                  <a href="#" id="next_music">
                     <i class="bi bi-skip-end-fill custom-icon"></i>
                   </a>
                 </div>
@@ -80,13 +79,13 @@
                   </a>
                 </div>
                 <div class="col">
-                  <a href="#">
+                  <a href="#" id="bouton_playlist">
                     <i class="bi bi-stack custom-icon" ></i>
                     Playlist
                   </a>
                 </div>
                 <div class="col">
-                  <a href="#">
+                  <a href="#" id="bouton_rechercher">
                     <i class="bi bi-zoom-out custom-icon"></i>
                     Rechercher
                   </a>

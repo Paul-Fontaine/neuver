@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 require_once 'DB.php';
 
 class User
@@ -9,6 +10,7 @@ class User
     public $id_utilisateur;
     public $age;
     public $date_naissance;
+    
 
     function __construct($id)
     {
@@ -49,30 +51,26 @@ class User
      */
     static function auth_state(string $mail, string $mdp){
         $db = DB::connexion();
-        if (empty($_SESSION['id_utilisateur'])){
+        if (!empty($mail) and !empty($mdp)){
 
-            if (!empty($mail) and !empty($mdp)){
+            $request = '
+            SELECT id_utilisateur FROM utilisateur
+            WHERE mail =:mail AND mdp=crypt(:mdp,mdp)
+            ';
+            $statement = $db->prepare($request);
+            $statement->bindParam(':mail', $mail);
+            $statement->bindParam(':mdp', $mdp);
+            $statement->execute();
 
-                $request = '
-                SELECT id_utilisateur FROM utilisateur
-                WHERE mail =:mail AND mdp=crypt(:mdp,mdp)
-                ';
-                $statement = $db->prepare($request);
-                $statement->bindParam(':mail', $mail);
-                $statement->bindParam(':mdp', $mdp);
-                $statement->execute();
+            $result = $statement->fetch();
 
-                $result = $statement->fetch();
-
-                if (!empty($result['id_utilisateur'])){
-                    $_SESSION['id_utilisateur'] = $result['id_utilisateur'];
-                    return 'connected';
-                }
-                return "incorrect";
+            if (!empty($result['id_utilisateur'])){
+                $_SESSION['id_utilisateur'] = $result['id_utilisateur'];
+                return 'connected';
             }
-            return "not connected";
+            return "incorrect";
         }
-        return "connected";
+        return "not connected";
     }
 
 
@@ -179,15 +177,18 @@ class User
                    m.duree_morceau,
                    m.lien,
                    m.explicit,
-                   m.id_album
+                   m.id_album,
+                   ar.nom_artiste
             FROM recemment_ecoutes re
             JOIN morceau m on m.id_morceau = re.id_morceau
+            JOIN album al on al.id_album = m.id_album
+            JOIN artiste ar on ar.id_artiste = al.id_artiste
             WHERE re.id_utilisateur = :id_utilisateur
             ;";
             $statement = $db->prepare($request);
             $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
             $statement->execute();
-            $result = $statement->fetchAll(PDO::FETCH_NUM);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             return $result;
         }
@@ -234,6 +235,8 @@ class User
             return false;
         }
     }
+
+    function getAge(){return $this->age;}
 }
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -259,6 +262,12 @@ switch ($requestRessource)
         inscription();
     case 'accueil':
         accueil();
+    case 'profil':
+        profil();
+    case 'playlist':
+        playlist();
+    case 'modif_profil':
+        modif_profil();
 
 }
 
@@ -287,15 +296,14 @@ function inscription()
     global $requestMethod;
     switch ($requestMethod)
     {
-        case 'PUT':
-            parse_str(file_get_contents('php://input'), $_PUT);
-            if (($_PUT['prenom'] != "") && ($_PUT['nom'] != "") && ($_PUT['date_naissance'] != "") && ($_PUT['mail'] != "") && ($_PUT['mdp'] != "")){
-                if($_PUT['mdp'] == $_PUT['mdp_conf']){
+        case 'POST':
+            if (($_POST['prenom'] != "") && ($_POST['nom'] != "") && ($_POST['date_naissance'] != "") && ($_POST['mail'] != "") && ($_POST['mdp'] != "")){
+                if($_POST['mdp'] == $_POST['mdp_conf']){
                     header('Content-Type: text/json; charset=utf-8');
                     header('Cache-control: no-store, no-cache, must-revalidate');
                     header('Pragma: no-cache');
                     header('HTTP/1.1 200 OK');
-                    User::addUser($_PUT['mail'], $_PUT['prenom'], $_PUT['nom'], $_PUT['date_naissance'], $_PUT['mdp']);
+                    User::addUser($_POST['mail'], $_POST['prenom'], $_POST['nom'], $_POST['date_naissance'], $_POST['mdp']);
                     echo'inscrit';
                 }
                 else{
@@ -323,8 +331,97 @@ function accueil()
             header('Cache-control: no-store, no-cache, must-revalidate');
             header('Pragma: no-cache');
             header('HTTP/1.1 200 OK');
-            echo json_encode(User::recemment_ecoutes(1)); 
+            $actual_user = new User($_SESSION['id_utilisateur']);
+            echo json_encode($actual_user->recemment_ecoutes()); 
+            unset($actual_user);
            
+            exit();
+    }
+}
+
+
+function profil()
+{
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'GET':
+            header('Content-Type: text/json; charset=utf-8');
+            header('Cache-control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('HTTP/1.1 200 OK');
+            $actual_user= new User($_SESSION['id_utilisateur']);
+            echo json_encode([$actual_user->prenom, $actual_user->nom, $actual_user->mail, $actual_user->date_naissance, $actual_user->age]);
+            unset($actual_user);
+           
+            exit();
+    }
+}
+
+function playlist()
+{
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'GET':
+            header('Content-Type: text/json; charset=utf-8');
+            header('Cache-control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('HTTP/1.1 200 OK');
+            $actual_user= new User($_SESSION['id_utilisateur']);
+            echo json_encode($actual_user->getPlaylists());
+            unset($actual_user);
+           
+            exit();
+    }
+}
+
+function modif_profil()
+{
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'PUT':
+            parse_str(file_get_contents('php://input'), $_PUT);
+            if($_PUT['mdp'] == $_PUT['mdp_conf']){
+                header('Content-Type: text/json; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+                $actual_user= new User($_SESSION['id_utilisateur']);
+                if($_PUT['nom'] === ''){
+                    $nom = $actual_user->nom;
+                }else{
+                    $nom = $_PUT['nom'];
+                }
+                if($_PUT['prenom'] === ''){
+                    $prenom = $actual_user->prenom;
+                }else{
+                    $prenom = $_PUT['prenom'];
+                }
+                if($_PUT['date_naissance'] === ''){
+                    $date_naissance = $actual_user->date_naissance;
+                }else{
+                    $date_naissance = $_PUT['date_naissance'];
+                }
+                if($_PUT['mail'] === ''){
+                    $mail = $actual_user->mail;
+                }else{
+                    $mail = $_PUT['mail'];
+                }
+                if($_PUT['mdp'] === ''){
+                    $mdp = $actual_user->mdp;
+                }else{
+                    $mdp = $_PUT['mdp'];
+                }
+                $actual_user->modifyInfoUser($nom, $prenom, $date_naissance, $mail, $mdp);
+                unset($actual_user);
+                echo'inscrit';
+            }
+            else{
+                echo 'probleme_mdp';
+            }
+            
             exit();
     }
 }
