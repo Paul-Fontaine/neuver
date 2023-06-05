@@ -43,19 +43,12 @@
         <div class="container py-3 foots">
           <div class="foot">
             <div class="row" style="background-color: #3B3B3B;">
-              <div class="col-md-5">
+              <div class="col-md-3">
                 <p></p>
                 <a href="#" style="text-decoration: none;">
                   <h6 class="text-white col-md-12" id="music_play">
                   </h6>
                 </a>
-              </div>
-              <div class="col-md-2">
-                <p></p>
-                <audio controls id="music_current">
-                  <source src="../ressources/songs/Achilles - Strings - Kevin MacLeod.mp3" type="audio/mp3" >
-                  Votre navigateur ne prend pas en charge l'élément audio.
-                </audio>  
               </div>
               <div class="col-md-1">
                 <a href="#" id="random_music">
@@ -67,12 +60,19 @@
                   <i class="bi bi-arrow-repeat custom-icon"></i>
                 </a>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
+                <p></p>
+                <audio controls id="music_current">
+                  <source src="../ressources/songs/Achilles - Strings - Kevin MacLeod.mp3" type="audio/mp3" >
+                  Votre navigateur ne prend pas en charge l'élément audio.
+                </audio>  
+              </div>
+              <div class="col-md-1 offset-md-1">
                 <a href="#" id="add_playlist">
                   <i class="bi bi-plus-circle-dotted custom-icon " ></i>
                 </a>
               </div>
-              <div class="col-md-1 offset-md-1">
+              <div class="col-md-1 ">
                 <a href="#" id="add_favoris">
                   <i class="bi bi-suit-heart-fill custom-icon " id="icon_favori"></i>
                 </a>
