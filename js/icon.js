@@ -794,15 +794,15 @@ $(document).ready(function() {
     $('#myModal').modal('show');
   });
 
-  function turnFormatSecondes(seconds) {
-    let minutes = Math.floor(seconds / 60);
-    let remainingSeconds = seconds % 60;
-  
-    // Formater les minutes et les secondes avec deux chiffres
-    let formattedMinutes = String(minutes).padStart(2, "0");
-    let formattedSeconds = String(remainingSeconds).padStart(2, "0");
-  
-    return formattedMinutes + ":" + formattedSeconds;
-  }
-  
 });
+
+function turnFormatSecondes(seconds) {
+  let minutes = Math.floor(seconds / 60);
+  let remainingSeconds = seconds % 60;
+
+  // Formater les minutes et les secondes avec deux chiffres
+  let formattedMinutes = String(minutes).padStart(2, "0");
+  let formattedSeconds = String(remainingSeconds).padStart(2, "0");
+
+  return formattedMinutes + ":" + formattedSeconds;
+}
