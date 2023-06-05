@@ -185,6 +185,7 @@ class User
                    m.lien,
                    m.explicit,
                    m.id_album,
+                   al.cover_album,
                    ar.nom_artiste
             FROM recemment_ecoutes re
             JOIN morceau m on m.id_morceau = re.id_morceau
@@ -242,5 +243,7 @@ class User
             return false;
         }
     }
+
+    
 }
 

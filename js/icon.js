@@ -9,6 +9,8 @@ if(document.getElementById("name_page").textContent === "Accueil"){
 }
 
 
+
+
 //fonction qui vérifie dans quelle page on se trouve et affiche les informations en conséquences
 var name_page ="Accueil";
 // Création d'une nouvelle instance de MutationObserver
@@ -72,7 +74,7 @@ function recent_ecoutes(data)
                             '<p class="text-white" id="artiste">'+data[i]['nom_artiste']+'</p>'+
                         '</div>'+
                         '<div class="col-md-2 offset-md-2">'+
-                            '<p class="text-white" id="durée">'+data[i]['duree_morceau']+'</p>'+
+                            '<p class="text-white" id="durée">'+turnFormatSecondes(data[i]['duree_morceau'])+'</p>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+
@@ -93,6 +95,9 @@ function info_profil(data)
     data =JSON.parse(data);
     document.getElementById("info_perso").innerHTML = ''+
       '<div class="col-md-6">'+
+        '<br>'+
+        '<br>'+
+        '<br>'+
         '<img src="..' + data[5] + '" style="width: 90%; height: 90%;" />' +
       '</div>'+
       '<div class="col-md-6 ">'+
@@ -135,8 +140,7 @@ function user_playlist(data)
             if(iter === 0){
                 document.getElementById("fisrt_playlist").innerHTML = ""+
                 '<a href="#">'+
-                    '<div class="col-md-12 " style="background-color: #0af731; height: 15vw;">'+
-                    '</div>'+
+                  '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
                 '</a>';
                 iter++;
             }
@@ -150,8 +154,7 @@ function user_playlist(data)
                 playlist_list = playlist_list+
                 '<div class="col-md-3">'+
                     '<a href="#">'+
-                        '<div class="col-md-12 " style="background-color: #eb00a5; height: 15vw;">'+
-                        '</div>'+
+                      '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
                     '</a>'+
                 '</div>';
                 if(iter === 3){
@@ -169,6 +172,8 @@ function user_playlist(data)
     }
     document.getElementById("print_playlists").innerHTML = playlist_list;
 }
+
+
 
 
 
@@ -347,7 +352,6 @@ currentElement.addEventListener("click", function(event) {
     '</div>'+
   '</span>';
   }
-
   if (event.target.id === "change_info") {
     let prenom = $('#prenom_inscr').val();
     let nom = $('#nom_inscr').val();
@@ -386,41 +390,42 @@ currentElement.addEventListener("click", function(event) {
     document.getElementById("name_page").textContent = "Favoris";
     currentElement.innerHTML = ''+
     '<div class="row">' +
-    '<div class="col-md-3 offset-md-1">'+
-                '<a href="#">'+
-                    '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
-                        '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
-                    '</div>'+
-                '</a>'+
-            '</div>'+
-    '<div class="col-md-3 offset-md-1 text-white">' +
-        '<br>' +
-        'Date de parution :<h5 id="date_parution"> </h5>' +
-        '<br>' +
-        'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
-        '<br>' +
+      '<div class="col-md-3 offset-md-1">'+
+                  '<a href="#">'+
+                      '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
+                          '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
+                      '</div>'+
+                  '</a>'+
+              '</div>'+
+      '<div class="col-md-3 offset-md-1 text-white">' +
+          '<br>' +
+          'Date de parution :<h5 id="date_parution">'+
+          +
+          '</h5>' +
+          '<br>' +
+          'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
+          '<br>' +
+      '</div>' +
+      '<div class="col-md-2 ">' +
+          '<br>' +
+          '<br>' +
+          '<br>' +
+          '<a href="#">' +
+              '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;"></i>' +
+          '</a>' +
+      '</div>' +
+      '<div class="col-md-2 ">' +
+          '<br>' +
+          '<a href="#">' +
+              '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
+          '</a>' +
+      '</div>' +
     '</div>' +
-    '<div class="col-md-2 ">' +
-        '<br>' +
-        '<br>' +
-        '<br>' +
-        '<a href="#">' +
-            '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-2 ">' +
-        '<br>' +
-        '<a href="#">' +
-            '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
-        '</a>' +
-    '</div>' +
-'</div>' +
-'<div class="row">' +
-    '<div class="col-md-3 offset-md-1">' +
-        '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
-    '</div>' +
-'</div>';
-
+    '<div class="row">' +
+        '<div class="col-md-3 offset-md-1">' +
+            '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
+        '</div>' +
+    '</div>';
   }
   if(event.target.id === "research_all"){
     document.getElementById("all_place").innerHTML= ''+
@@ -510,6 +515,9 @@ currentElement.addEventListener("click", function(event) {
         'textToSearch='+textToSearch
     );
   }
+
+  
+  
 
 });
 
@@ -624,7 +632,7 @@ function afficher_morceau(data)
                 '</div>'+
                 '<div class="col-md-2 offset-md-1">'+
                   '<p class="text-white" id="durée">'+
-                    data[i]['duree_morceau']+
+                    turnFormatSecondes(data[i]['duree_morceau'])+
                   '</p>'+
                 '</div>'+
               '</div>'+
@@ -639,9 +647,16 @@ function afficher_morceau(data)
 
 
 $('#play_music').on("click", () => {
-    document.getElementById("icon_play_stop").classList.toggle("bi-play-fill");
-    document.getElementById("icon_play_stop").classList.toggle("bi-pause-fill");
-
+  let music = document.getElementById("music_current");
+    if (music.paused) {
+        music.play();
+        document.getElementById("icon_play_stop").classList.toggle("bi-play-fill");
+        document.getElementById("icon_play_stop").classList.toggle("bi-pause-fill");
+    } else {
+        music.pause();
+        document.getElementById("icon_play_stop").classList.toggle("bi-play-fill");
+        document.getElementById("icon_play_stop").classList.toggle("bi-pause-fill");
+    }
 })
 
 $('#add_favoris').on("click", () => {
@@ -650,77 +665,17 @@ $('#add_favoris').on("click", () => {
 })
 
 
-$('#titre_music_play').on("click", () =>{
-  document.getElementById("name_page").textContent = "Info morceau";
-  currentElement.innerHTML = ''+
-  '<div class="row">' +
-    '<div class="col-md-4 offset-md-1"  height: 24vw; ">' +
-    '</div>' +
-    '<div class="col-md-4 offset-md-1 text-white">' +
-        '<br>' +
-        '<h1 class="text bg-black text-white" id="titre_morceau"></h1>' +
-        '<br>' +
-        '<br>' +
-        '<h3 class="text bg-black text-white" id="titre_album"></h3>' +
-        '<br>' +
-        '<h3 class="text bg-black text-white" id="titre_artiste"></h3>' +
-        '<br><br>' +
-        '<div class="row">' +
-            '<div class="col-md-1">' +
-                '<a href="#">' +
-                    '<i class="bi bi-plus-circle-dotted custom-icon2"></i>' +
-                '</a>' +
-            '</div>' +
-            '<div class="col-md-1 offset-md-3">' +
-                '<a href="#" >' +
-                    '<i class="bi bi-suit-heart custom-icon2" ></i>' +
-                '</a>' +
-            '</div>' +
-        '</div>' +
-    '</div>' +
-'</div>' +
-'<br>' +
-'<div class="row">' +
-    '<div class="col-md-2 offset-md-3">' +
-        '<h2 class="text bg-black text-white" id="duree_actuel"></h2>' +
-    '</div>' +
-    '<div class="col-md-2 offset-md-4">' +
-        '<h2 class="text bg-black text-white" id="duree_totale"></h2>' +
-    '</div>' +
-'</div>' +
-'<div class="row">' +
-    '<div class="col-md-7 offset-md-3">' +
+function turnFormatSecondes(seconds) {
+  let minutes = Math.floor(seconds / 60);
+  let remainingSeconds = seconds % 60;
 
-    '</div>' +
-'</div>' +
-'<div class="row">' +
-    '<div class="col-md-1 offset-md-1">' +
-        '<a href="#">' +
-            '<i class="bi bi-arrow-repeat custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-1 offset-md-3">' +
-        '<a href="#">' +
-            '<i class="bi bi-skip-start-fill custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-1 ">' +
-        '<a href="#">' +
-            '<i class="bi bi-pause-fill custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-1 ">' +
-        '<a href="#">' +
-            '<i class="bi bi-skip-end-fill custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-1 offset-md-3">' +
-        '<a href="#">' +
-            '<i class="bi bi-shuffle custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-'</div>';
+  // Formater les minutes et les secondes avec deux chiffres
+  let formattedMinutes = String(minutes).padStart(2, "0");
+  let formattedSeconds = String(remainingSeconds).padStart(2, "0");
 
-document.getElementById("morceau_footer").classList.add("d-none");
+  return formattedMinutes + ":" + formattedSeconds;
+}
 
-})
+
+
+  

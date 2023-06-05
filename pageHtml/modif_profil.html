@@ -8,77 +8,81 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="style.css" rel="stylesheet">
  </head>
- <body class="text-center" id="modif_profil" style="overflow-y: hidden;">
-  <div class="container justify-content-center align-items-center">
-    <div class="row">
-      <div class="col-md-6 bg-light-green">
-        <h1 class="text-light">Modification du profil</h1>
+ <body>
+  <span class="text-center" id="all2" style="overflow-y: hidden;">
+    <div class="container justify-content-center align-items-center">
+      <div class="row">
+        <div class="col-md-6 bg-light-green">
+          <h1 class="text-light">Modification du profil</h1>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 p-4" style="background-color: #2C2C2C; ">
-        <div class="row col-md-8 offset-md-2">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text bg-black border-green text-white">Nom :</span>
-            </div>
-            <input type="text" class="form-control bg-black border-green text-white" id="nom_inscr"  name="nom">
-          </div>
-        </div>
-
-        <div class="row col-md-8 offset-md-2">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text bg-black border-green text-white">Prénom :</span>
-            </div>
-            <input type="text" class="form-control bg-black border-green text-white" id="prenom_inscr" name="prenom">
-          </div>
-        </div>
-
-        <div class="row col-md-8 offset-md-2">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text bg-black border-green text-white">Date de naissance :</span>
-              </div>
-              <input type="text" class="form-control bg-black border-green text-white" id="birthdate_inscr" name="birthdate">
-            </div>
-          </div>
-        
+      <div class="row">
+        <div class="col-md-6 p-4" style="background-color: #2C2C2C; ">
           <div class="row col-md-8 offset-md-2">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-black border-green text-white"> mail :</span>
+                <span class="input-group-text bg-black border-green text-white">Nom :</span>
               </div>
-              <input type="mail" class="form-control bg-black border-green text-white" id="mail_inscr" name="mail">
+              <input type="text" class="form-control bg-black border-green text-white" id="nom_inscr"  name="nom">
             </div>
           </div>
-
+  
           <div class="row col-md-8 offset-md-2">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text bg-black border-green text-white"> mot de passe :</span>
+                <span class="input-group-text bg-black border-green text-white">Prénom :</span>
               </div>
-              <input type="password" class="form-control bg-black border-green text-white" id="pwd_inscr" name="password">
+              <input type="text" class="form-control bg-black border-green text-white" id="prenom_inscr" name="prenom">
             </div>
           </div>
-
+  
           <div class="row col-md-8 offset-md-2">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text bg-black border-green text-white"> confirmation de mot de passe :</span>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-black border-green text-white">Date de naissance :</span>
+                </div>
+                <input type="text" class="form-control bg-black border-green text-white" id="birthdate_inscr" name="birthdate">
               </div>
-              <input type="password" class="form-control bg-black border-green text-white" id="pwd_inscr_conf" name="password_conf">
             </div>
+          
+            <div class="row col-md-8 offset-md-2">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-black border-green text-white"> mail :</span>
+                </div>
+                <input type="mail" class="form-control bg-black border-green text-white" id="mail_inscr" name="mail">
+              </div>
+            </div>
+  
+            <div class="row col-md-8 offset-md-2">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-black border-green text-white"> mot de passe :</span>
+                </div>
+                <input type="password" class="form-control bg-black border-green text-white" id="pwd_inscr" name="password">
+              </div>
+            </div>
+  
+            <div class="row col-md-8 offset-md-2">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-black border-green text-white"> confirmation de mot de passe :</span>
+                </div>
+                <input type="password" class="form-control bg-black border-green text-white" id="pwd_inscr_conf" name="password_conf">
+              </div>
+            </div>
+            <div id="alert-erreur-mdp" class="d-none alert alert-danger row col-md-8 offset-md-2" role="alert">
+              <strong>Erreur lors de la modification :</strong><p class="text-center">Les mots de passes sont différents.</p>
+            </div>
+          <div class="row col-md-8 offset-md-2">
+            <button class="btn btn-success bg-light-green">Changer mes données</button>
           </div>
-
-        <div class="row col-md-8 offset-md-2">
-          <button class="btn btn-success bg-light-green">Changer mes données</button>
+          <br>
         </div>
-        <br>
       </div>
-    </div>
-    <br>
-    
-  </div>    
+      <br>
+    </div>   
+  </span>
+   
   </body>
 </html>
