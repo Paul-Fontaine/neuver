@@ -537,7 +537,7 @@ function afficher_artiste(data)
     '<div class="row">';
   for(let i = 0; i<data.length;i++){
     artiste = artiste+
-    '<div class="col-md-2 artistes_recherché">'+
+    '<div class="col-md-2 artistes_recherché" value="'+data[i]['id_artiste']+'">'+
         '<img src="..' + data[i]['photo_artiste'] + '" style="width: 70%; height: 70%;" />' +
         '<p class="text-white">'+data[i]['nom_artiste']+'</p>'+
     '</div>';
@@ -557,7 +557,7 @@ function afficher_album(data)
   for(let i = 0; i<data.length;i++){
     album = album+
     '<div class="row">'+
-      '<div class="col-md-5 p-4 albums_recherché" style="background-color: #2C2C2C;">'+
+      '<div class="col-md-5 p-4 albums_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_album']+'">'+
         '<div class="row">'+
           '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
           '<div class="col-md-9 p-3 text-white">'+
@@ -595,7 +595,7 @@ function afficher_morceau(data)
   for(let i = 0; i<data.length;i++){
     morceau = morceau+
     '<div class="row">'+
-      '<div class="col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;">'+
+      '<div class="col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
           '<div class="row">'+
             '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
             '<div class="col-md-9 p-3">'+
