@@ -647,7 +647,6 @@ $('#play_music').on("click", () => {
 $('#add_favoris').on("click", () => {
     document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
     document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
-
 })
 
 
@@ -673,8 +672,8 @@ $('#titre_music_play').on("click", () =>{
                 '</a>' +
             '</div>' +
             '<div class="col-md-1 offset-md-3">' +
-                '<a href="#">' +
-                    '<i class="bi bi-suit-heart custom-icon2"  ></i>' +
+                '<a href="#" >' +
+                    '<i class="bi bi-suit-heart custom-icon2" ></i>' +
                 '</a>' +
             '</div>' +
         '</div>' +
