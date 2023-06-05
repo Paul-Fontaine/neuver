@@ -13,6 +13,10 @@ height: 20vw;
 color: white;
 }
 
+.be_white{
+color: #FFFFFF;
+}
+
 .footer a {
 display: flex;
 flex-direction: column;

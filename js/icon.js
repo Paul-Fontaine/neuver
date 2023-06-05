@@ -754,6 +754,11 @@ $('#add_favoris').on("click", () => {
 
 })
 
+$('#repeat_music').on("click", () => {
+  document.getElementById("repeat_icon").classList.toggle("be_white");
+});
+
+
 $(document).ready(function() {
   $('#add_playlist').click(function() {
     // Créez le contenu du menu déroulant
