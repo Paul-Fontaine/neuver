@@ -207,17 +207,6 @@ class User
         }
     }
 
-    function turnFormatSecondes($seconds) {
-        $minutes = floor($seconds / 60);
-        $remainingSeconds = $seconds % 60;
-        
-        // Formater les minutes et les secondes avec deux chiffres
-        $formattedMinutes = str_pad($minutes, 2, "0", STR_PAD_LEFT);
-        $formattedSeconds = str_pad($remainingSeconds, 2, "0", STR_PAD_LEFT);
-        
-        return $formattedMinutes . ":" . $formattedSeconds;
-    }
-
     /**
      * @return array|false the list of the user's playlist
      */
