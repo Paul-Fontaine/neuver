@@ -66,7 +66,7 @@ function inscription()
     switch ($requestMethod)
     {
         case 'POST':
-            if (($_POST['prenom'] != "") && ($_POST['nom'] != "") && ($_POST['date_naissance'] != "") && ($_POST['mail'] != "") && ($_POST['mdp'] != "")){
+            if (!empty($_POST['prenom']) && !empty($_POST['nom']) && !empty($_POST['date_naissance']) && !empty($_POST['mail']) && !empty($_POST['mdp'])){
                 if($_POST['mdp'] == $_POST['mdp_conf']){
                     header('Content-Type: text/plain; charset=utf-8');
                     header('Cache-control: no-store, no-cache, must-revalidate');
@@ -77,12 +77,12 @@ function inscription()
 
                 }
                 else{
-                    header('HTTP/1.1 400 Bad Request');
+                    //header('HTTP/1.1 400 Bad Request');
                     echo 'probleme_mdp';
                 }
 
             }else {
-                header('HTTP/1.1 400 Bad Request');
+                //header('HTTP/1.1 400 Bad Request');
                 echo 'non_inscrit';
             }
 
@@ -117,9 +117,9 @@ function profil()
             header('Cache-control: no-store, no-cache, must-revalidate');
             header('Pragma: no-cache');
             header('HTTP/1.1 200 OK');
-            $actual_user= new User($_SESSION['id_utilisateur']);
-            echo json_encode([$actual_user->prenom, $actual_user->nom, $actual_user->mail, $actual_user->date_naissance, $actual_user->age]);
-            unset($actual_user);
+            $current_user= new User($_SESSION['id_utilisateur']);
+            echo json_encode([$current_user->prenom, $current_user->nom, $current_user->mail, $current_user->date_naissance, $current_user->age]);
+            unset($current_user);
 
             exit();
     }
@@ -135,9 +135,9 @@ function playlist()
             header('Cache-control: no-store, no-cache, must-revalidate');
             header('Pragma: no-cache');
             header('HTTP/1.1 200 OK');
-            $actual_user= new User($_SESSION['id_utilisateur']);
-            echo json_encode($actual_user->getPlaylists());
-            unset($actual_user);
+            $current_user= new User($_SESSION['id_utilisateur']);
+            echo json_encode($current_user->getPlaylists());
+            unset($current_user);
 
             exit();
     }
@@ -155,34 +155,29 @@ function modif_profil()
                 header('Cache-control: no-store, no-cache, must-revalidate');
                 header('Pragma: no-cache');
                 header('HTTP/1.1 200 OK');
-                $actual_user= new User($_SESSION['id_utilisateur']);
-                if($_PUT['nom'] === ''){
-                    $nom = $actual_user->nom;
+                $current_user= new User($_SESSION['id_utilisateur']);
+                if(empty($_PUT['nom'])){
+                    $nom = $current_user->nom;
                 }else{
                     $nom = $_PUT['nom'];
                 }
-                if($_PUT['prenom'] === ''){
-                    $prenom = $actual_user->prenom;
+                if(empty($_PUT['prenom'])){
+                    $prenom = $current_user->prenom;
                 }else{
                     $prenom = $_PUT['prenom'];
                 }
-                if($_PUT['date_naissance'] === ''){
-                    $date_naissance = $actual_user->date_naissance;
+                if(empty($_PUT['date_naissance'])){
+                    $date_naissance = $current_user->date_naissance;
                 }else{
                     $date_naissance = $_PUT['date_naissance'];
                 }
-                if($_PUT['mail'] === ''){
-                    $mail = $actual_user->mail;
+                if(empty($_PUT['mail'])){
+                    $mail = $current_user->mail;
                 }else{
                     $mail = $_PUT['mail'];
                 }
-                if($_PUT['mdp'] === ''){
-                    $mdp = $actual_user->mdp;
-                }else{
-                    $mdp = $_PUT['mdp'];
-                }
-                $actual_user->modifyInfoUser($nom, $prenom, $date_naissance, $mail, $mdp);
-                unset($actual_user);
+                $current_user->modifyInfoUser($nom, $prenom, $date_naissance, $mail, $_PUT['mdp']);
+                unset($current_user);
                 echo'inscrit';
             }
             else{

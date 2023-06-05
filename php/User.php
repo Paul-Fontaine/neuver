@@ -144,13 +144,14 @@ class User
             $db = DB::connexion();
             $request = "
             UPDATE utilisateur
-            SET prenom=:prenom,
-                nom=:nom,
-                date_naissance=:date_naissance,
-                mail=:mail,
-                mdp=crypt('$mdp', gen_salt('md5'))
-            WHERE id_utilisateur=:id
-            ";
+            SET prenom = :prenom,
+                nom = :nom,
+                date_naissance = :date_naissance,
+                mail = :mail";
+            if (!empty($mdp)) {
+                $request .= ", mdp = crypt('$mdp', gen_salt('md5'))";
+            }
+            $request .= " WHERE id_utilisateur = :id";
             $stmt=$db->prepare($request);
             $stmt->bindParam(':prenom', $prenom);
             $stmt->bindParam(':nom', $nom);
