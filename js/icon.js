@@ -1,6 +1,7 @@
 var currentElement = document.getElementById("current_page");
 
-if(document.getElementById("name_page").textContent === "Accueil"){
+var name_page = document.getElementById("name_page").textContent;
+if(name_page === "Accueil"){
     ajaxRequest(
         'GET',
         '../php/request.php/accueil',
@@ -12,7 +13,7 @@ if(document.getElementById("name_page").textContent === "Accueil"){
 
 
 //fonction qui vérifie dans quelle page on se trouve et affiche les informations en conséquences
-var name_page ="Accueil";
+
 // Création d'une nouvelle instance de MutationObserver
 var observer_current_page = new MutationObserver(function(mutations) {
   // Fonction à exécuter lorsque des mutations sont détectées
@@ -427,7 +428,7 @@ currentElement.addEventListener("click", function(event) {
         '</div>' +
     '</div>';
   }
-  if(event.target.id === "research_all"){
+  if (event.target.id === "research_all"){
     document.getElementById("all_place").innerHTML= ''+
         '<span id="place_artiste"></span>'+
         '<br>'+
@@ -566,6 +567,16 @@ function afficher_artiste(data)
     '</div>';
   }
   document.getElementById("place_album").innerHTML = artiste+'</div>';
+
+  $('.artistes_recherché').on('click', (event) => {
+      let id_artiste = $(event.target).closest('.artistes_recherché').attr('value');
+      ajaxRequest(
+          'GET',
+          '../php/request.php/infos_artiste',
+          afficher_infos_artiste,
+          'id_artiste='+id_artiste
+      );
+  });
 }
 
 function afficher_album(data)
@@ -645,6 +656,89 @@ function afficher_morceau(data)
   document.getElementById("place_artiste").innerHTML = morceau;
 }
 
+
+function afficher_infos_artiste(data)
+{
+    data = JSON.parse(data);
+    document.getElementById("name_page").textContent = 'Artiste';
+    currentElement.innerHTML = "" +
+        "<div class='container'>" +
+        "        <div class='row'>" +
+        "            <div class='col-md-6'>" +
+        "                  <img src='.."+data.photo_artiste+"'>" +
+        "            </div>" +
+        "            <div class='col-md-6 '>" +
+        "                <div class='text-white section-info'>" +
+        "                    <h3>Nom :</h3> <p class='text-white' id='info_nom'>"+data.nom_artiste+" </p>" +
+        "                    <h3> Type:</h3> <p class='text-white' id='info_type'>"+data.type_artiste+"</p>" +
+        "                    <h3> Description:</h3> <p class='text-white' id='info_desc'>"+data.description_artiste+"</p>" +
+        "                </div>" +
+        "            </div>" +
+        "        </div>" +
+        "    </div>" +
+        "" +
+        "    <div class='row col-md-5 offset-md-1'>" +
+        "      <p class='text bg-black text-white'>Discographie :</p>" +
+        "    </div>" +
+        "    <div class = 'row'>" +
+        "    <div class = 'col-md-9 offset-md-1'>" +
+        "      <hr style='color: #FFFFFF;'>" +
+        "    </div>" +
+        "    </div>" +
+        "    <div id='albums-artiste'></div>"
+    ;
+    ajaxRequest(
+        'GET',
+        '../php/request.php/album_artiste',
+        afficher_albums_artiste,
+        'id_artiste='+data.id_artiste
+    );
+}
+
+function afficher_albums_artiste(data)
+{
+    data = JSON.parse(data);
+    console.log(data)
+    $('#albums-artiste').html(
+        ""+
+        "<div class='row album' value='"+data.id_album+"' style='background-color: #2C2C2C; padding: 3%;'>" +
+        "    <div class='col-md-3'>" +
+        "        <img src='.."+data.cover_album+"' class='img-fluid' alt='cover album'>" +
+        "    </div>" +
+        "    <div class='col-md-6 offset-md-2'>" +
+        "        <h3 class='text-white' id='titre_music'>"+data.nom_album+"</h3>" +
+        "        <p></p>" +
+        "        <div class='row'>" +
+        "            <div class='col-md-5'>" +
+        "                <p class='text-white'>"+data.nom_artiste+"</p>" +
+        "                </a>" +
+        "            </div>" +
+        "            <div class='col-md-5 offset-md-2'>" +
+        "            <p class='text-white' id='date-parution'>"+data.date_parution_album+"</p>" +
+        "            </div>" +
+        "        </div>" +
+        "    </div>" +
+        "</div>"
+    );
+    $('.album').on('click', (event) => {
+        let id_album = $(event.target).closest('.album').attr('value');
+        ajaxRequest(
+            'GET',
+            '../php/request.php/infos_album',
+            afficher_infos_album,
+            'id_album='+id_album
+        )
+    });
+}
+
+function afficher_infos_album(data)
+{
+    data = JSON.parse(data);
+    console.log(data);
+
+    currentElement.innerHTML = '';
+    document.getElementById("name_page").textContent = 'Album';
+}
 
 $('#play_music').on("click", () => {
     document.getElementById("icon_play_stop").classList.toggle("bi-play-fill");

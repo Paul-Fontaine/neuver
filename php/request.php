@@ -2,6 +2,7 @@
 require_once 'Research.php';
 require_once 'User.php';
 require_once 'Artiste.php';
+require_once 'Album.php';
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $request = substr($_SERVER['PATH_INFO'], 1);
@@ -40,7 +41,10 @@ switch ($requestRessource)
         recherche_artistes($requestMethod);
     case 'infos_artiste':
         infos_artiste($requestMethod);
-
+    case 'album_artiste':
+        album_artiste($requestMethod);
+    case 'infos_album':
+        infos_album($requestMethod);
 }
 
 function authentification()
@@ -273,7 +277,45 @@ function infos_artiste(string $requestMethod)
             header('Cache-control: no-store, no-cache, must-revalidate');
             header('Pragma: no-cache');
             header('HTTP/1.1 200 OK');
-            echo $data;
+            echo json_encode($data);
+            exit();
+        }
+        header('HTTP/1.1 400 Bad Request');
+        exit();
+    }
+}
+
+function album_artiste(string $requestMethod)
+{
+    if ($requestMethod === 'GET'){
+        if (isset($_GET['id_artiste'])){
+            $artiste = new Artiste($_GET['id_artiste']);
+            $data = $artiste->albums();
+
+            header('Content-Type: text/json; charset=utf-8');
+            header('Cache-control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('HTTP/1.1 200 OK');
+            echo json_encode($data);
+            exit();
+        }
+        header('HTTP/1.1 400 Bad Request');
+        exit();
+    }
+}
+
+function infos_album(string $requestMethod)
+{
+    if ($requestMethod === 'GET'){
+        if (isset($_GET['id_album'])){
+            $album = new Album($_GET['id_album']);
+            $data = $album->infosAlbum();
+
+            header('Content-Type: text/json; charset=utf-8');
+            header('Cache-control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('HTTP/1.1 200 OK');
+            echo json_encode($data);
             exit();
         }
         header('HTTP/1.1 400 Bad Request');
