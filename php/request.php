@@ -1,6 +1,7 @@
 <?php
 require_once 'Research.php';
 require_once 'User.php';
+require_once 'Artiste.php';
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $request = substr($_SERVER['PATH_INFO'], 1);
@@ -37,6 +38,8 @@ switch ($requestRessource)
         recherche_albums($requestMethod);
     case 'recherche_artistes':
         recherche_artistes($requestMethod);
+    case 'infos_artiste':
+        infos_artiste($requestMethod);
 
 }
 
@@ -251,6 +254,26 @@ function recherche_artistes(string $requestMethod)
             header('Pragma: no-cache');
             header('HTTP/1.1 200 OK');
             echo json_encode($data);
+            exit();
+        }
+        header('HTTP/1.1 400 Bad Request');
+        exit();
+    }
+}
+
+
+function infos_artiste(string $requestMethod)
+{
+    if ($requestMethod === 'GET'){
+        if (isset($_GET['id_artiste'])){
+            $artiste = new Artiste($_GET['id_artiste']);
+            $data = $artiste->infosArtiste();
+
+            header('Content-Type: text/json; charset=utf-8');
+            header('Cache-control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('HTTP/1.1 200 OK');
+            echo $data;
             exit();
         }
         header('HTTP/1.1 400 Bad Request');
