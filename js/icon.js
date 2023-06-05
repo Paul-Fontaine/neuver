@@ -9,6 +9,8 @@ if(document.getElementById("name_page").textContent === "Accueil"){
 }
 
 
+
+
 //fonction qui vérifie dans quelle page on se trouve et affiche les informations en conséquences
 var name_page ="Accueil";
 // Création d'une nouvelle instance de MutationObserver
@@ -93,6 +95,9 @@ function info_profil(data)
     data =JSON.parse(data);
     document.getElementById("info_perso").innerHTML = ''+
       '<div class="col-md-6">'+
+        '<br>'+
+        '<br>'+
+        '<br>'+
         '<img src="..' + data[5] + '" style="width: 90%; height: 90%;" />' +
       '</div>'+
       '<div class="col-md-6 ">'+
@@ -135,8 +140,7 @@ function user_playlist(data)
             if(iter === 0){
                 document.getElementById("fisrt_playlist").innerHTML = ""+
                 '<a href="#">'+
-                    '<div class="col-md-12 " style="background-color: #0af731; height: 15vw;">'+
-                    '</div>'+
+                  '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
                 '</a>';
                 iter++;
             }
@@ -150,8 +154,7 @@ function user_playlist(data)
                 playlist_list = playlist_list+
                 '<div class="col-md-3">'+
                     '<a href="#">'+
-                        '<div class="col-md-12 " style="background-color: #eb00a5; height: 15vw;">'+
-                        '</div>'+
+                      '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
                     '</a>'+
                 '</div>';
                 if(iter === 3){
@@ -169,6 +172,8 @@ function user_playlist(data)
     }
     document.getElementById("print_playlists").innerHTML = playlist_list;
 }
+
+
 
 
 
@@ -347,7 +352,6 @@ currentElement.addEventListener("click", function(event) {
     '</div>'+
   '</span>';
   }
-
   if (event.target.id === "change_info") {
     let prenom = $('#prenom_inscr').val();
     let nom = $('#nom_inscr').val();
@@ -386,41 +390,42 @@ currentElement.addEventListener("click", function(event) {
     document.getElementById("name_page").textContent = "Favoris";
     currentElement.innerHTML = ''+
     '<div class="row">' +
-    '<div class="col-md-3 offset-md-1">'+
-                '<a href="#">'+
-                    '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
-                        '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
-                    '</div>'+
-                '</a>'+
-            '</div>'+
-    '<div class="col-md-3 offset-md-1 text-white">' +
-        '<br>' +
-        'Date de parution :<h5 id="date_parution"> </h5>' +
-        '<br>' +
-        'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
-        '<br>' +
+      '<div class="col-md-3 offset-md-1">'+
+                  '<a href="#">'+
+                      '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
+                          '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
+                      '</div>'+
+                  '</a>'+
+              '</div>'+
+      '<div class="col-md-3 offset-md-1 text-white">' +
+          '<br>' +
+          'Date de parution :<h5 id="date_parution">'+
+          +
+          '</h5>' +
+          '<br>' +
+          'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
+          '<br>' +
+      '</div>' +
+      '<div class="col-md-2 ">' +
+          '<br>' +
+          '<br>' +
+          '<br>' +
+          '<a href="#">' +
+              '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;"></i>' +
+          '</a>' +
+      '</div>' +
+      '<div class="col-md-2 ">' +
+          '<br>' +
+          '<a href="#">' +
+              '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
+          '</a>' +
+      '</div>' +
     '</div>' +
-    '<div class="col-md-2 ">' +
-        '<br>' +
-        '<br>' +
-        '<br>' +
-        '<a href="#">' +
-            '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-2 ">' +
-        '<br>' +
-        '<a href="#">' +
-            '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
-        '</a>' +
-    '</div>' +
-'</div>' +
-'<div class="row">' +
-    '<div class="col-md-3 offset-md-1">' +
-        '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
-    '</div>' +
-'</div>';
-
+    '<div class="row">' +
+        '<div class="col-md-3 offset-md-1">' +
+            '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
+        '</div>' +
+    '</div>';
   }
   if(event.target.id === "research_all"){
     document.getElementById("all_place").innerHTML= ''+
@@ -510,6 +515,9 @@ currentElement.addEventListener("click", function(event) {
         'textToSearch='+textToSearch
     );
   }
+
+  
+  
 
 });
 
@@ -650,4 +658,4 @@ $('#add_favoris').on("click", () => {
 
 })
 
-
+  

@@ -185,6 +185,7 @@ class User
                    m.lien,
                    m.explicit,
                    m.id_album,
+                   al.cover_album,
                    ar.nom_artiste
             FROM recemment_ecoutes re
             JOIN morceau m on m.id_morceau = re.id_morceau
@@ -204,6 +205,17 @@ class User
             error_log('Request error: '.$exception->getMessage());
             return false;
         }
+    }
+
+    function turnFormatSecondes($seconds) {
+        $minutes = floor($seconds / 60);
+        $remainingSeconds = $seconds % 60;
+        
+        // Formater les minutes et les secondes avec deux chiffres
+        $formattedMinutes = str_pad($minutes, 2, "0", STR_PAD_LEFT);
+        $formattedSeconds = str_pad($remainingSeconds, 2, "0", STR_PAD_LEFT);
+        
+        return $formattedMinutes . ":" . $formattedSeconds;
     }
 
     /**
@@ -242,5 +254,7 @@ class User
             return false;
         }
     }
+
+    
 }
 

@@ -118,7 +118,7 @@ function profil()
             header('Pragma: no-cache');
             header('HTTP/1.1 200 OK');
             $current_user= new User($_SESSION['id_utilisateur']);
-            echo json_encode([$current_user->prenom, $current_user->nom, $current_user->mail, $current_user->date_naissance, $current_user->age]);
+            echo json_encode([$current_user->prenom, $current_user->nom, $current_user->mail, $current_user->date_naissance, $current_user->age,$current_user->photo_profil]);
             unset($current_user);
 
             exit();
@@ -138,7 +138,7 @@ function playlist()
             $current_user= new User($_SESSION['id_utilisateur']);
             echo json_encode($current_user->getPlaylists());
             unset($current_user);
-
+            
             exit();
     }
 }
