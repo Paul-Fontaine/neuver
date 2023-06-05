@@ -9,8 +9,6 @@ if(document.getElementById("name_page").textContent === "Accueil"){
 }
 
 
-
-
 //fonction qui vérifie dans quelle page on se trouve et affiche les informations en conséquences
 var name_page ="Accueil";
 // Création d'une nouvelle instance de MutationObserver
@@ -164,8 +162,6 @@ function user_playlist(data)
     }
     document.getElementById("print_playlists").innerHTML = playlist_list;
 }
-
-
 
 
 
@@ -351,6 +347,7 @@ currentElement.addEventListener("click", function(event) {
     '</div>'+
   '</span>';
   }
+
   if (event.target.id === "change_info") {
     let prenom = $('#prenom_inscr').val();
     let nom = $('#nom_inscr').val();
@@ -386,22 +383,44 @@ currentElement.addEventListener("click", function(event) {
     '</div>';
   }
   if (event.target.id === "fav_playlist") {
-    document.getElementById("name_page").textContent = "modification_profil";
+    document.getElementById("name_page").textContent = "Favoris";
     currentElement.innerHTML = ''+
-    '<div class="row">'
-      '<div class="col-md-4">'
-        '<a href="#">'
-            '<div class="col-md-12" style="background-color: #00EBEB; height: 21vw;" id="choix_cover">'
-                '<h3>Choisissez une cover</h3>'
-            '</div>'
-        '</a>'
-      '</div>'
-      '<div class="col-md-4 offset-md-2 ">'
-          '<input type="text" class="form-control" placeholder="Nom de la cover">'
-          '<br>'
-          '<button class="btn btn-success bg-light-green">Créer la playlist</button>'
-        '</div>'
-    '</div>'
+    '<div class="row">' +
+    '<div class="col-md-3 offset-md-1">'+
+                '<a href="#">'+
+                    '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
+                        '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
+                    '</div>'+
+                '</a>'+
+            '</div>'+
+    '<div class="col-md-3 offset-md-1 text-white">' +
+        '<br>' +
+        'Date de parution :<h5 id="date_parution"> </h5>' +
+        '<br>' +
+        'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
+        '<br>' +
+    '</div>' +
+    '<div class="col-md-2 ">' +
+        '<br>' +
+        '<br>' +
+        '<br>' +
+        '<a href="#">' +
+            '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-2 ">' +
+        '<br>' +
+        '<a href="#">' +
+            '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
+        '</a>' +
+    '</div>' +
+'</div>' +
+'<div class="row">' +
+    '<div class="col-md-3 offset-md-1">' +
+        '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
+    '</div>' +
+'</div>';
+
   }
   if(event.target.id === "research_all"){
     document.getElementById("all_place").innerHTML= ''+
@@ -491,9 +510,6 @@ currentElement.addEventListener("click", function(event) {
         'textToSearch='+textToSearch
     );
   }
-
-  
-  
 
 });
 
