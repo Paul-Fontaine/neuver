@@ -6,6 +6,7 @@ if(document.getElementById("name_page").textContent === "Accueil"){
         '../php/request.php/accueil',
         recent_ecoutes
     );
+    
 }
 
 
@@ -16,6 +17,8 @@ var observer_current_page = new MutationObserver(function(mutations) {
   // Fonction à exécuter lorsque des mutations sont détectées
   if(name_page != document.getElementById("name_page").textContent){
     if(document.getElementById("name_page").textContent === "Accueil"){
+      //il faut regarder si le boutton est rappuyé...
+      console.log('fraise2');
         ajaxRequest(
             'GET',
             '../php/request.php/accueil',
@@ -86,6 +89,12 @@ function recent_ecoutes(data)
         ecoutes = ecoutes + '</div>';
     }
     document.getElementById("recemment_ecoutes").innerHTML = ecoutes;
+    document.getElementById("music_current").src  = '../'+data[0]['lien'];
+    document.getElementById("music_play").innerHTML = '<h3>'+data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1)+'</h3>'+'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1)+" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+    
+
+
+    //ajout musique
 }
 
 function info_profil(data)
@@ -557,7 +566,7 @@ function afficher_artiste(data)
         '<p class="text-white">'+data[i]['nom_artiste']+'</p>'+
     '</div>';
   }
-  document.getElementById("place_album").innerHTML = artiste+'</div>';
+  document.getElementById("place_artiste").innerHTML = artiste+'</div>';
 }
 
 function afficher_album(data)
@@ -593,7 +602,7 @@ function afficher_album(data)
     '</div>'+
     '<br>';
   }
-  document.getElementById("place_morceau").innerHTML = album;
+  document.getElementById("place_album").innerHTML = album;
 }
 
 function afficher_morceau(data)
@@ -634,7 +643,7 @@ function afficher_morceau(data)
     '</div>'+
     '<br>';
   }
-  document.getElementById("place_artiste").innerHTML = morceau;
+  document.getElementById("place_morceau").innerHTML = morceau;
 }
 
 
