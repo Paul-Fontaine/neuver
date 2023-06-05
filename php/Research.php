@@ -18,6 +18,7 @@ class Research
             $request = "
             SELECT m.nom_morceau,
                    m.duree_morceau,
+                   m.id_morceau,
                    al.nom_album,
                    al.cover_album,
                    ar.nom_artiste
@@ -58,7 +59,8 @@ class Research
             $request = "
             SELECT al.nom_album,
                    al.cover_album,
-                   ar.nom_artiste                   
+                   al.id_album,
+                   ar.nom_artiste     
             FROM album al
             JOIN artiste ar on ar.id_artiste = al.id_artiste
             WHERE nom_album ILIKE CONCAT('%', :textToSearch::text, '%')
@@ -92,7 +94,8 @@ class Research
 
             $request = "
             SELECT nom_artiste,
-                   photo_artiste
+                   photo_artiste,
+                   id_artiste
             FROM artiste
             WHERE nom_artiste ILIKE CONCAT('%', :textToSearch::text, '%')
             ";
