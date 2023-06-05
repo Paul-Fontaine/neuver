@@ -10,10 +10,8 @@ if(name_page === "Accueil"){
 }
 
 
-
-
 //fonction qui vérifie dans quelle page on se trouve et affiche les informations en conséquences
-
+var name_page ="Accueil";
 // Création d'une nouvelle instance de MutationObserver
 var observer_current_page = new MutationObserver(function(mutations) {
   // Fonction à exécuter lorsque des mutations sont détectées
@@ -89,6 +87,12 @@ function recent_ecoutes(data)
         ecoutes = ecoutes + '</div>';
     }
     document.getElementById("recemment_ecoutes").innerHTML = ecoutes;
+    document.getElementById("music_current").src  = '../'+data[0]['lien'];
+    document.getElementById("music_play").innerHTML = '<h3>'+data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1)+'</h3>'+'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1)+" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+
+
+
+    //ajout musique
 }
 
 function info_profil(data)
@@ -96,9 +100,6 @@ function info_profil(data)
     data =JSON.parse(data);
     document.getElementById("info_perso").innerHTML = ''+
       '<div class="col-md-6">'+
-        '<br>'+
-        '<br>'+
-        '<br>'+
         '<img src="..' + data[5] + '" style="width: 90%; height: 90%;" />' +
       '</div>'+
       '<div class="col-md-6 ">'+
@@ -173,8 +174,6 @@ function user_playlist(data)
     }
     document.getElementById("print_playlists").innerHTML = playlist_list;
 }
-
-
 
 
 
@@ -353,6 +352,7 @@ currentElement.addEventListener("click", function(event) {
     '</div>'+
   '</span>';
   }
+
   if (event.target.id === "change_info") {
     let prenom = $('#prenom_inscr').val();
     let nom = $('#nom_inscr').val();
@@ -391,42 +391,41 @@ currentElement.addEventListener("click", function(event) {
     document.getElementById("name_page").textContent = "Favoris";
     currentElement.innerHTML = ''+
     '<div class="row">' +
-      '<div class="col-md-3 offset-md-1">'+
-                  '<a href="#">'+
-                      '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
-                          '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
-                      '</div>'+
-                  '</a>'+
-              '</div>'+
-      '<div class="col-md-3 offset-md-1 text-white">' +
-          '<br>' +
-          'Date de parution :<h5 id="date_parution">'+
-          +
-          '</h5>' +
-          '<br>' +
-          'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
-          '<br>' +
-      '</div>' +
-      '<div class="col-md-2 ">' +
-          '<br>' +
-          '<br>' +
-          '<br>' +
-          '<a href="#">' +
-              '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;"></i>' +
-          '</a>' +
-      '</div>' +
-      '<div class="col-md-2 ">' +
-          '<br>' +
-          '<a href="#">' +
-              '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
-          '</a>' +
-      '</div>' +
+    '<div class="col-md-3 offset-md-1">'+
+                '<a href="#">'+
+                    '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
+                        '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
+                    '</div>'+
+                '</a>'+
+            '</div>'+
+    '<div class="col-md-3 offset-md-1 text-white">' +
+        '<br>' +
+        'Date de parution :<h5 id="date_parution"> </h5>' +
+        '<br>' +
+        'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
+        '<br>' +
     '</div>' +
-    '<div class="row">' +
-        '<div class="col-md-3 offset-md-1">' +
-            '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
-        '</div>' +
-    '</div>';
+    '<div class="col-md-2 ">' +
+        '<br>' +
+        '<br>' +
+        '<br>' +
+        '<a href="#">' +
+            '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-2 ">' +
+        '<br>' +
+        '<a href="#">' +
+            '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
+        '</a>' +
+    '</div>' +
+'</div>' +
+'<div class="row">' +
+    '<div class="col-md-3 offset-md-1">' +
+        '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
+    '</div>' +
+'</div>';
+
   }
   if (event.target.id === "research_all"){
     document.getElementById("all_place").innerHTML= ''+
@@ -516,9 +515,6 @@ currentElement.addEventListener("click", function(event) {
         'textToSearch='+textToSearch
     );
   }
-
-  
-  
 
 });
 
@@ -612,7 +608,7 @@ function afficher_album(data)
     '</div>'+
     '<br>';
   }
-  document.getElementById("place_morceau").innerHTML = album;
+  document.getElementById("place_album").innerHTML = album;
 }
 
 function afficher_morceau(data)
@@ -653,7 +649,7 @@ function afficher_morceau(data)
     '</div>'+
     '<br>';
   }
-  document.getElementById("place_artiste").innerHTML = morceau;
+  document.getElementById("place_morceau").innerHTML = morceau;
 }
 
 
@@ -752,4 +748,120 @@ $('#add_favoris').on("click", () => {
 
 })
 
-  
+
+$('#titre_music_play').on("click", () =>{
+  document.getElementById("name_page").textContent = "Info morceau";
+  currentElement.innerHTML = ''+
+  '<div class="row">' +
+    '<div class="col-md-4 offset-md-1"  height: 24vw; ">' +
+    '</div>' +
+    '<div class="col-md-4 offset-md-1 text-white">' +
+        '<br>' +
+        '<h1 class="text bg-black text-white" id="titre_morceau"></h1>' +
+        '<br>' +
+        '<br>' +
+        '<h3 class="text bg-black text-white" id="titre_album"></h3>' +
+        '<br>' +
+        '<h3 class="text bg-black text-white" id="titre_artiste"></h3>' +
+        '<br><br>' +
+        '<div class="row">' +
+            '<div class="col-md-1">' +
+                '<a href="#">' +
+                    '<i class="bi bi-plus-circle-dotted custom-icon2"></i>' +
+                '</a>' +
+            '</div>' +
+            '<div class="col-md-1 offset-md-3">' +
+                '<a href="#" >' +
+                    '<i class="bi bi-suit-heart custom-icon2"></i>' +
+                '</a>' +
+            '</div>' +
+        '</div>' +
+    '</div>' +
+'</div>' +
+'<br>' +
+'<div class="row">' +
+    '<div class="col-md-2 offset-md-3">' +
+        '<h2 class="text bg-black text-white" id="duree_actuel"></h2>' +
+    '</div>' +
+    '<div class="col-md-2 offset-md-4">' +
+        '<h2 class="text bg-black text-white" id="duree_totale"></h2>' +
+    '</div>' +
+'</div>' +
+'<div class="row">' +
+    '<div class="col-md-7 offset-md-3">' +
+
+    '</div>' +
+'</div>' +
+'<div class="row">' +
+    '<div class="col-md-1 offset-md-1">' +
+        '<a href="#">' +
+            '<i class="bi bi-arrow-repeat custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-1 offset-md-3">' +
+        '<a href="#">' +
+            '<i class="bi bi-skip-start-fill custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-1 ">' +
+        '<a href="#">' +
+            '<i class="bi bi-pause-fill custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-1 ">' +
+        '<a href="#">' +
+            '<i class="bi bi-skip-end-fill custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-1 offset-md-3">' +
+        '<a href="#">' +
+            '<i class="bi bi-shuffle custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+'</div>';
+
+document.getElementById("morceau_footer").classList.add("d-none");
+
+})
+
+$(document).ready(function() {
+  $('#add_playlist').click(function() {
+    // Créez le contenu du menu déroulant
+    var dropdownContent = `
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Menu déroulant
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="#">Option 1</a></li>
+          <li><a class="dropdown-item" href="#">Option 2</a></li>
+          <li><a class="dropdown-item" href="#">Option 3</a></li>
+        </ul>
+      </div>
+    `;
+
+    // Créez le pop-up modal
+    var modal = `
+      <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Titre du pop-up modal</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ${dropdownContent}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Ajoutez le pop-up modal à la page
+    $('body').append(modal);
+
+    // Affichez le pop-up modal
+    $('#myModal').modal('show');
+  });
+});
+

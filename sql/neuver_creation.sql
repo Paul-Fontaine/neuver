@@ -113,7 +113,7 @@ CREATE TABLE public.playlist_morceau(
 
 
 ------------------------------------------------------------
--- Table: récemment écoutés
+-- Table: rÃ©cemment Ã©coutÃ©s
 ------------------------------------------------------------
 drop table if exists public.recemment_ecoutes CASCADE ;
 CREATE TABLE public.recemment_ecoutes(
@@ -124,6 +124,5 @@ CREATE TABLE public.recemment_ecoutes(
 	,CONSTRAINT recemment_ecoutes_morceau_FK FOREIGN KEY (id_morceau) REFERENCES public.morceau(id_morceau)
 	,CONSTRAINT recemment_ecoutes_user0_FK FOREIGN KEY (id_utilisateur) REFERENCES public.utilisateur (id_utilisateur)
 )WITHOUT OIDS;
-
 
 
