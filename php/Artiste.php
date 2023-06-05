@@ -62,8 +62,3 @@ class Artiste
     }
 
 }
-
-$gauthier = new artiste(1);
-var_dump(json_encode($gauthier));
-
-
