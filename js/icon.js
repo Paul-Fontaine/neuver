@@ -237,7 +237,7 @@ $('#bouton_rechercher').on("click", () => {
     document.getElementById("bouton_rechercher").setAttribute("style", "color: #FFFFFF;");
     document.getElementById("bouton_acceuil").removeAttribute('style');
     document.getElementById("bouton_playlist").removeAttribute('style');
-    document.getElementById("iconProfil").classList.remove("d-none");;
+    document.getElementById("iconProfil").classList.remove("d-none");
     document.getElementById("name_page").textContent = "Rechercher";
     currentElement.innerHTML = ''+
     '<div class="row col-md-11 ">'+
@@ -661,7 +661,7 @@ function afficher_infos_artiste(data)
         "<div class='container'>" +
         "        <div class='row'>" +
         "            <div class='col-md-6'>" +
-        "                  <img src='.."+data.photo_artiste+"'>" +
+        "                  <img src='.."+data.photo_artiste+"' alt='photo artiste'>" +
         "            </div>" +
         "            <div class='col-md-6 '>" +
         "                <div class='text-white section-info'>" +
@@ -732,7 +732,64 @@ function afficher_infos_album(data)
     data = JSON.parse(data);
     console.log(data);
 
-    currentElement.innerHTML = '';
+    currentElement.innerHTML = "" +
+        "       <div class='row'>" +
+        "            <div class='col-md-3 offset-md-2'>" +
+        "                <img src='.."+data.cover_album+"' class='img-fluid' alt='cover album'>" +
+        "            </div>" +
+        "            <div class='col-md-4 offset-md-1 text-white'>" +
+        "                <br>" +
+        "                Date de parution :<h5 id='date_parution'>"+data.date_parution_album+"</h5>" +
+        "                <br>" +
+        "                Style musical :<h5 class='text-white' id='style_musical'>"+data.style_album+"</h5>" +
+        "                <br>" +
+        "                Durée totale : <h5 class='text-white' id='duree_totale'>"+data.duree_totale+"</h5>" +
+        "                <br>" +
+        "            </div>" +
+        "            <div class='col-md-2 '>" +
+        "                <br>" +
+        "                <a href='#' >" +
+        "                    <i class='bi bi-play-fill custom-icon' style='color: #09FA4D; font-size: 12vw;'></i>" +
+        "                </a>" +
+        "            </div>" +
+        "        </div>" +
+        "        <div class='row'>" +
+        "            <div class='col-md-4 offset-md-2'>" +
+        "                <h3 class='text bg-black text-white' id='titre_album'>"+data.nom_album+"</h3>" +
+        "                <h5 class='text bg-black text-white' id='artiste'>"+data.nom_artiste+"</h5>" +
+        "            </div>" +
+        "        </div>" +
+        "        <br>" +
+        "        <br>" +
+        "      <div class='row'>" +
+        "        <div class='col-md-5 p-4' style='background-color: #2C2C2C;'>" +
+        "          <div class='row'>" +
+        "            <div class='col-md-3 p-3' style='background-color: #00EBEB;'>" +
+        "            </div>" +
+        "            <div class='col-md-9'>" +
+        "              <div class='row'>" +
+        "                <div class='col-md-9'>" +
+        "                  <h3 class='text-white' id='titre_music'>Titre musique</h3>" +
+        "                </div>" +
+        "                <div class='col-md-2'>" +
+        "                  <a href='#'>" +
+        "                    <i class='bi bi-plus-circle-dotted custom-icon' style='color: #FFFFFF;'></i>" +
+        "                </a>" +
+        "                </div>" +
+        "              </div>" +
+        "              " +
+        "              <p></p>" +
+        "              <div class='row'>" +
+        "                <div class='col-md-3'>" +
+        "                  <p class='text-white' id='artiste'>Artiste</p>" +
+        "                </div>" +
+        "                <div class='col-md-2 offset-md-6'>" +
+        "                  <p class='text-white' id='durée'>Durée</p>" +
+        "                </div>" +
+        "              </div>" +
+        "            </div>" +
+        "          </div>" +
+        "        </div>";
     document.getElementById("name_page").textContent = 'Album';
 }
 
