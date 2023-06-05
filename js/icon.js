@@ -74,7 +74,7 @@ function recent_ecoutes(data)
                             '<p class="text-white" id="artiste">'+data[i]['nom_artiste']+'</p>'+
                         '</div>'+
                         '<div class="col-md-2 offset-md-2">'+
-                            '<p class="text-white" id="durée">'+data[i]['duree_morceau']+'</p>'+
+                            '<p class="text-white" id="durée">'+turnFormatSecondes(data[i]['duree_morceau'])+'</p>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+
@@ -632,7 +632,7 @@ function afficher_morceau(data)
                 '</div>'+
                 '<div class="col-md-2 offset-md-1">'+
                   '<p class="text-white" id="durée">'+
-                    data[i]['duree_morceau']+
+                    turnFormatSecondes(data[i]['duree_morceau'])+
                   '</p>'+
                 '</div>'+
               '</div>'+
@@ -647,9 +647,16 @@ function afficher_morceau(data)
 
 
 $('#play_music').on("click", () => {
-    document.getElementById("icon_play_stop").classList.toggle("bi-play-fill");
-    document.getElementById("icon_play_stop").classList.toggle("bi-pause-fill");
-
+  let music = document.getElementById("music_current");
+    if (music.paused) {
+        music.play();
+        document.getElementById("icon_play_stop").classList.toggle("bi-play-fill");
+        document.getElementById("icon_play_stop").classList.toggle("bi-pause-fill");
+    } else {
+        music.pause();
+        document.getElementById("icon_play_stop").classList.toggle("bi-play-fill");
+        document.getElementById("icon_play_stop").classList.toggle("bi-pause-fill");
+    }
 })
 
 $('#add_favoris').on("click", () => {
@@ -657,5 +664,19 @@ $('#add_favoris').on("click", () => {
     document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
 
 })
+
+
+function turnFormatSecondes(seconds) {
+  let minutes = Math.floor(seconds / 60);
+  let remainingSeconds = seconds % 60;
+
+  // Formater les minutes et les secondes avec deux chiffres
+  let formattedMinutes = String(minutes).padStart(2, "0");
+  let formattedSeconds = String(remainingSeconds).padStart(2, "0");
+
+  return formattedMinutes + ":" + formattedSeconds;
+}
+
+
 
   
