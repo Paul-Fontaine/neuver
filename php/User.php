@@ -185,6 +185,7 @@ class User
                    m.lien,
                    m.explicit,
                    m.id_album,
+                   al.nom_album,
                    al.cover_album,
                    ar.nom_artiste
             FROM recemment_ecoutes re

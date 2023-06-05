@@ -56,14 +56,14 @@ function recent_ecoutes(data)
         if((i+1)%2 != 0){
             ecoutes = ecoutes +
             '<div class="row">'+
-            '<div class="col-md-5 p-4" style="background-color: #2C2C2C;">';
+            '<div class="new_music_play col-md-5 p-4" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">';
         }
         else{
             ecoutes = ecoutes +
-            '<div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">';
+            '<div class="new_music_play col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">';
         }
         ecoutes = ecoutes +
-            '<div class="row">'+
+            '<div class="row icon_playlist">'+
               '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
                 '<div class="col-md-9 p-3">'+
                     '<h3 class="text-white" id="titre_music">'+data[i]['nom_morceau']+'</h3>'+
@@ -73,7 +73,7 @@ function recent_ecoutes(data)
                             '<p class="text-white" id="artiste">'+data[i]['nom_artiste']+'</p>'+
                         '</div>'+
                         '<div class="col-md-2 offset-md-2">'+
-                            '<p class="text-white" id="durée">'+data[i]['duree_morceau']+'</p>'+
+                            '<p class="text-white" id="durée">'+turnFormatSecondes(data[i]['duree_morceau'])+'</p>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+
@@ -88,8 +88,13 @@ function recent_ecoutes(data)
     }
     document.getElementById("recemment_ecoutes").innerHTML = ecoutes;
     document.getElementById("music_current").src  = '../'+data[0]['lien'];
-    document.getElementById("music_play").innerHTML = '<h3>'+data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1)+'</h3>'+'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1)+" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
-
+    document.getElementById("music_current").value = "album";
+    document.getElementById("artiste_play").value = data[0]['id_album'];
+    document.getElementById("album_play").value = data[0]['id_morceau'];
+    document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
+    document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
+    document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+    
 
 
     //ajout musique
@@ -215,12 +220,12 @@ $('#bouton_playlist').on("click", () => {
   '<div class="row">' +
       '<div class="col-md-3">' +
         '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
-          '<i class="bi bi-plus-lg text-white plus-icon" id="icon_playlist"></i>'+
+          '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
         '</div>' +
       '</div>' +
       '<div class="col-md-3 offset-md-1">' +
         '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
-            '<i class="bi bi-suit-heart-fill text-white plus-icon" id="icon_playlist"></i></i>' +
+            '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
         '</div>' +
       '</div>' +
       '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
@@ -391,41 +396,33 @@ currentElement.addEventListener("click", function(event) {
     document.getElementById("name_page").textContent = "Favoris";
     currentElement.innerHTML = ''+
     '<div class="row">' +
-    '<div class="col-md-3 offset-md-1">'+
-                '<a href="#">'+
-                    '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
-                        '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
-                    '</div>'+
-                '</a>'+
-            '</div>'+
-    '<div class="col-md-3 offset-md-1 text-white">' +
-        '<br>' +
-        'Date de parution :<h5 id="date_parution"> </h5>' +
-        '<br>' +
-        'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
-        '<br>' +
+      '<div class="col-md-3 offset-md-1">'+
+                  '<a href="#">'+
+                      '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
+                          '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
+                      '</div>'+
+                  '</a>'+
+              '</div>'+
+      '<div class="col-md-3 offset-md-1 text-white">' +
+          '<br>' +
+          'Date de parution :<h5 id="date_parution">'+
+          '</h5>' +
+          '<br>' +
+          'Durée totale : <h5 class="text-white" id="duree_totale">'+
+          '</h5>' +
+          '<br>' +
+      '</div>' +
+      '<div class="col-md-2 ">' +
+          '<a href="#">' +
+              '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
+          '</a>' +
+      '</div>' +
     '</div>' +
-    '<div class="col-md-2 ">' +
-        '<br>' +
-        '<br>' +
-        '<br>' +
-        '<a href="#">' +
-            '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-2 ">' +
-        '<br>' +
-        '<a href="#">' +
-            '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
-        '</a>' +
-    '</div>' +
-'</div>' +
-'<div class="row">' +
-    '<div class="col-md-3 offset-md-1">' +
-        '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
-    '</div>' +
-'</div>';
-
+    '<div class="row">' +
+        '<div class="col-md-3 offset-md-1">' +
+            '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
+        '</div>' +
+    '</div>';
   }
   if (event.target.id === "research_all"){
     document.getElementById("all_place").innerHTML= ''+
@@ -515,7 +512,15 @@ currentElement.addEventListener("click", function(event) {
         'textToSearch='+textToSearch
     );
   }
-
+  if(event.target.classList[0] === "new_music_play"){
+    let id_morceau = event.target.getAttribute("value");
+    ajaxRequest(
+      'GET',
+      '../php/request.php/play_new_morceau',
+      play_new_morceau,
+      'id_morceau='+id_morceau
+    );
+  }
 });
 
 
@@ -650,6 +655,19 @@ function afficher_morceau(data)
     '<br>';
   }
   document.getElementById("place_morceau").innerHTML = morceau;
+}
+
+function play_new_morceau(data)
+{
+  data =JSON.parse(data);
+
+  document.getElementById("music_current").src  = '../'+data[0]['lien'];
+  document.getElementById("music_current").value = "album";
+  document.getElementById("artiste_play").value = data[0]['id_album'];
+  document.getElementById("album_play").value = data[0]['id_morceau'];
+  document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
+  document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
+  document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
 }
 
 
@@ -793,91 +811,9 @@ function afficher_infos_album(data)
     document.getElementById("name_page").textContent = 'Album';
 }
 
-$('#play_music').on("click", () => {
-    document.getElementById("icon_play_stop").classList.toggle("bi-play-fill");
-    document.getElementById("icon_play_stop").classList.toggle("bi-pause-fill");
-
-})
-
 $('#add_favoris').on("click", () => {
     document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
     document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
-
-})
-
-
-$('#titre_music_play').on("click", () =>{
-  document.getElementById("name_page").textContent = "Info morceau";
-  currentElement.innerHTML = ''+
-  '<div class="row">' +
-    '<div class="col-md-4 offset-md-1"  height: 24vw; ">' +
-    '</div>' +
-    '<div class="col-md-4 offset-md-1 text-white">' +
-        '<br>' +
-        '<h1 class="text bg-black text-white" id="titre_morceau"></h1>' +
-        '<br>' +
-        '<br>' +
-        '<h3 class="text bg-black text-white" id="titre_album"></h3>' +
-        '<br>' +
-        '<h3 class="text bg-black text-white" id="titre_artiste"></h3>' +
-        '<br><br>' +
-        '<div class="row">' +
-            '<div class="col-md-1">' +
-                '<a href="#">' +
-                    '<i class="bi bi-plus-circle-dotted custom-icon2"></i>' +
-                '</a>' +
-            '</div>' +
-            '<div class="col-md-1 offset-md-3">' +
-                '<a href="#" >' +
-                    '<i class="bi bi-suit-heart custom-icon2"></i>' +
-                '</a>' +
-            '</div>' +
-        '</div>' +
-    '</div>' +
-'</div>' +
-'<br>' +
-'<div class="row">' +
-    '<div class="col-md-2 offset-md-3">' +
-        '<h2 class="text bg-black text-white" id="duree_actuel"></h2>' +
-    '</div>' +
-    '<div class="col-md-2 offset-md-4">' +
-        '<h2 class="text bg-black text-white" id="duree_totale"></h2>' +
-    '</div>' +
-'</div>' +
-'<div class="row">' +
-    '<div class="col-md-7 offset-md-3">' +
-
-    '</div>' +
-'</div>' +
-'<div class="row">' +
-    '<div class="col-md-1 offset-md-1">' +
-        '<a href="#">' +
-            '<i class="bi bi-arrow-repeat custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-1 offset-md-3">' +
-        '<a href="#">' +
-            '<i class="bi bi-skip-start-fill custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-1 ">' +
-        '<a href="#">' +
-            '<i class="bi bi-pause-fill custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-1 ">' +
-        '<a href="#">' +
-            '<i class="bi bi-skip-end-fill custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-    '<div class="col-md-1 offset-md-3">' +
-        '<a href="#">' +
-            '<i class="bi bi-shuffle custom-icon2"></i>' +
-        '</a>' +
-    '</div>' +
-'</div>';
-
-document.getElementById("morceau_footer").classList.add("d-none");
 
 })
 
@@ -920,5 +856,104 @@ $(document).ready(function() {
     // Affichez le pop-up modal
     $('#myModal').modal('show');
   });
+
 });
 
+function turnFormatSecondes(seconds) {
+  let minutes = Math.floor(seconds / 60);
+  let remainingSeconds = seconds % 60;
+
+  // Formater les minutes et les secondes avec deux chiffres
+  let formattedMinutes = String(minutes).padStart(2, "0");
+  let formattedSeconds = String(remainingSeconds).padStart(2, "0");
+
+  return formattedMinutes + ":" + formattedSeconds;
+}
+
+$('#repeat_music').on("click", () => {
+  document.getElementById("repeat_icon").classList.toggle("be_white");
+});
+
+$('#random_music').on("click", () => {
+  document.getElementById("random_icon").classList.toggle("be_white");
+});
+
+$('#music_current').on("ended", () => {
+  document.getElementById("music_play").value = 'next';
+  if (document.getElementById("repeat_icon").classList.contains("be_white")) {
+    document.getElementById("music_current").play();
+  } else {
+    changeMusic();
+  }
+});
+
+$('#next_music').on("click", () => {
+  document.getElementById("music_play").value = 'next';
+  changeMusic();
+});
+
+$('#prev_music').on("click", () => {
+  document.getElementById("music_play").value = 'previous';
+  changeMusic();
+});
+
+function changeMusic(){
+  if(document.getElementById("music_current").value === 'album'){
+    let id = document.getElementById("artiste_play").value;
+    ajaxRequest(
+      'GET',
+      '../php/request.php/change_album_music',
+      change_music,
+      'id_album='+id
+    )
+  }
+  if(document.getElementById("music_current").value === 'playlist'){
+    ajaxRequest(
+      'GET',
+      '../php/request.php/change_playlist_music',
+      change_music,
+      'id_playlist='+id
+    )
+  }
+}
+
+
+function change_music(data){
+  data =JSON.parse(data);
+  let found;
+  for(let i = 0; i<data.length;i++){
+    if(data[i]['id_morceau']===document.getElementById("album_play").value){
+      found = i;
+    }
+  }
+  if(document.getElementById("random_icon").classList.contains("be_white")){
+    var randomNumber = Math.floor(Math.random() * data.length);
+  // Vérifier si le nombre généré est égal à 2
+  while (randomNumber === found) {
+    // Si c'est le cas, générer un nouveau nombre
+    randomNumber = Math.floor(Math.random() * data.length);
+  }
+    found = randomNumber;
+  }else{
+    if(document.getElementById("music_play").value === 'previous'){
+      if(found === 0){
+        found = data.length-1;
+      }
+      else{
+        found--;
+      }
+    }else{
+      if(found === data.length-1){
+        found = 0;
+      }
+      else{
+        found++;
+      }
+    }
+  }
+  document.getElementById("music_current").src  = '../'+data[found]['lien'];
+  document.getElementById("album_play").value = data[found]['id_morceau'];
+  document.getElementById("music_play").textContent = data[found]['nom_morceau'].charAt(0).toUpperCase() + data[found]['nom_morceau'].slice(1);
+  document.getElementById("artiste_play").textContent = 'Par '+data[found]['nom_artiste'].charAt(0).toUpperCase() + data[found]['nom_artiste'].slice(1);
+  document.getElementById("album_play").textContent =" dans l'album : "+data[found]['nom_album'].charAt(0).toUpperCase() + data[found]['nom_album'].slice(1);
+}
