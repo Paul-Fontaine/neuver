@@ -553,6 +553,7 @@ function modif_profil(data)
 function afficher_artiste(data)
 {
   data =JSON.parse(data);
+  console.log(data);
   let artiste = ""+
     '<br>'+
     '<div class="row col-md-5 ">'+
@@ -567,7 +568,7 @@ function afficher_artiste(data)
         '<p class="text-white">'+data[i]['nom_artiste']+'</p>'+
     '</div>';
   }
-  document.getElementById("place_album").innerHTML = artiste+'</div>';
+  document.getElementById("place_artiste").innerHTML = artiste+'</div>';
 
   $('.artistes_recherché').on('click', (event) => {
       let id_artiste = $(event.target).closest('.artistes_recherché').attr('value');
@@ -593,7 +594,7 @@ function afficher_album(data)
     album = album+
     '<div class="row">'+
       '<div class="col-md-5 p-4 albums_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_album']+'">'+
-        '<div class="row">'+
+        '<div class="row icon_playlist">'+
           '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
           '<div class="col-md-9 p-3 text-white">'+
             '<h3 id="titre_music">'+
@@ -630,8 +631,8 @@ function afficher_morceau(data)
   for(let i = 0; i<data.length;i++){
     morceau = morceau+
     '<div class="row">'+
-      '<div class="col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
-          '<div class="row">'+
+      '<div class="new_music_play col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
+          '<div class="row icon_playlist">'+
             '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
             '<div class="col-md-9 p-3">'+
               '<h3 class="text-white" id="titre_music">'+
@@ -662,8 +663,12 @@ function play_new_morceau(data)
   data =JSON.parse(data);
 
   document.getElementById("music_current").src  = '../'+data[0]['lien'];
-  document.getElementById("music_current").value = "album";
-  document.getElementById("artiste_play").value = data[0]['id_album'];
+  if(name_page === 'Accueil' || name_page === 'Rechercher'){
+    document.getElementById("music_current").value = "album";
+    document.getElementById("artiste_play").value = data[0]['id_album'];
+  }else{
+    document.getElementById("music_current").value = "playlist";
+  }
   document.getElementById("album_play").value = data[0]['id_morceau'];
   document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
   document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
