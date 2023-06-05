@@ -551,7 +551,7 @@ function afficher_artiste(data)
     '</div>'+
     '<div class="row">';
   for(let i = 0; i<data.length;i++){
-    artiste = artiste+
+    artiste = artiste+-
     '<div class="col-md-2">'+
         '<img src="..' + data[i]['photo_artiste'] + '" style="width: 70%; height: 70%;" />' +
         '<p class="text-white">'+data[i]['nom_artiste']+'</p>'+
@@ -654,4 +654,4 @@ $('#add_favoris').on("click", () => {
 
 })
 
-  
+
