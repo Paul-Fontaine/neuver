@@ -63,8 +63,7 @@ function recent_ecoutes(data)
         }
         ecoutes = ecoutes +
             '<div class="row">'+
-                '<div class="col-md-3 p-3" style="background-color: #00EB0A;">'+
-                '</div>'+
+              '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
                 '<div class="col-md-9 p-3">'+
                     '<h3 class="text-white" id="titre_music">'+data[i]['nom_morceau']+'</h3>'+
                     '<p></p>'+
@@ -92,29 +91,37 @@ function recent_ecoutes(data)
 function info_profil(data)
 {
     data =JSON.parse(data);
-    document.getElementById("info_perso").innerHTML = '<h3>Informations personnelles :</h3>'+
-    'Prénom Nom : <span class="text-white" id="text_nom">'+data[0].charAt(0).toUpperCase() + data[0].slice(1)+' '+data[1].charAt(0).toUpperCase() + data[1].slice(1)+'</span>'+
-    '<br>'+
-    'email : <span class="text-white" id="text_mail">'+data[2]+'</span>'+
-    '<br>'+
-    'date de naissance : <span class="text-white" id="text_date">'+data[3]+'</span>'+
-    '<br>'+
-    'age : <span class="text-white" id="text_age">'+data[4]+'</span>'+
-    '<br>'+
-    '<br>'+
-    '<h3><a href="#" style="color: green;" id="modif_info_users">modifier mes infos persos :</a></h3>'+
-    '<br>'+
-    '<h3><a href="#" style="color: #00EB0A;" id="modif_abonnement">gérer mon abonnement :</a></h3>'+
-    '<br>'+
-    '<h3><a href="#" style="color: #00EB0A;">explicit content :</a></h3>'+
-    '<br>'+
-    '<h3><a href="#" style="color: #00EB0A;">politique de confidentialité :</a></h3>'+
-    '<br>'+
-    '<h3>Contact :</h3>'+
-    '<br>'+
-    'Par mail : groupe5@isen-ouest.yncrea.fr'+
-    '<br>'+
-    'Par téléphone : 06 30 40 75 07';
+    document.getElementById("info_perso").innerHTML = ''+
+      '<div class="col-md-6">'+
+        '<img src="..' + data[5] + '" style="width: 90%; height: 90%;" />' +
+      '</div>'+
+      '<div class="col-md-6 ">'+
+        '<div class="text-white section-info">'+
+          '<h3>Informations personnelles :</h3>'+
+          'Prénom Nom : <span class="text-white" id="text_nom">'+data[0].charAt(0).toUpperCase() + data[0].slice(1)+' '+data[1].charAt(0).toUpperCase() + data[1].slice(1)+'</span>'+
+          '<br>'+
+          'email : <span class="text-white" id="text_mail">'+data[2]+'</span>'+
+          '<br>'+
+          'date de naissance : <span class="text-white" id="text_date">'+data[3]+'</span>'+
+          '<br>'+
+          'age : <span class="text-white" id="text_age">'+data[4]+'</span>'+
+          '<br>'+
+          '<br>'+
+          '<h3><a href="#" style="color: green;" id="modif_info_users">modifier mes infos persos :</a></h3>'+
+          '<br>'+
+          '<h3><a href="#" style="color: #00EB0A;" id="modif_abonnement">gérer mon abonnement :</a></h3>'+
+          '<br>'+
+          '<h3><a href="#" style="color: #00EB0A;">explicit content :</a></h3>'+
+          '<br>'+
+          '<h3><a href="#" style="color: #00EB0A;">politique de confidentialité :</a></h3>'+
+          '<br>'+
+          '<h3>Contact :</h3>'+
+          '<br>'+
+          'Par mail : groupe5@isen-ouest.yncrea.fr'+
+          '<br>'+
+          'Par téléphone : 06 30 40 75 07'+
+        '</div>'+
+      '</div>';
 }
 
 
@@ -174,14 +181,7 @@ $('#iconProfil').on("click", () => {
     document.getElementById("iconProfil").classList.add("d-none");;
     document.getElementById("name_page").textContent = "Profil";
     currentElement.innerHTML = ''+
-    '<div class="row">'+
-        '<div class="col-md-6">'+
-            '<i class="bi bi-person-circle large-icon2 text-white"></i>'+
-        '</div>'+
-        '<div class="col-md-6 ">'+
-            '<div class="text-white section-info" id="info_perso">'+
-            '</div>'+
-        '</div>'+
+    '<div class="row" id="info_perso">'+
     '</div>';
   })
 
@@ -247,13 +247,13 @@ $('#bouton_rechercher').on("click", () => {
             '<button class="btn btn-md-1 btn-success" style="background-color: #00EB0A;" id="research_all">Tout</button>'+
         '</div>'+
         '<div class="col-md-1">'+
-            '<button class="btn btn-success" style="background-color: #8E8E8E;" id="research_artiste">Artiste</button>'+
+            '<button class="btn btn-success" style="background-color: #8E8E8E;" id="research_artiste">Artistes</button>'+
         '</div>'+
         '<div class="col-md-1">'+
-            '<button class="btn btn-success" style="background-color: #8E8E8E;" id="research_album">Album</button>'+
+            '<button class="btn btn-success" style="background-color: #8E8E8E;" id="research_album">Albums</button>'+
         '</div>'+
         '<div class="col-md-1">'+
-            '<button class="btn btn-success" style="background-color: #8E8E8E;" id="research_morceau">Morceau</button>'+
+            '<button class="btn btn-success" style="background-color: #8E8E8E;" id="research_morceau">Morceaux</button>'+
         '</div>'+
       '</div>'+
       '<br>'+
@@ -546,13 +546,13 @@ function afficher_artiste(data)
   let artiste = ""+
     '<br>'+
     '<div class="row col-md-5 ">'+
-      '<p class="text bg-black text-white">Artiste :</p>'+
+      '<p class="text bg-black text-white">Artistes :</p>'+
       '<hr style="color: #FFFFFF;">'+
     '</div>'+
     '<div class="row">';
   for(let i = 0; i<data.length;i++){
-    artiste = artiste+-
-    '<div class="col-md-2">'+
+    artiste = artiste+
+    '<div class="col-md-2 artistes_recherché" value="'+data[i]['id_artiste']+'">'+
         '<img src="..' + data[i]['photo_artiste'] + '" style="width: 70%; height: 70%;" />' +
         '<p class="text-white">'+data[i]['nom_artiste']+'</p>'+
     '</div>';
@@ -566,26 +566,25 @@ function afficher_album(data)
   let album = ""+
     '<br>'+
     '<div class="row col-md-5 ">'+
-      '<p class="text bg-black text-white">Album :</p>'+
+      '<p class="text bg-black text-white">Albums :</p>'+
       '<hr style="color: #FFFFFF;">'+
     '</div>';
   for(let i = 0; i<data.length;i++){
     album = album+
     '<div class="row">'+
-      '<div class="col-md-5 p-4" style="background-color: #2C2C2C;">'+
+      '<div class="col-md-5 p-4 albums_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_album']+'">'+
         '<div class="row">'+
           '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
-          '<div class="col-md-9 p-3">'+
-            '<a href="#" class="text-white" style="text-decoration: none;"><h3 id="titre_music">'+
+          '<div class="col-md-9 p-3 text-white">'+
+            '<h3 id="titre_music">'+
               data[i]['nom_album']+
               '</h3>'+
-            '</a>'+
             '<p></p>'+
             '<div class="row">'+
               '<div class="col-md-9">'+
-                '<a href="#" class="text-white" style="text-decoration: none;">'+
+                '<p>'+
                   data[i]['nom_artiste']+
-                '</a>'+
+                '</p>'+
               '</div>'+
             '</div>'+
           '</div>'+
@@ -605,26 +604,23 @@ function afficher_morceau(data)
   let morceau = ""+
     '<br>'+
     '<div class="row col-md-5 ">'+
-    '<p class="text bg-black text-white">Morceau :</p>'+
+    '<p class="text bg-black text-white">Morceaux :</p>'+
     '<hr style="color: #FFFFFF;">'+
     '</div>';
   for(let i = 0; i<data.length;i++){
     morceau = morceau+
     '<div class="row">'+
-      '<div class="col-md-5 p-4" style="background-color: #2C2C2C;">'+
+      '<div class="col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
           '<div class="row">'+
             '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
             '<div class="col-md-9 p-3">'+
-              '<a href="#" class="text-white" style="text-decoration: none;"><h3 class="text-white" id="titre_music">'+
+              '<h3 class="text-white" id="titre_music">'+
                 data[i]['nom_morceau']+
-                '</h3>'+
-              '</a>'+
+              '</h3>'+
               '<p></p>'+
               '<div class="row">'+
-                '<div class="col-md-8">'+
-                  '<a href="#" class="text-white" style="text-decoration: none;">'+
+                '<div class="col-md-8 text-white">'+
                     data[i]['nom_artiste']+
-                  '</a>'+
                 '</div>'+
                 '<div class="col-md-2 offset-md-1">'+
                   '<p class="text-white" id="durée">'+
