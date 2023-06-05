@@ -651,3 +651,77 @@ $('#add_favoris').on("click", () => {
 })
 
 
+$('#titre_music_play').on("click", () =>{
+  document.getElementById("name_page").textContent = "Info morceau";
+  currentElement.innerHTML = ''+
+  '<div class="row">' +
+    '<div class="col-md-4 offset-md-1"  height: 24vw; ">' +
+    '</div>' +
+    '<div class="col-md-4 offset-md-1 text-white">' +
+        '<br>' +
+        '<h1 class="text bg-black text-white" id="titre_morceau"></h1>' +
+        '<br>' +
+        '<br>' +
+        '<h3 class="text bg-black text-white" id="titre_album"></h3>' +
+        '<br>' +
+        '<h3 class="text bg-black text-white" id="titre_artiste"></h3>' +
+        '<br><br>' +
+        '<div class="row">' +
+            '<div class="col-md-1">' +
+                '<a href="#">' +
+                    '<i class="bi bi-plus-circle-dotted custom-icon2"></i>' +
+                '</a>' +
+            '</div>' +
+            '<div class="col-md-1 offset-md-3">' +
+                '<a href="#">' +
+                    '<i class="bi bi-suit-heart custom-icon2"  ></i>' +
+                '</a>' +
+            '</div>' +
+        '</div>' +
+    '</div>' +
+'</div>' +
+'<br>' +
+'<div class="row">' +
+    '<div class="col-md-2 offset-md-3">' +
+        '<h2 class="text bg-black text-white" id="duree_actuel"></h2>' +
+    '</div>' +
+    '<div class="col-md-2 offset-md-4">' +
+        '<h2 class="text bg-black text-white" id="duree_totale"></h2>' +
+    '</div>' +
+'</div>' +
+'<div class="row">' +
+    '<div class="col-md-7 offset-md-3">' +
+
+    '</div>' +
+'</div>' +
+'<div class="row">' +
+    '<div class="col-md-1 offset-md-1">' +
+        '<a href="#">' +
+            '<i class="bi bi-arrow-repeat custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-1 offset-md-3">' +
+        '<a href="#">' +
+            '<i class="bi bi-skip-start-fill custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-1 ">' +
+        '<a href="#">' +
+            '<i class="bi bi-pause-fill custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-1 ">' +
+        '<a href="#">' +
+            '<i class="bi bi-skip-end-fill custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+    '<div class="col-md-1 offset-md-3">' +
+        '<a href="#">' +
+            '<i class="bi bi-shuffle custom-icon2"></i>' +
+        '</a>' +
+    '</div>' +
+'</div>';
+
+document.getElementById("morceau_footer").classList.add("d-none");
+
+})
