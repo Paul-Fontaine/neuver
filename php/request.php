@@ -48,6 +48,10 @@ switch ($requestRessource)
         infos_album($requestMethod);
     case 'play_new_morceau':
         play_new_morceau();
+    case 'change_album_music':
+        change_album_music();
+    case 'change_playlist_music':
+        change_playlist_music();
 }
 
 function authentification()
@@ -335,6 +339,49 @@ function play_new_morceau()
         case 'GET':
             if (isset($_GET['id_morceau'])){
                 $data = Morceau::infosMorceau($_GET['id_morceau']);
+
+                header('Content-Type: text/json; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+
+                echo json_encode($data);
+                exit();
+            }
+            header('HTTP/1.1 400 Bad Request');
+            exit();
+    }
+}
+
+
+function change_album_music(){
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'GET':
+            if (isset($_GET['id_album'])){
+                $data = Morceau::morceauInAlbum($_GET['id_album']);
+
+                header('Content-Type: text/json; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+
+                echo json_encode($data);
+                exit();
+            }
+            header('HTTP/1.1 400 Bad Request');
+            exit();
+    }
+}
+
+function change_playlist_music(){
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'GET':
+            if (isset($_GET['id_playlist'])){
+                $data = Morceau::morceauInPlaylist($_GET['id_playlist']);
 
                 header('Content-Type: text/json; charset=utf-8');
                 header('Cache-control: no-store, no-cache, must-revalidate');

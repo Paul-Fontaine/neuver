@@ -88,7 +88,12 @@ function recent_ecoutes(data)
     }
     document.getElementById("recemment_ecoutes").innerHTML = ecoutes;
     document.getElementById("music_current").src  = '../'+data[0]['lien'];
-    document.getElementById("music_play").innerHTML = '<h3>'+data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1)+'</h3>'+'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1)+" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+    document.getElementById("music_current").value = "album";
+    document.getElementById("artiste_play").value = data[0]['id_album'];
+    document.getElementById("album_play").value = data[0]['id_morceau'];
+    document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
+    document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
+    document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
     
 
 
@@ -509,7 +514,6 @@ currentElement.addEventListener("click", function(event) {
   }
   if(event.target.classList[0] === "new_music_play"){
     let id_morceau = event.target.getAttribute("value");
-    console.log(id_morceau);
     ajaxRequest(
       'GET',
       '../php/request.php/play_new_morceau',
@@ -656,12 +660,14 @@ function afficher_morceau(data)
 function play_new_morceau(data)
 {
   data =JSON.parse(data);
-  console.log(data);
 
   document.getElementById("music_current").src  = '../'+data[0]['lien'];
-  document.getElementById("music_play").innerHTML = '<h3>'+data[0]['nom_morceau'].charAt(0).toUpperCase()+
-    data[0]['nom_morceau'].slice(1)+'</h3>'+'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase()+
-    data[0]['nom_artiste'].slice(1)+" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+  document.getElementById("music_current").value = "album";
+  document.getElementById("artiste_play").value = data[0]['id_album'];
+  document.getElementById("album_play").value = data[0]['id_morceau'];
+  document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
+  document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
+  document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
 }
 
 
@@ -754,11 +760,6 @@ $('#add_favoris').on("click", () => {
 
 })
 
-$('#repeat_music').on("click", () => {
-  document.getElementById("repeat_icon").classList.toggle("be_white");
-});
-
-
 $(document).ready(function() {
   $('#add_playlist').click(function() {
     // Créez le contenu du menu déroulant
@@ -810,4 +811,92 @@ function turnFormatSecondes(seconds) {
   let formattedSeconds = String(remainingSeconds).padStart(2, "0");
 
   return formattedMinutes + ":" + formattedSeconds;
+}
+
+$('#repeat_music').on("click", () => {
+  document.getElementById("repeat_icon").classList.toggle("be_white");
+});
+
+$('#random_music').on("click", () => {
+  document.getElementById("random_icon").classList.toggle("be_white");
+});
+
+$('#music_current').on("ended", () => {
+  document.getElementById("music_play").value = 'next';
+  if (document.getElementById("repeat_icon").classList.contains("be_white")) {
+    document.getElementById("music_current").play();
+  } else {
+    changeMusic();
+  }
+});
+
+$('#next_music').on("click", () => {
+  document.getElementById("music_play").value = 'next';
+  changeMusic();
+});
+
+$('#prev_music').on("click", () => {
+  document.getElementById("music_play").value = 'previous';
+  changeMusic();
+});
+
+function changeMusic(){
+  if(document.getElementById("music_current").value === 'album'){
+    let id = document.getElementById("artiste_play").value;
+    ajaxRequest(
+      'GET',
+      '../php/request.php/change_album_music',
+      change_music,
+      'id_album='+id
+    )
+  }
+  if(document.getElementById("music_current").value === 'playlist'){
+    ajaxRequest(
+      'GET',
+      '../php/request.php/change_playlist_music',
+      change_music,
+      'id_playlist='+id
+    )
+  }
+}
+
+
+function change_music(data){
+  data =JSON.parse(data);
+  let found;
+  for(let i = 0; i<data.length;i++){
+    if(data[i]['id_morceau']===document.getElementById("album_play").value){
+      found = i;
+    }
+  }
+  if(document.getElementById("random_icon").classList.contains("be_white")){
+    var randomNumber = Math.floor(Math.random() * data.length);
+  // Vérifier si le nombre généré est égal à 2
+  while (randomNumber === found) {
+    // Si c'est le cas, générer un nouveau nombre
+    randomNumber = Math.floor(Math.random() * data.length);
+  }
+    found = randomNumber;
+  }else{
+    if(document.getElementById("music_play").value === 'previous'){
+      if(found === 0){
+        found = data.length-1;
+      }
+      else{
+        found--;
+      }
+    }else{
+      if(found === data.length-1){
+        found = 0;
+      }
+      else{
+        found++;
+      }
+    }
+  }
+  document.getElementById("music_current").src  = '../'+data[found]['lien'];
+  document.getElementById("album_play").value = data[found]['id_morceau'];
+  document.getElementById("music_play").textContent = data[found]['nom_morceau'].charAt(0).toUpperCase() + data[found]['nom_morceau'].slice(1);
+  document.getElementById("artiste_play").textContent = 'Par '+data[found]['nom_artiste'].charAt(0).toUpperCase() + data[found]['nom_artiste'].slice(1);
+  document.getElementById("album_play").textContent =" dans l'album : "+data[found]['nom_album'].charAt(0).toUpperCase() + data[found]['nom_album'].slice(1);
 }
