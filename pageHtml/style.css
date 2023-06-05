@@ -1,91 +1,96 @@
 body{
-    background-color: #000000;
+  background-color: #000000;
 }
 .custom-icon {
-    font-size: 3vw;
+  font-size: 3vw;
 }
 .footer {
-  position:relative;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 20vw;
-  color: white;
+position:relative;
+left: 0;
+bottom: 0;
+width: 100%;
+height: 20vw;
+color: white;
 }
 
 .footer a {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+color: #8E8E8E;
+margin: 0 1vw;
+}
+html, body {
+height: 100%;
+}
+.foot{
+position:inherit;
+left: 0;
+bottom: 0;
+width: 100%;
+
+}
+.foots{
+position:inherit;
+left: 0;
+bottom: 0;
+width: 100%;
+
+}
+
+.section-info {
+  margin-top: 5vw;
+}
+.bg-light-green {
+  background-color: #48B95A;
+}
+
+.custom-icon2{
+  font-size: 4vw;
+  color: #8E8E8E;
+}
+.plus-icon {
+  font-size: 10vw;
+}
+#nouv_playlist{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #8E8E8E;
-  margin: 0 1vw;
-}
-html, body {
-  height: 100%;
-}
-.foot{
-  position:inherit;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  
-}
-
-
-
-.section-info {
-    margin-top: 5vw;
-}
-.bg-light-green {
-    background-color: #48B95A;
-}
-
-.custom-icon2{
-    font-size: 4vw;
-    color: #8E8E8E;
-}
-.plus-icon {
-    font-size: 10vw;
-}
-#nouv_playlist{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 #fav_playlist{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-#icon_playlist{
-  pointer-events: none;
+.icon_playlist{
+pointer-events: none;
 }
 
 #choix_cover{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #all2{
-    margin-top: 9vw;
-    margin-left: 30vw;
-  }
+  margin-top: 9vw;
+  margin-left: 30vw;
+}
 #all{
-    margin-top: 12vw;
-    margin-left: 30vw;
-  }
+  margin-top: 12vw;
+  margin-left: 30vw;
+}
 .large-icon {
-    font-size: 15vw;
-    color: white;
+  font-size: 15vw;
+  color: white;
 }
 .large-icon2 {
-    font-size: 25vw;
-    color: white;
+  font-size: 25vw;
+  color: white;
 }
