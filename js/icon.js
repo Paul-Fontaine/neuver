@@ -657,7 +657,6 @@ function afficher_morceau(data)
 $('#add_favoris').on("click", () => {
     document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
     document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
-
 })
 
 
