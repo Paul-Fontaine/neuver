@@ -6,10 +6,10 @@ commentaire pour chaque fonction avec les paramètres typés + à quoi ils serve
 Sinon éviter les commentaires, le code doit être explicite
 
 - [ ] infos album
-- [ ] artiste
-- [ ] playlist
+- [ ] infos artiste
+- [ ] page playlist
 - [ ] création playlist
 - [ ] ajout à une playlist
 - [ ] suppression playlist
 - [ ] player
-- [ ] 
+- [ ] favoris
