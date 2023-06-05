@@ -65,8 +65,7 @@ function recent_ecoutes(data)
         }
         ecoutes = ecoutes +
             '<div class="row">'+
-                '<div class="col-md-3 p-3" style="background-color: #00EB0A;">'+
-                '</div>'+
+              '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
                 '<div class="col-md-9 p-3">'+
                     '<h3 class="text-white" id="titre_music">'+data[i]['nom_morceau']+'</h3>'+
                     '<p></p>'+
