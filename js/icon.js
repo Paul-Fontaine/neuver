@@ -17,6 +17,10 @@ var observer_current_page = new MutationObserver(function(mutations) {
   // Fonction à exécuter lorsque des mutations sont détectées
   if(name_page != document.getElementById("name_page").textContent){
     if(document.getElementById("name_page").textContent === "Accueil"){
+<<<<<<< HEAD
+=======
+      //il faut regarder si le boutton est rappuyé...
+>>>>>>> 5af678c (change music when click)
         ajaxRequest(
             'GET',
             '../php/request.php/accueil',
@@ -56,14 +60,14 @@ function recent_ecoutes(data)
         if((i+1)%2 != 0){
             ecoutes = ecoutes +
             '<div class="row">'+
-            '<div class="col-md-5 p-4" style="background-color: #2C2C2C;">';
+            '<div class="new_music_play col-md-5 p-4" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">';
         }
         else{
             ecoutes = ecoutes +
-            '<div class="col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;">';
+            '<div class="new_music_play col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">';
         }
         ecoutes = ecoutes +
-            '<div class="row">'+
+            '<div class="row icon_playlist">'+
               '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
                 '<div class="col-md-9 p-3">'+
                     '<h3 class="text-white" id="titre_music">'+data[i]['nom_morceau']+'</h3>'+
@@ -215,12 +219,12 @@ $('#bouton_playlist').on("click", () => {
   '<div class="row">' +
       '<div class="col-md-3">' +
         '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
-          '<i class="bi bi-plus-lg text-white plus-icon" id="icon_playlist"></i>'+
+          '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
         '</div>' +
       '</div>' +
       '<div class="col-md-3 offset-md-1">' +
         '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
-            '<i class="bi bi-suit-heart-fill text-white plus-icon" id="icon_playlist"></i></i>' +
+            '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"></i>' +
         '</div>' +
       '</div>' +
       '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
@@ -391,6 +395,7 @@ currentElement.addEventListener("click", function(event) {
     document.getElementById("name_page").textContent = "Favoris";
     currentElement.innerHTML = ''+
     '<div class="row">' +
+<<<<<<< HEAD
     '<div class="col-md-3 offset-md-1">'+
                 '<a href="#">'+
                     '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
@@ -404,6 +409,29 @@ currentElement.addEventListener("click", function(event) {
         '<br>' +
         'Durée totale : <h5 class="text-white" id="duree_totale"></h5>' +
         '<br>' +
+=======
+      '<div class="col-md-3 offset-md-1">'+
+                  '<a href="#">'+
+                      '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
+                          '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
+                      '</div>'+
+                  '</a>'+
+              '</div>'+
+      '<div class="col-md-3 offset-md-1 text-white">' +
+          '<br>' +
+          'Date de parution :<h5 id="date_parution">'+
+          '</h5>' +
+          '<br>' +
+          'Durée totale : <h5 class="text-white" id="duree_totale">'+
+          '</h5>' +
+          '<br>' +
+      '</div>' +
+      '<div class="col-md-2 ">' +
+          '<a href="#">' +
+              '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
+          '</a>' +
+      '</div>' +
+>>>>>>> 5af678c (change music when click)
     '</div>' +
     '<div class="col-md-2 ">' +
         '<br>' +
@@ -515,7 +543,20 @@ currentElement.addEventListener("click", function(event) {
         'textToSearch='+textToSearch
     );
   }
+<<<<<<< HEAD
 
+=======
+  if(event.target.classList[0] === "new_music_play"){
+    let id_morceau = event.target.getAttribute("value");
+    console.log(id_morceau);
+    ajaxRequest(
+      'GET',
+      '../php/request.php/play_new_morceau',
+      play_new_morceau,
+      'id_morceau='+id_morceau
+    );
+  }
+>>>>>>> 5af678c (change music when click)
 });
 
 
@@ -615,7 +656,6 @@ function afficher_morceau(data)
 {
   data =JSON.parse(data);
 
-
   let morceau = ""+
     '<br>'+
     '<div class="row col-md-5 ">'+
@@ -652,6 +692,7 @@ function afficher_morceau(data)
   document.getElementById("place_morceau").innerHTML = morceau;
 }
 
+<<<<<<< HEAD
 
 function afficher_infos_artiste(data)
 {
@@ -741,6 +782,20 @@ $('#play_music').on("click", () => {
     document.getElementById("icon_play_stop").classList.toggle("bi-pause-fill");
 
 })
+=======
+function play_new_morceau(data)
+{
+  data =JSON.parse(data);
+  console.log(data);
+
+  document.getElementById("music_current").src  = '../'+data[0]['lien'];
+  document.getElementById("music_play").innerHTML = '<h3>'+data[0]['nom_morceau'].charAt(0).toUpperCase()+
+    data[0]['nom_morceau'].slice(1)+'</h3>'+'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase()+
+    data[0]['nom_artiste'].slice(1)+" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+}
+
+
+>>>>>>> 5af678c (change music when click)
 
 $('#add_favoris').on("click", () => {
     document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
