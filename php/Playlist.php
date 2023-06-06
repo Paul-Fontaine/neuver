@@ -77,7 +77,7 @@ class Playlist
      * @param $id_morceau
      * @return array|false the updated list of songs of the playlist
      */
-    function deleteSong($id_morceau)
+    function deleteSong($id_morceau, $id_playlist)
     {
         try {
             $db = DB::connexion();
@@ -87,10 +87,10 @@ class Playlist
             ;";
             $statement = $db->prepare($request);
             $statement->bindParam(':id_morceau', $id_morceau, PDO::PARAM_INT);
-            $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
+            $statement->bindParam(':id_playlist', $id_playlist, PDO::PARAM_INT);
             $statement->execute();
 
-            return $this->getSongs();
+            return true;
         }
         catch (PDOException $exception)
         {
@@ -106,29 +106,27 @@ class Playlist
      * @param $id_morceau
      * @return array|false
      */
-    function addSong($id_morceau)
+    function addSong($id_morceau, $id_playlist)
     {
         try {
             $db = DB::connexion();
             $request = "
                 INSERT INTO playlist_morceau (
                     id_morceau,
-                    id_playlist,
-                    date_ajout_playlist
+                    id_playlist
                 )
                 VALUES (
                     :id_morceau,
-                    :id_playlist,
-                    CURRENT_DATE
+                    :id_playlist
                 )
             ;";
             $statement = $db->prepare($request);
             $statement->bindParam(':id_morceau', $id_morceau);
-            $statement->bindParam(':id_playlist', $this->id_playlist);
+            $statement->bindParam(':id_playlist', $id_playlist);
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);
             
-            return $this->getSongs();
+            return true;
 
         }
         catch (PDOException $exception)
@@ -137,8 +135,31 @@ class Playlist
             return false;
         }
     }
-}
 
-$playliste = new Playlist(3);
-echo "songs : <br>";
-var_dump(json_encode($playliste->addSong(4)));
+
+    static function in_favoris($id_morceau, $id_playlist)
+    {
+        try {
+            $db = DB::connexion();
+            $request = "
+            SELECT id_morceau
+            FROM playlist_morceau
+            WHERE id_morceau=:id_morceau AND id_playlist=:id_playlist
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_morceau', $id_morceau);
+            $statement->bindParam(':id_playlist', $id_playlist);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            
+            return $result;
+
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
+
+}

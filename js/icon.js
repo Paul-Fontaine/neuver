@@ -94,6 +94,13 @@ function recent_ecoutes(data)
       document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
       document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
       document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+      ajaxRequest(
+        'GET',
+        '../php/request.php/in_fav_playlist',
+        in_fav_playlist,
+        'id_morceau='+data[0]['id_morceau']
+      );
+      
     }
     document.getElementById("recemment_ecoutes").innerHTML = ecoutes;
     
@@ -150,7 +157,7 @@ function user_playlist(data)
             if(iter === 0){
                 let first_playlist = '';
                 first_playlist += ''+
-                '<a href="#">'+
+                '<a href="#" id="">'+
                   '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;">';
                 if(data[i]['photo_playlist'] != ''){
                   first_playlist +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
@@ -760,6 +767,12 @@ function play_new_morceau(data)
   document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
   document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
   document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+  ajaxRequest(
+    'GET',
+    '../php/request.php/in_fav_playlist',
+    in_fav_playlist,
+    'id_morceau='+data[0]['id_morceau']
+  );
 }
 
 
@@ -928,10 +941,50 @@ function afficher_morceaux_album(data)
 }
 
 $('#add_favoris').on("click", () => {
-    document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
-    document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
-
+  let id_morceau = document.getElementById("album_play").value;
+  if (document.getElementById("icon_favori").classList.contains("be_white")) {
+    console.log('banane');
+    ajaxRequest(
+      'DELETE',
+      '../php/request.php/delete_song_playlist',
+      delete_song_playlist,
+      'id_morceau='+id_morceau
+    );
+  }else {
+    ajaxRequest(
+      'POST',
+      '../php/request.php/add_song_playlist',
+      add_song_playlist,
+      'id_morceau='+id_morceau
+    );
+  }
 })
+
+function add_song_playlist(data){
+  switch (data){
+    case 'morceau_ajouté':
+      document.getElementById("icon_favori").classList.toggle("be_white");
+      document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
+      document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
+      break;
+    case 'morceau_non_ajouté':
+        //$('#alert-erreur-inscription').toggleClass('d-none');
+        break;
+  }
+}
+
+function delete_song_playlist(data){
+  switch (data){
+    case 'morceau_enlevé':
+      document.getElementById("icon_favori").classList.toggle("be_white");
+      document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
+      document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
+      break;
+    case 'morceau_non_enlevé':
+        //$('#alert-erreur-inscription').toggleClass('d-none');
+        break;
+  }
+}
 
 // créer un menu déroulant en remplissnt une var globale
 function dropdownMenu(data) {
@@ -1108,4 +1161,27 @@ function change_music(data){
   document.getElementById("music_play").textContent = data[found]['nom_morceau'].charAt(0).toUpperCase() + data[found]['nom_morceau'].slice(1);
   document.getElementById("artiste_play").textContent = 'Par '+data[found]['nom_artiste'].charAt(0).toUpperCase() + data[found]['nom_artiste'].slice(1);
   document.getElementById("album_play").textContent =" dans l'album : "+data[found]['nom_album'].charAt(0).toUpperCase() + data[found]['nom_album'].slice(1);
+  ajaxRequest(
+    'GET',
+    '../php/request.php/in_fav_playlist',
+    in_fav_playlist,
+    'id_morceau='+data[found]['id_morceau']
+  );
 }
+
+function in_fav_playlist(data){
+  console.log(data);
+  switch (data){
+    case 'dedans':
+      document.getElementById("icon_favori").classList.add("be_white");
+      document.getElementById("icon_favori").classList.add("bi-suit-heart-fill");
+      document.getElementById("icon_favori").classList.remove("bi-suit-heart");
+        break;
+    case 'dehors':
+        document.getElementById("icon_favori").classList.remove("be_white");
+        document.getElementById("icon_favori").classList.remove("bi-suit-heart-fill");
+        document.getElementById("icon_favori").classList.add("bi-suit-heart");
+        break;
+}
+}
+
