@@ -86,17 +86,14 @@ function recent_ecoutes(data)
     if(data.length%2 != 0){
         ecoutes = ecoutes + '</div>';
     }
-    if(document.getElementById("music_current").src === ""){
-      document.getElementById("music_current").src  = '../'+data[0]['lien'];
-      document.getElementById("music_current").value = "album";
-      document.getElementById("artiste_play").value = data[0]['id_album'];
-      document.getElementById("album_play").value = data[0]['id_morceau'];
-      document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
-      document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
-      document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
-    }
     document.getElementById("recemment_ecoutes").innerHTML = ecoutes;
-    
+    document.getElementById("music_current").src  = '../'+data[0]['lien'];
+    document.getElementById("music_current").value = "album";
+    document.getElementById("artiste_play").value = data[0]['id_album'];
+    document.getElementById("album_play").value = data[0]['id_morceau'];
+    document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
+    document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
+    document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
     
 
 
@@ -148,39 +145,24 @@ function user_playlist(data)
     for(let i = 0; i<data.length-1;i++){
         if(data[i]['id_playlist'] != data[data.length-1]['id_playlist']){
             if(iter === 0){
-                let first_playlist = '';
-                first_playlist += ''+
+                document.getElementById("fisrt_playlist").innerHTML = ""+
                 '<a href="#">'+
-                  '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;">';
-                if(data[i]['photo_playlist'] != ''){
-                  first_playlist +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
-                }
-                first_playlist += ''+
-                '</div>'+
+                  '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
                 '</a>';
-                document.getElementById("fisrt_playlist").innerHTML = first_playlist;
                 iter++;
             }
             else{
                 if(iter === 1){
-                  playlist_list = playlist_list +
-                  '<br>'+
-                  '<br>'+
-                  '<div class="row">'+
-                    '<div class="col-md-3">';
-                }else{
-                  playlist_list = playlist_list +
-                      '<div class="col-md-3 offset-md-1">';
+                    playlist_list = playlist_list +
+                    '<br>'+
+                    '<br>'+
+                    '<div class="row">';
                 }
                 playlist_list = playlist_list+
-                  '<a href="#">'+
-                    '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;">';
-                if(data[i]['photo_playlist'] != ''){
-                  playlist_list +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
-                }
-                playlist_list += ''+
-                    '</div>'+
-                  '</a>'+
+                '<div class="col-md-3">'+
+                    '<a href="#">'+
+                      '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
+                    '</a>'+
                 '</div>';
                 if(iter === 3){
                     playlist_list = playlist_list +
@@ -213,7 +195,6 @@ $('#iconProfil').on("click", () => {
 
 
 $('#bouton_acceuil').on("click", () => {
-  if(document.getElementById("name_page").textContent != "Accueil"){
     document.getElementById("bouton_acceuil").setAttribute("style", "color: #FFFFFF;");
     document.getElementById("bouton_playlist").removeAttribute('style');
     document.getElementById("bouton_rechercher").removeAttribute('style');
@@ -225,38 +206,37 @@ $('#bouton_acceuil').on("click", () => {
     '</div>'+
     '<span id="recemment_ecoutes">'+
     '</span>';
-  }
 })
 
 $('#bouton_playlist').on("click", () => {
-  if(document.getElementById("name_page").textContent != "Playlist"){
-    document.getElementById("bouton_playlist").setAttribute("style", "color: #FFFFFF;");
-    document.getElementById("bouton_acceuil").removeAttribute('style');
-    document.getElementById("bouton_rechercher").removeAttribute('style');
-    document.getElementById("iconProfil").classList.remove("d-none");;
-    document.getElementById("name_page").textContent = "Playlist";
-    currentElement.innerHTML = '' +
-    '<div class="row">' +
-        '<div class="col-md-3">' +
-          '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
-            '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
-          '</div>' +
+  document.getElementById("bouton_playlist").setAttribute("style", "color: #FFFFFF;");
+  document.getElementById("bouton_acceuil").removeAttribute('style');
+  document.getElementById("bouton_rechercher").removeAttribute('style');
+  document.getElementById("iconProfil").classList.remove("d-none");;
+  document.getElementById("name_page").textContent = "Playlist";
+  currentElement.innerHTML = '' +
+  '<div class="row">' +
+      '<div class="col-md-3">' +
+        '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
+          '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
         '</div>' +
-        '<div class="col-md-3 offset-md-1">' +
-          '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
-              '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
-          '</div>' +
+      '</div>' +
+      '<div class="col-md-3 offset-md-1">' +
+        '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
+            '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
         '</div>' +
-        '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
-        '</div>' +
-    '</div>' +
-    '<span id="print_playlists">' +
-    '</span>';
-  }  
+      '</div>' +
+      '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
+      '</div>' +
+  '</div>' +
+  '<span id="print_playlists">' +
+  '</span>';
+
+  // Attachez un gestionnaire d'événements à l'élément nouvellement créé
+  
 });
 
 $('#bouton_rechercher').on("click", () => {
-  if(document.getElementById("name_page").textContent != "Rechercher"){
     document.getElementById("bouton_rechercher").setAttribute("style", "color: #FFFFFF;");
     document.getElementById("bouton_acceuil").removeAttribute('style');
     document.getElementById("bouton_playlist").removeAttribute('style');
@@ -293,9 +273,8 @@ $('#bouton_rechercher').on("click", () => {
         '<span id="place_morceau"></span>'+
         '<br>';
       '</span>'
-  }
 })
-  
+
 
 
 // Attachez un gestionnaire d'événements à l'élément parent
@@ -400,11 +379,12 @@ currentElement.addEventListener("click", function(event) {
       '<div class="col-md-4">'+
         '<a href="#">'+
             '<div class="col-md-12" style="background-color: #00EBEB; height: 21vw;" id="choix_cover">'+
+                '<h3>Choisissez une cover</h3>'+
             '</div>'+
         '</a>'+
       '</div>'+
       '<div class="col-md-4 offset-md-2 ">'+
-          '<input type="text" class="form-control" placeholder="Nom de la nouvelle playlist" id="name_new_playlist">'+
+          '<input type="text" class="form-control" placeholder="Nom de la cover" id="name_new_playlist">'+
           '<br>'+
           '<div id="alert-erreur-creation" class="d-none alert alert-danger row col-md-8 offset-md-2" role="alert">'+
           '<strong>Erreur lors de la creation :</strong> Remplissez bien toutes les cases.'+
@@ -544,33 +524,16 @@ currentElement.addEventListener("click", function(event) {
         'textToSearch='+textToSearch
     );
   }
-  if (event.target.classList.contains("new_music_play")) {
-    let id_morceau = event.target.getAttribute('value');
+  if(event.target.classList[0] === "new_music_play"){
+    let id_morceau = event.target.getAttribute("value");
     ajaxRequest(
       'GET',
       '../php/request.php/play_new_morceau',
       play_new_morceau,
-      'id_morceau=' + id_morceau
+      'id_morceau='+id_morceau
     );
-    ajaxRequest(
-      'POST',
-      '../php/request.php/add_morceau_recent',
-      add_morceau_recent,
-      'id_morceau=' + id_morceau
-    );
-
   }
 });
-
-function add_morceau_recent(){
-  if(document.getElementById("name_page").textContent === "Accueil"){
-    ajaxRequest(
-        'GET',
-        '../php/request.php/accueil',
-        recent_ecoutes
-    );
-  }
-}
 
 
 function modif_profil(data)
@@ -610,12 +573,12 @@ function create_new_playlist(data){
       '<div class="row">' +
           '<div class="col-md-3">' +
             '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
-              '<i class="bi bi-plus-lg text-white plus-icon"></i>'+
+              '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
             '</div>' +
           '</div>' +
           '<div class="col-md-3 offset-md-1">' +
             '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
-                '<i class="bi bi-suit-heart-fill text-white plus-icon"> </i>' +
+                '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
             '</div>' +
           '</div>' +
           '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
@@ -670,7 +633,7 @@ function afficher_album(data)
     album = album+
     '<div class="row">'+
       '<div class="col-md-5 p-4 albums_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_album']+'">'+
-        '<div class="row">'+
+        '<div class="row icon_playlist">'+
           '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
           '<div class="col-md-9 p-3 text-white">'+
             '<h3 id="titre_music">'+
@@ -691,18 +654,7 @@ function afficher_album(data)
     '<br>';
   }
   document.getElementById("place_album").innerHTML = album;
-
-  $('.albums_recherché').on('click', (event) => {
-      let id_album = $(event.target).closest('.albums_recherché').attr('value');
-      ajaxRequest(
-          'GET',
-          '../php/request.php/infos_album',
-          afficher_infos_album,
-          'id_album='+id_album
-      );
-  })
 }
-
 function afficher_morceau(data)
 {
   data =JSON.parse(data);
@@ -715,7 +667,6 @@ function afficher_morceau(data)
     '<hr style="color: #FFFFFF;">'+
     '</div>';
   for(let i = 0; i<data.length;i++){
-    data[i]['duree_morceau'] = seconds2minutes(data[i]['duree_morceau']);
     morceau = morceau+
     '<div class="row">'+
       '<div class="new_music_play col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
@@ -750,7 +701,7 @@ function play_new_morceau(data)
   data =JSON.parse(data);
 
   document.getElementById("music_current").src  = '../'+data[0]['lien'];
-  if(name_page === 'Accueil' || name_page === 'Rechercher' || name_page === 'album'){
+  if(name_page === 'Accueil' || name_page === 'Rechercher'){
     document.getElementById("music_current").value = "album";
     document.getElementById("artiste_play").value = data[0]['id_album'];
   }else{
@@ -840,91 +791,13 @@ function afficher_albums_artiste(data)
     });
 }
 
-function afficher_infos_album(data) {
-    let album = JSON.parse(data);
-    document.getElementById('name_page').textContent = 'Album';
-
-    document.getElementById("name_page").textContent = 'Album';
-    currentElement.innerHTML = "" +
-        "      <div class='row'>" +
-        "          <div class='col-md-3 offset-md-2'>" +
-        "              <img src='.." + album.cover_album + "' class='img-fluid' alt='cover album'>" +
-        "          </div>" +
-        "          <div class='col-md-4 offset-md-1 text-white'>" +
-        "              <br>" +
-        "              Date de parution :<h5 id='date_parution'>" + album.date_parution_album + "</h5>" +
-        "              <br>" +
-        "              Style musical :<h5 class='text-white' id='style_musical'>" + album.style_album + "</h5>" +
-        "              <br>" +
-        "              Durée totale : <h5 class='text-white' id='duree_totale'>" + album.duree_totale + "</h5>" +
-        "              <br>" +
-        "          </div>" +
-        "          <div class='col-md-2 '>" +
-        "              <br>" +
-        "              <a href='#' >" +
-        "                  <i class='bi bi-play-fill custom-icon' style='color: #09FA4D; font-size: 12vw;'></i>" +
-        "              </a>" +
-        "          </div>" +
-        "      </div>" +
-        "      <div class='row'>" +
-        "          <div class='col-md-4 offset-md-2'>" +
-        "              <h3 class='text bg-black text-white' id='titre_album'>" + album.nom_album + "</h3>" +
-        "              <h5 class='text bg-black text-white' id='artiste'>" + album.nom_artiste + "</h5>" +
-        "          </div>" +
-        "      </div>" +
-        "      <br>" +
-        "      <br>" +
-        "      <div id='album_songs'></div>";
-
-    ajaxRequest(
-        'GET',
-        '../php/request.php/album_songs',
-        afficher_morceaux_album,
-        'id_album='+album.id_album
-    );
-
-}
-
-function seconds2minutes(sec){
-    let minutes = Math.floor(sec/60);
-    let seconds = sec%60;
-    if (minutes<10){
-        minutes = '0'+minutes;
-    }
-    if (seconds<10){
-        seconds = '0'+seconds;
-    }
-    return minutes+':'+seconds;
-}
-
-function afficher_morceaux_album(data)
+function afficher_infos_album(data)
 {
-    let morceaux = JSON.parse(data);
-    $('#album_songs').html('');
-    for (const morceau of morceaux) {
-        morceau.duree_morceau = seconds2minutes(morceau.duree_morceau);
-        $('#album_songs').append('' +
-            '<div class="new_music_play row" value="'+morceau.id_morceau+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
-            '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid icon_playlist" >' +
-            '    <div class="col-md-9 icon_playlist">' +
-            '        <div class="row">' +
-            '            <div class="col-md-9">' +
-            '                <h3 class="text-white" id="titre_music">'+morceau.nom_morceau+'</h3>' +
-            '            </div>' +
-            '        </div>' +
-            '        <p></p>' +
-            '        <div class="row">' +
-            '            <div class="col-md-3">' +
-            '                <p class="text-white" id="artiste">'+morceau.nom_artiste+'</p>' +
-            '            </div>' +
-            '            <div class="col-md-2 offset-md-6">' +
-            '                <p class="text-white" id="durée">'+morceau.duree_morceau+'</p>' +
-            '            </div>' +
-            '        </div>' +
-            '    </div>' +
-            '</div>' +
-            '');
-    }
+    data = JSON.parse(data);
+    console.log(data);
+
+    currentElement.innerHTML = '';
+    document.getElementById("name_page").textContent = 'Album';
 }
 
 $('#add_favoris').on("click", () => {
@@ -963,7 +836,7 @@ $(document).ready(function() {
     dropdownMenu,
 
   );
-console.log(window.dropdownContent);
+consolel.log(window.dropdownContent);
     // Créez le pop-up modal
     var modal = `
       <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
