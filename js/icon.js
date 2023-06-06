@@ -824,6 +824,7 @@ function afficher_albums_artiste(data)
 function afficher_infos_album(data) {
     let album = JSON.parse(data);
 
+    document.getElementById("name_page").textContent = 'Album';
     currentElement.innerHTML = "" +
         "      <div class='row'>" +
         "          <div class='col-md-3 offset-md-2'>" +
