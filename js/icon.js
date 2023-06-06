@@ -1101,7 +1101,6 @@ function change_music(data){
 }
 
 function in_fav_playlist(data){
-  console.log(data);
   switch (data){
     case 'dedans':
       document.getElementById("icon_favori").classList.add("be_white");
