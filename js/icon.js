@@ -197,8 +197,6 @@ function user_playlist(data)
 
 
 
-
-
 $('#iconProfil').on("click", () => {
     document.getElementById("bouton_acceuil").removeAttribute('style');
     document.getElementById("bouton_playlist").removeAttribute('style');
@@ -773,28 +771,31 @@ function afficher_infos_artiste(data)
 function afficher_albums_artiste(data)
 {
     data = JSON.parse(data);
-    console.log(data)
-    $('#albums-artiste').html(
-        ""+
-        "<div class='row album' value='"+data.id_album+"' style='background-color: #2C2C2C; padding: 3%;'>" +
-        "    <div class='col-md-3'>" +
-        "        <img src='.."+data.cover_album+"' class='img-fluid' alt='cover album'>" +
-        "    </div>" +
-        "    <div class='col-md-6 offset-md-2'>" +
-        "        <h3 class='text-white' id='titre_music'>"+data.nom_album+"</h3>" +
-        "        <p></p>" +
-        "        <div class='row'>" +
-        "            <div class='col-md-5'>" +
-        "                <p class='text-white'>"+data.nom_artiste+"</p>" +
-        "                </a>" +
-        "            </div>" +
-        "            <div class='col-md-5 offset-md-2'>" +
-        "            <p class='text-white' id='date-parution'>"+data.date_parution_album+"</p>" +
-        "            </div>" +
-        "        </div>" +
-        "    </div>" +
-        "</div>"
-    );
+    $('#albums-artiste').html('');
+    for (const album of data){
+        $('#albums-artiste').append(
+            ""+
+            "<div class='row album' value='"+album.id_album+"' style='background-color: #2C2C2C; padding: 3%; margin: 5%;'>" +
+            "    <div class='col-md-3'>" +
+            "        <img src='.."+album.cover_album+"' class='img-fluid' alt='cover album'>" +
+            "    </div>" +
+            "    <div class='col-md-6 offset-md-2'>" +
+            "        <h3 class='text-white' id='titre_music'>"+album.nom_album+"</h3>" +
+            "        <p></p>" +
+            "        <div class='row'>" +
+            "            <div class='col-md-5'>" +
+            "                <p class='text-white'>"+album.nom_artiste+"</p>" +
+            "                </a>" +
+            "            </div>" +
+            "            <div class='col-md-5 offset-md-2'>" +
+            "            <p class='text-white' id='date-parution'>"+album.date_parution_album+"</p>" +
+            "            </div>" +
+            "        </div>" +
+            "    </div>" +
+            "</div>"
+        );
+    }
+
     $('.album').on('click', (event) => {
         let id_album = $(event.target).closest('.album').attr('value');
         ajaxRequest(
@@ -830,9 +831,9 @@ $(document).ready(function() {
           Menu déroulant
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Option 1</a></li>
-          <li><a class="dropdown-item" href="#">Option 2</a></li>
-          <li><a class="dropdown-item" href="#">Option 3</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 1">Option 1</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 2">Option 2</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 3">Option 3</a></li>
         </ul>
       </div>
     `;
@@ -849,6 +850,9 @@ $(document).ready(function() {
             <div class="modal-body">
               ${dropdownContent}
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="validateBtn">Valider</button>
+            </div>
           </div>
         </div>
       </div>
@@ -859,9 +863,27 @@ $(document).ready(function() {
 
     // Affichez le pop-up modal
     $('#myModal').modal('show');
-  });
 
+    var selectedOption; // Variable pour stocker l'option sélectionnée
+
+    // Gérez l'événement de clic sur les éléments de menu déroulant
+    $(document).on('click', '.dropdown-menu .dropdown-item', function() {
+      selectedOption = $(this).attr('data-value'); // Met à jour la valeur sélectionnée
+      $('#dropdownMenuButton').text(selectedOption); // Met à jour le texte du bouton avec l'option sélectionnée
+    });
+
+    // Gérez l'événement de clic sur le bouton "Valider"
+    $('#validateBtn').click(function() {
+      console.log('Option sélectionnée :', selectedOption);
+
+      // Fermez le pop-up modal
+      $('#myModal').modal('hide');
+    });
+  });
 });
+
+
+
 
 function turnFormatSecondes(seconds) {
   let minutes = Math.floor(seconds / 60);
