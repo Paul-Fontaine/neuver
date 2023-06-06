@@ -580,7 +580,6 @@ function modif_profil(data)
 }
 
 function create_new_playlist(data){
-  console.log(data);
   switch (data){
     case 'playlist_not_create':
       $('#alert-erreur-creation').toggleClass('d-none');
@@ -720,7 +719,7 @@ function play_new_morceau(data)
   data =JSON.parse(data);
 
   document.getElementById("music_current").src  = '../'+data[0]['lien'];
-  if(name_page === 'Accueil' || name_page === 'Rechercher'){
+  if(name_page === 'Accueil' || name_page === 'Rechercher' || name_page === 'album'){
     document.getElementById("music_current").value = "album";
     document.getElementById("artiste_play").value = data[0]['id_album'];
   }else{
@@ -812,6 +811,7 @@ function afficher_albums_artiste(data)
 
 function afficher_infos_album(data) {
     let album = JSON.parse(data);
+    document.getElementById('name_page').textContent = 'Album';
 
     currentElement.innerHTML = "" +
         "      <div class='row'>" +
@@ -872,7 +872,7 @@ function afficher_morceaux_album(data)
     for (const morceau of morceaux) {
         morceau.duree_morceau = seconds2minutes(morceau.duree_morceau);
         $('#album_songs').append('' +
-            '<div class="row" value="'+morceau.lien+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
+            '<div class="new_music_play row" value="'+morceau.id_morceau+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
             '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid" >' +
             '    <div class="col-md-9">' +
             '        <div class="row">' +
