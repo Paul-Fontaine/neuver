@@ -246,15 +246,16 @@ class User
     }
 
 
-    static function addPlaylist(string $nom_playlist, string $photo_playlist = ""): bool
+    function addPlaylist(string $nom_playlist): bool
     {
         try {
             $db = DB::connexion();
 
             // create a new playlist named 'nom_playlist' and get its id_playlist
+            
             $request = "
             INSERT INTO playlist(nom_playlist, photo_playlist) VALUES 
-            (:nom_playlist, '/ressources/images/playlists_photo/favoris.png')
+            (:nom_playlist, '')
             RETURNING id_playlist;
             ";
             $statement = $db->prepare($request);
@@ -262,10 +263,10 @@ class User
             $statement->execute();
 
             $id_new_playlist = $statement->fetch(PDO::FETCH_NUM)[0];
-            
+
 
             // Link the new playlist and user
-
+            
             $request = "
             INSERT INTO user_playlist(id_playlist, id_utilisateur) VALUES 
             (:id_playlist, :id_utilisateur)
@@ -274,7 +275,7 @@ class User
             $statement->bindParam(':id_playlist', $id_new_playlist);
             $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
             $statement->execute();
-
+            
             return true;
         }
         catch (PDOException $exception)

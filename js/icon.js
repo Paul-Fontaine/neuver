@@ -145,24 +145,39 @@ function user_playlist(data)
     for(let i = 0; i<data.length-1;i++){
         if(data[i]['id_playlist'] != data[data.length-1]['id_playlist']){
             if(iter === 0){
-                document.getElementById("fisrt_playlist").innerHTML = ""+
+                let first_playlist = '';
+                first_playlist += ''+
                 '<a href="#">'+
-                  '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
+                  '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;">';
+                if(data[i]['photo_playlist'] != ''){
+                  first_playlist +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
+                }
+                first_playlist += ''+
+                '</div>'+
                 '</a>';
+                document.getElementById("fisrt_playlist").innerHTML = first_playlist;
                 iter++;
             }
             else{
                 if(iter === 1){
-                    playlist_list = playlist_list +
-                    '<br>'+
-                    '<br>'+
-                    '<div class="row">';
+                  playlist_list = playlist_list +
+                  '<br>'+
+                  '<br>'+
+                  '<div class="row">'+
+                    '<div class="col-md-3">';
+                }else{
+                  playlist_list = playlist_list +
+                      '<div class="col-md-3 offset-md-1">';
                 }
                 playlist_list = playlist_list+
-                '<div class="col-md-3">'+
-                    '<a href="#">'+
-                      '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
-                    '</a>'+
+                  '<a href="#">'+
+                    '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;">';
+                if(data[i]['photo_playlist'] != ''){
+                  playlist_list +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
+                }
+                playlist_list += ''+
+                    '</div>'+
+                  '</a>'+
                 '</div>';
                 if(iter === 3){
                     playlist_list = playlist_list +
@@ -379,12 +394,11 @@ currentElement.addEventListener("click", function(event) {
       '<div class="col-md-4">'+
         '<a href="#">'+
             '<div class="col-md-12" style="background-color: #00EBEB; height: 21vw;" id="choix_cover">'+
-                '<h3>Choisissez une cover</h3>'+
             '</div>'+
         '</a>'+
       '</div>'+
       '<div class="col-md-4 offset-md-2 ">'+
-          '<input type="text" class="form-control" placeholder="Nom de la cover" id="name_new_playlist">'+
+          '<input type="text" class="form-control" placeholder="Nom de la nouvelle playlist" id="name_new_playlist">'+
           '<br>'+
           '<div id="alert-erreur-creation" class="d-none alert alert-danger row col-md-8 offset-md-2" role="alert">'+
           '<strong>Erreur lors de la creation :</strong> Remplissez bien toutes les cases.'+
@@ -563,6 +577,7 @@ function modif_profil(data)
 }
 
 function create_new_playlist(data){
+  console.log(data);
   switch (data){
     case 'playlist_not_create':
       $('#alert-erreur-creation').toggleClass('d-none');
@@ -897,9 +912,9 @@ $(document).ready(function() {
           Menu déroulant
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Option 1</a></li>
-          <li><a class="dropdown-item" href="#">Option 2</a></li>
-          <li><a class="dropdown-item" href="#">Option 3</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 1">Option 1</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 2">Option 2</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 3">Option 3</a></li>
         </ul>
       </div>
     `;
@@ -916,6 +931,9 @@ $(document).ready(function() {
             <div class="modal-body">
               ${dropdownContent}
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="validateBtn">Valider</button>
+            </div>
           </div>
         </div>
       </div>
@@ -926,9 +944,27 @@ $(document).ready(function() {
 
     // Affichez le pop-up modal
     $('#myModal').modal('show');
-  });
 
+    var selectedOption; // Variable pour stocker l'option sélectionnée
+
+    // Gérez l'événement de clic sur les éléments de menu déroulant
+    $(document).on('click', '.dropdown-menu .dropdown-item', function() {
+      selectedOption = $(this).attr('data-value'); // Met à jour la valeur sélectionnée
+      $('#dropdownMenuButton').text(selectedOption); // Met à jour le texte du bouton avec l'option sélectionnée
+    });
+
+    // Gérez l'événement de clic sur le bouton "Valider"
+    $('#validateBtn').click(function() {
+      console.log('Option sélectionnée :', selectedOption);
+
+      // Fermez le pop-up modal
+      $('#myModal').modal('hide');
+    });
+  });
 });
+
+
+
 
 function turnFormatSecondes(seconds) {
   let minutes = Math.floor(seconds / 60);
