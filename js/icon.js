@@ -569,8 +569,13 @@ currentElement.addEventListener("click", function(event) {
         ajaxRequest(
             'POST',
             '../php/request.php/add_morceau_recent',
-            add_morceau_recent,
+            () => {},
             'id_morceau=' + id_morceau
+        );
+        ajaxRequest(
+          'GET',
+          '../php/request.php/accueil',
+          add_morceau_recent
         );
     }
 
@@ -585,14 +590,30 @@ currentElement.addEventListener("click", function(event) {
     }
 });
 
-function add_morceau_recent(){
+function add_morceau_recent(data){
+  data =JSON.parse(data);
+  if(data[0]['id_morceau'] === document.getElementById("album_play").value){
     if(document.getElementById("name_page").textContent === "Accueil"){
-        ajaxRequest(
-            'GET',
-            '../php/request.php/accueil',
-            recent_ecoutes
-        );
+      ajaxRequest(
+          'GET',
+          '../php/request.php/accueil',
+          recent_ecoutes
+      );
     }
+  }else{
+    ajaxRequest(
+      'POST',
+      '../php/request.php/add_morceau_recent',
+      () => {},
+      'id_morceau=' + document.getElementById("album_play").value
+    );
+    ajaxRequest(
+      'GET',
+      '../php/request.php/accueil',
+      add_morceau_recent
+    );
+  }
+    
 }
 
 function modif_profil(data)
