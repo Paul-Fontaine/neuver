@@ -245,6 +245,45 @@ class User
         }
     }
 
+
+    static function addPlaylist(string $nom_playlist, string $photo_playlist = ""): bool
+    {
+        try {
+            $db = DB::connexion();
+
+            // create a new playlist named 'nom_playlist' and get its id_playlist
+            $request = "
+            INSERT INTO playlist(nom_playlist, photo_playlist) VALUES 
+            (:nom_playlist, '/ressources/images/playlists_photo/favoris.png')
+            RETURNING id_playlist;
+            ";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':nom_playlist', $nom_playlist);
+            $statement->execute();
+
+            $id_new_playlist = $statement->fetch(PDO::FETCH_NUM)[0];
+            
+
+            // Link the new playlist and user
+
+            $request = "
+            INSERT INTO user_playlist(id_playlist, id_utilisateur) VALUES 
+            (:id_playlist, :id_utilisateur)
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $id_new_playlist);
+            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
+            $statement->execute();
+
+            return true;
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
+
     
 }
 
