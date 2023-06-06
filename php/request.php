@@ -54,6 +54,8 @@ switch ($requestRessource)
         change_playlist_music();
     case 'create_new_playlist':
         create_new_playlist();
+    case 'album_songs':
+        album_songs($requestMethod);
 }
 
 function authentification()
@@ -332,6 +334,25 @@ function infos_album(string $requestMethod)
     }
 }
 
+function album_songs(string $requestMethod)
+{
+    if ($requestMethod === 'GET'){
+        if (isset($_GET['id_album'])){
+            $album = new Album($_GET['id_album']);
+            $data = $album->songs();
+
+            header('Content-Type: text/json; charset=utf-8');
+            header('Cache-control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('HTTP/1.1 200 OK');
+            echo json_encode($data);
+            exit();
+        }
+        header('HTTP/1.1 400 Bad Request');
+        exit();
+    }
+}
+
 
 function play_new_morceau()
 {
@@ -422,3 +443,4 @@ function create_new_playlist()
             exit();
     }
 }
+

@@ -69,12 +69,46 @@ class Album
             return false;
         }
     }
+
+    function songs()
+    {
+        try {
+            $db = DB::connexion();
+            $request = "
+            SELECT nom_morceau,
+                   lien,
+                   duree_morceau,
+                   cover_album,
+                   nom_artiste
+            FROM album a  
+            JOIN morceau m on a.id_album = m.id_album
+            JOIN artiste a2 on a2.id_artiste = a.id_artiste
+            WHERE a.id_album = :id_album
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_album', $this->id_album, PDO::PARAM_INT);
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            return $result;
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
 }
 
-function seconds2minutes(int $seconds)
+function seconds2minutes(int $seconds): string
 {
-    $minutes = floor($seconds / 60);  // Get the whole number of minutes
-    $seconds %= 60;  // Get the remaining seconds
-
+    $minutes = floor($seconds / 60);
+    $seconds %= 60;
+    if ($minutes<10){
+        $minutes = '0'.$minutes;
+    }
+    if ($seconds<10){
+        $seconds = '0'.$seconds;
+    }
     return $minutes.":".$seconds;
 }
