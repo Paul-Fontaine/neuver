@@ -54,6 +54,10 @@ switch ($requestRessource)
         change_playlist_music();
     case 'create_new_playlist':
         create_new_playlist();
+    case 'album_songs':
+        album_songs($requestMethod);
+    case 'add_morceau_recent':
+        add_morceau_recent();
     case 'get_playlists':
         get_playlists($requestMethod);
 }
@@ -334,6 +338,25 @@ function infos_album(string $requestMethod)
     }
 }
 
+function album_songs(string $requestMethod)
+{
+    if ($requestMethod === 'GET'){
+        if (isset($_GET['id_album'])){
+            $album = new Album($_GET['id_album']);
+            $data = $album->songs();
+
+            header('Content-Type: text/json; charset=utf-8');
+            header('Cache-control: no-store, no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('HTTP/1.1 200 OK');
+            echo json_encode($data);
+            exit();
+        }
+        header('HTTP/1.1 400 Bad Request');
+        exit();
+    }
+}
+
 
 function play_new_morceau()
 {
@@ -424,6 +447,31 @@ function create_new_playlist()
             exit();
     }
 }
+
+function add_morceau_recent(){
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'POST':
+            if (!empty($_POST['id_morceau'])){
+                header('Content-Type: text/plain; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+                $current_user= new User($_SESSION['id_utilisateur']);
+                $current_user->addMorceauInRecemment_ecoutes($_POST['id_morceau']);
+                unset($current_user);
+                echo 'playlist_create';
+
+            }else {
+                //header('HTTP/1.1 400 Bad Request');
+                echo 'playlist_not_create';
+            }
+
+            exit();
+    }
+}
+
 
 function get_playlists(string $requestMethod)
 {
