@@ -239,12 +239,12 @@ $('#bouton_playlist').on("click", () => {
     '<div class="row">' +
         '<div class="col-md-3">' +
           '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
-            '<i class="bi bi-plus-lg text-white plus-icon "></i>'+
+            '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
           '</div>' +
         '</div>' +
         '<div class="col-md-3 offset-md-1">' +
           '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
-              '<i class="bi bi-suit-heart-fill text-white plus-icon "> </i>' +
+              '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
           '</div>' +
         '</div>' +
         '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +

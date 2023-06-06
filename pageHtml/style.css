@@ -71,6 +71,10 @@ width: 100%;
   justify-content: center;
 }
 
+.icon_playlist{
+pointer-events: none;
+}
+
 #choix_cover{
   display: flex;
   flex-direction: column;
