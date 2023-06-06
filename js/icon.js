@@ -807,33 +807,48 @@ $('#add_favoris').on("click", () => {
 
 })
 
-$(document).ready(function() {
-  $('#add_playlist').click(function() {
-    // Créez le contenu du menu déroulant
-    var dropdownContent = `
-      <div class="dropdown">
+// créer un menu déroulant en remplissnt une var globale
+function dropdownMenu(data) {
+  data = JSON.parse(data);
+  console.log(data);
+  
+  window.dropdownContent = `
+  <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          Menu déroulant
+          Choisissez une playlist
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#" data-value="Option 1">Option 1</a></li>
-          <li><a class="dropdown-item" href="#" data-value="Option 2">Option 2</a></li>
-          <li><a class="dropdown-item" href="#" data-value="Option 3">Option 3</a></li>
-        </ul>
-      </div>
-    `;
+        `;
 
+  for (const playlist of data) {
+    dropdownContent += `<li><a class="dropdown-item" href="#" data-value="${playlist.id_playlist}">${playlist.nom_playlist}</a></li>`;
+  }
+  window.dropdownContent += `</ul></div>`;
+  console.log(window.dropdownContent);
+  
+}
+
+$(document).ready(function() {
+  $('#add_playlist').click(function() {
+  // requete ajax pour remplir window.dropdownContent
+  ajaxRequest(
+    'GET',
+    '../php/request.php/get_playlists',
+    dropdownMenu,
+
+  );
+console.log(window.dropdownContent);
     // Créez le pop-up modal
     var modal = `
       <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Titre du pop-up modal</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Ajoutez à une playlist</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              ${dropdownContent}
+              ${window.dropdownContent}
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" id="validateBtn">Valider</button>

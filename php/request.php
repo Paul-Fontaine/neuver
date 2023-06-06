@@ -54,6 +54,8 @@ switch ($requestRessource)
         change_playlist_music();
     case 'create_new_playlist':
         create_new_playlist();
+    case 'get_playlists':
+        get_playlists($requestMethod);
 }
 
 function authentification()
@@ -421,4 +423,21 @@ function create_new_playlist()
 
             exit();
     }
+}
+
+function get_playlists(string $requestMethod)
+{
+    if ($requestMethod === 'GET'){
+        $current_user= new User($_SESSION['id_utilisateur']);
+        $data = $current_user->getPlaylists();
+
+        header('Content-Type: text/json; charset=utf-8');
+        header('Cache-control: no-store, no-cache, must-revalidate');
+        header('Pragma: no-cache');
+        header('HTTP/1.1 200 OK');
+        echo json_encode($data);
+        exit();
+    }
+    header('HTTP/1.1 400 Bad Request');
+    exit();
 }
