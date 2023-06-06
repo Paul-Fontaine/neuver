@@ -865,7 +865,6 @@ function afficher_albums_artiste(data)
 function afficher_infos_album(data)
 {
     data = JSON.parse(data);
-    console.log(data);
 
     currentElement.innerHTML = '';
     document.getElementById("name_page").textContent = 'Album';
@@ -874,7 +873,6 @@ function afficher_infos_album(data)
 $('#add_favoris').on("click", () => {
   let id_morceau = document.getElementById("album_play").value;
   if (document.getElementById("icon_favori").classList.contains("be_white")) {
-    console.log('banane');
     ajaxRequest(
       'DELETE',
       '../php/request.php/delete_song_playlist',
