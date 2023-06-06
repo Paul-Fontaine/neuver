@@ -86,14 +86,17 @@ function recent_ecoutes(data)
     if(data.length%2 != 0){
         ecoutes = ecoutes + '</div>';
     }
+    if(document.getElementById("music_current").src === ""){
+      document.getElementById("music_current").src  = '../'+data[0]['lien'];
+      document.getElementById("music_current").value = "album";
+      document.getElementById("artiste_play").value = data[0]['id_album'];
+      document.getElementById("album_play").value = data[0]['id_morceau'];
+      document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
+      document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
+      document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+    }
     document.getElementById("recemment_ecoutes").innerHTML = ecoutes;
-    document.getElementById("music_current").src  = '../'+data[0]['lien'];
-    document.getElementById("music_current").value = "album";
-    document.getElementById("artiste_play").value = data[0]['id_album'];
-    document.getElementById("album_play").value = data[0]['id_morceau'];
-    document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
-    document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
-    document.getElementById("album_play").textContent =" dans l'album : "+data[0]['nom_album'].charAt(0).toUpperCase() + data[0]['nom_album'].slice(1);
+    
     
 
 
