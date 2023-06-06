@@ -552,8 +552,25 @@ currentElement.addEventListener("click", function(event) {
       play_new_morceau,
       'id_morceau=' + id_morceau
     );
+    ajaxRequest(
+      'POST',
+      '../php/request.php/add_morceau_recent',
+      add_morceau_recent,
+      'id_morceau=' + id_morceau
+    );
+
   }
 });
+
+function add_morceau_recent(){
+  if(document.getElementById("name_page").textContent === "Accueil"){
+    ajaxRequest(
+        'GET',
+        '../php/request.php/accueil',
+        recent_ecoutes
+    );
+  }
+}
 
 
 function modif_profil(data)

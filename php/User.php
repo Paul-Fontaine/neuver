@@ -179,7 +179,7 @@ class User
         try {
             $db = DB::connexion();
             $request = "
-            SELECT m.id_morceau,
+            SELECT DISTINCT m.id_morceau,
                    m.nom_morceau,
                    m.duree_morceau,
                    m.lien,
@@ -187,12 +187,15 @@ class User
                    m.id_album,
                    al.nom_album,
                    al.cover_album,
-                   ar.nom_artiste
+                   ar.nom_artiste,
+                   re.CTID
             FROM recemment_ecoutes re
             JOIN morceau m on m.id_morceau = re.id_morceau
             JOIN album al on al.id_album = m.id_album
             JOIN artiste ar on ar.id_artiste = al.id_artiste
             WHERE re.id_utilisateur = :id_utilisateur
+            ORDER BY re.CTID DESC
+            LIMIT 10
             ;";
             $statement = $db->prepare($request);
             $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
@@ -277,6 +280,44 @@ class User
             $statement->execute();
             
             return true;
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
+
+    function addMorceauInRecemment_ecoutes($id_morceau): bool
+    {
+        try {
+            $db = DB::connexion();
+
+            $request = "
+            INSERT INTO recemment_ecoutes (id_morceau, id_utilisateur)
+            VALUES (:id_morceau, :id_utilisateur)
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_morceau', $id_morceau);
+            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
+            $statement->execute();
+
+
+            $request = "
+            UPDATE recemment_ecoutes
+            SET id_morceau = :id_morceau,
+                id_utilisateur = :id_utilisateur
+            WHERE id_morceau = :id_morceau and id_utilisateur = :id_utilisateur
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_morceau', $id_morceau);
+            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
+            $statement->execute();
+
+            
+
+            return true;
+            
         }
         catch (PDOException $exception)
         {
