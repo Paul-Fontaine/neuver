@@ -145,24 +145,39 @@ function user_playlist(data)
     for(let i = 0; i<data.length-1;i++){
         if(data[i]['id_playlist'] != data[data.length-1]['id_playlist']){
             if(iter === 0){
-                document.getElementById("fisrt_playlist").innerHTML = ""+
+                let first_playlist = '';
+                first_playlist += ''+
                 '<a href="#">'+
-                  '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
+                  '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;">';
+                if(data[i]['photo_playlist'] != ''){
+                  first_playlist +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
+                }
+                first_playlist += ''+
+                '</div>'+
                 '</a>';
+                document.getElementById("fisrt_playlist").innerHTML = first_playlist;
                 iter++;
             }
             else{
                 if(iter === 1){
-                    playlist_list = playlist_list +
-                    '<br>'+
-                    '<br>'+
-                    '<div class="row">';
+                  playlist_list = playlist_list +
+                  '<br>'+
+                  '<br>'+
+                  '<div class="row">'+
+                    '<div class="col-md-3">';
+                }else{
+                  playlist_list = playlist_list +
+                      '<div class="col-md-3 offset-md-1">';
                 }
                 playlist_list = playlist_list+
-                '<div class="col-md-3">'+
-                    '<a href="#">'+
-                      '<img src="..' + data[i]['photo_playlist'] + '" style="width: 86.5%; height: 86.5%;" />' +
-                    '</a>'+
+                  '<a href="#">'+
+                    '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;">';
+                if(data[i]['photo_playlist'] != ''){
+                  playlist_list +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
+                }
+                playlist_list += ''+
+                    '</div>'+
+                  '</a>'+
                 '</div>';
                 if(iter === 3){
                     playlist_list = playlist_list +
@@ -381,12 +396,11 @@ currentElement.addEventListener("click", function(event) {
       '<div class="col-md-4">'+
         '<a href="#">'+
             '<div class="col-md-12" style="background-color: #00EBEB; height: 21vw;" id="choix_cover">'+
-                '<h3>Choisissez une cover</h3>'+
             '</div>'+
         '</a>'+
       '</div>'+
       '<div class="col-md-4 offset-md-2 ">'+
-          '<input type="text" class="form-control" placeholder="Nom de la cover" id="name_new_playlist">'+
+          '<input type="text" class="form-control" placeholder="Nom de la nouvelle playlist" id="name_new_playlist">'+
           '<br>'+
           '<div id="alert-erreur-creation" class="d-none alert alert-danger row col-md-8 offset-md-2" role="alert">'+
           '<strong>Erreur lors de la creation :</strong> Remplissez bien toutes les cases.'+
@@ -565,6 +579,7 @@ function modif_profil(data)
 }
 
 function create_new_playlist(data){
+  console.log(data);
   switch (data){
     case 'playlist_not_create':
       $('#alert-erreur-creation').toggleClass('d-none');
