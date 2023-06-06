@@ -771,7 +771,7 @@ function play_new_morceau(data)
     data =JSON.parse(data);
 
   document.getElementById("music_current").src  = '../'+data[0]['lien'];
-  if(name_page === 'Accueil' || name_page === 'Rechercher' || name_page === 'album'){
+  if(name_page === 'Accueil' || name_page === 'Rechercher' || name_page === 'Album'){
     document.getElementById("music_current").value = "album";
     document.getElementById("artiste_play").value = data[0]['id_album'];
   }else{
@@ -1110,6 +1110,12 @@ function change_music(data){
   document.getElementById("music_play").textContent = data[found]['nom_morceau'].charAt(0).toUpperCase() + data[found]['nom_morceau'].slice(1);
   document.getElementById("artiste_play").textContent = 'Par '+data[found]['nom_artiste'].charAt(0).toUpperCase() + data[found]['nom_artiste'].slice(1);
   document.getElementById("album_play").textContent =" dans l'album : "+data[found]['nom_album'].charAt(0).toUpperCase() + data[found]['nom_album'].slice(1);
+  ajaxRequest(
+    'POST',
+    '../php/request.php/add_morceau_recent',
+    add_morceau_recent,
+    'id_morceau=' + data[found]['id_morceau']
+);
   ajaxRequest(
     'GET',
     '../php/request.php/in_fav_playlist',
