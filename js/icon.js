@@ -292,7 +292,7 @@ $('#bouton_rechercher').on("click", () => {
       '</span>'
   }
 })
-
+  
 
 
 // Attachez un gestionnaire d'événements à l'élément parent
