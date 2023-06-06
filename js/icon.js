@@ -815,9 +815,9 @@ $(document).ready(function() {
           Menu déroulant
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Option 1</a></li>
-          <li><a class="dropdown-item" href="#">Option 2</a></li>
-          <li><a class="dropdown-item" href="#">Option 3</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 1">Option 1</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 2">Option 2</a></li>
+          <li><a class="dropdown-item" href="#" data-value="Option 3">Option 3</a></li>
         </ul>
       </div>
     `;
@@ -834,6 +834,9 @@ $(document).ready(function() {
             <div class="modal-body">
               ${dropdownContent}
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="validateBtn">Valider</button>
+            </div>
           </div>
         </div>
       </div>
@@ -844,9 +847,27 @@ $(document).ready(function() {
 
     // Affichez le pop-up modal
     $('#myModal').modal('show');
-  });
 
+    var selectedOption; // Variable pour stocker l'option sélectionnée
+
+    // Gérez l'événement de clic sur les éléments de menu déroulant
+    $(document).on('click', '.dropdown-menu .dropdown-item', function() {
+      selectedOption = $(this).attr('data-value'); // Met à jour la valeur sélectionnée
+      $('#dropdownMenuButton').text(selectedOption); // Met à jour le texte du bouton avec l'option sélectionnée
+    });
+
+    // Gérez l'événement de clic sur le bouton "Valider"
+    $('#validateBtn').click(function() {
+      console.log('Option sélectionnée :', selectedOption);
+
+      // Fermez le pop-up modal
+      $('#myModal').modal('hide');
+    });
+  });
 });
+
+
+
 
 function turnFormatSecondes(seconds) {
   let minutes = Math.floor(seconds / 60);
