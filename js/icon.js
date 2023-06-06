@@ -891,11 +891,6 @@ function afficher_morceaux_album(data)
             '            <div class="col-md-9">' +
             '                <h3 class="text-white" id="titre_music">'+morceau.nom_morceau+'</h3>' +
             '            </div>' +
-            '            <div class="col-md-2">' +
-            '                <a href="#">' +
-            '                    <i class="bi bi-plus-circle-dotted custom-icon" style="color: #FFFFFF;"></i>' +
-            '                </a>' +
-            '            </div>' +
             '        </div>' +
             '        <p></p>' +
             '        <div class="row">' +
