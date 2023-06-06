@@ -792,13 +792,94 @@ function afficher_albums_artiste(data)
     });
 }
 
-function afficher_infos_album(data)
-{
-    data = JSON.parse(data);
-    console.log(data);
+function afficher_infos_album(data) {
+    let album = JSON.parse(data);
 
-    currentElement.innerHTML = '';
-    document.getElementById("name_page").textContent = 'Album';
+    currentElement.innerHTML = "" +
+        "      <div class='row'>" +
+        "          <div class='col-md-3 offset-md-2'>" +
+        "              <img src='.." + album.cover_album + "' class='img-fluid' alt='cover album'>" +
+        "          </div>" +
+        "          <div class='col-md-4 offset-md-1 text-white'>" +
+        "              <br>" +
+        "              Date de parution :<h5 id='date_parution'>" + album.date_parution_album + "</h5>" +
+        "              <br>" +
+        "              Style musical :<h5 class='text-white' id='style_musical'>" + album.style_album + "</h5>" +
+        "              <br>" +
+        "              Durée totale : <h5 class='text-white' id='duree_totale'>" + album.duree_totale + "</h5>" +
+        "              <br>" +
+        "          </div>" +
+        "          <div class='col-md-2 '>" +
+        "              <br>" +
+        "              <a href='#' >" +
+        "                  <i class='bi bi-play-fill custom-icon' style='color: #09FA4D; font-size: 12vw;'></i>" +
+        "              </a>" +
+        "          </div>" +
+        "      </div>" +
+        "      <div class='row'>" +
+        "          <div class='col-md-4 offset-md-2'>" +
+        "              <h3 class='text bg-black text-white' id='titre_album'>" + album.nom_album + "</h3>" +
+        "              <h5 class='text bg-black text-white' id='artiste'>" + album.nom_artiste + "</h5>" +
+        "          </div>" +
+        "      </div>" +
+        "      <br>" +
+        "      <br>" +
+        "      <div id='album_songs'></div>";
+
+    ajaxRequest(
+        'GET',
+        '../php/request.php/album_songs',
+        afficher_morceaux_album,
+        'id_album='+album.id_album
+    );
+
+}
+
+function seconds2minutes(sec){
+    let minutes = Math.floor(sec/60);
+    let seconds = sec%60;
+    if (minutes<10){
+        minutes = '0'+minutes;
+    }
+    if (seconds<10){
+        seconds = '0'+seconds;
+    }
+    return minutes+':'+seconds;
+}
+
+function afficher_morceaux_album(data)
+{
+    let morceaux = JSON.parse(data);
+    $('#album_songs').html('');
+    for (const morceau of morceaux) {
+        morceau.duree_morceau = seconds2minutes(morceau.duree_morceau);
+        $('#album_songs').append('' +
+            '<div class="row" value="'+morceau.lien+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
+            '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid" >' +
+            '    <div class="col-md-9">' +
+            '        <div class="row">' +
+            '            <div class="col-md-9">' +
+            '                <h3 class="text-white" id="titre_music">'+morceau.nom_morceau+'</h3>' +
+            '            </div>' +
+            '            <div class="col-md-2">' +
+            '                <a href="#">' +
+            '                    <i class="bi bi-plus-circle-dotted custom-icon" style="color: #FFFFFF;"></i>' +
+            '                </a>' +
+            '            </div>' +
+            '        </div>' +
+            '        <p></p>' +
+            '        <div class="row">' +
+            '            <div class="col-md-3">' +
+            '                <p class="text-white" id="artiste">'+morceau.nom_artiste+'</p>' +
+            '            </div>' +
+            '            <div class="col-md-2 offset-md-6">' +
+            '                <p class="text-white" id="durée">'+morceau.duree_morceau+'</p>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>' +
+            '');
+    }
 }
 
 $('#add_favoris').on("click", () => {
