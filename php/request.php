@@ -69,6 +69,8 @@ switch ($requestRessource)
         delete_song_playlist();
     case 'in_fav_playlist':
         in_fav_playlist();
+    case 'afficher_infos_playlist':
+        afficher_infos_playlist();
 }
 
 function authentification()
@@ -505,9 +507,11 @@ function add_playlist($requestMethod)
         if (isset($_POST['id_playlist']) and isset($_POST['id_morceau'])) {
             $playlist = new Playlist($_POST['id_playlist']);
             if ($playlist->addSong($_POST['id_morceau'])){
+                unset($playlist);
                 header('HTTP/1.1 201 Created');
                 exit();
             }
+            unset($playlist);
             header('HTTP/1.1 500 Internal Server Error');
             exit();
         }
@@ -528,15 +532,24 @@ function add_song_playlist(){
                 header('HTTP/1.1 200 OK');
                 $current_user= new User($_SESSION['id_utilisateur'], );
                 $id_fav = $current_user->id_playlist_favoris;
-                Playlist::addSong($_POST['id_morceau'], $id_fav);
+                $playlist = new Playlist($id_fav);
+                if ($playlist->addSong($_POST['id_morceau'])){
+                    unset($playlist);
+                    unset($current_user);
+                    echo 'morceau_ajouté';
+                    exit();
+                }
+                unset($playlist);
                 unset($current_user);
-                echo 'morceau_ajouté';
+                echo 'morceau_non_ajouté';
+                exit();
 
             }else {
                 //header('HTTP/1.1 400 Bad Request');
                 echo 'morceau_non_ajouté';
+                exit();
             }
-            exit();
+            
     }
 }
 
@@ -551,8 +564,6 @@ function delete_song_playlist(){
                 header('Cache-control: no-store, no-cache, must-revalidate');
                 header('Pragma: no-cache');
                 header('HTTP/1.1 200 OK');
-                //echo $_GET['id_morceau'];
-                //exit();
                 $current_user= new User($_SESSION['id_utilisateur']);
                 $id_fav = $current_user->id_playlist_favoris;
                 Playlist::deleteSong($_GET['id_morceau'], $id_fav);
@@ -588,8 +599,6 @@ function in_fav_playlist(){
                 else{
                     echo 'dehors';
                 }
-                
-
             }else {
                 //header('HTTP/1.1 400 Bad Request');
                 echo 'dehors';
@@ -597,4 +606,24 @@ function in_fav_playlist(){
 
             exit();
     }
+}
+
+function afficher_infos_playlist(){
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'GET':
+            if (!empty($_GET['id_playlist'])){
+                header('Content-Type: text/plain; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+                $result = Playlist::getSongs($_GET['id_playlist']);
+                echo json_encode($result);
+            }else {
+                header('HTTP/1.1 400 Bad Request');
+                exit();
+            }
+    }
+
 }
