@@ -63,7 +63,7 @@ function recent_ecoutes(data)
             '<div class="new_music_play col-md-5 p-4 offset-md-1" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">';
         }
         ecoutes = ecoutes +
-            '<div class="row ">'+
+            '<div class="row icon_playlist">'+
               '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
                 '<div class="col-md-9 p-3">'+
                     '<h3 class="text-white" id="titre_music">'+data[i]['nom_morceau']+'</h3>'+
@@ -544,15 +544,15 @@ currentElement.addEventListener("click", function(event) {
         'textToSearch='+textToSearch
     );
   }
-  $('.new_music_play').on('click', (event) => {
-    let id_morceau = $(event.target).closest('.new_music_play').attr('value');
+  if (event.target.classList.contains("new_music_play")) {
+    let id_morceau = event.target.getAttribute('value');
     ajaxRequest(
-        'GET',
-        '../php/request.php/play_new_morceau',
-        play_new_morceau,
-        'id_morceau='+id_morceau
-    )
-  });
+      'GET',
+      '../php/request.php/play_new_morceau',
+      play_new_morceau,
+      'id_morceau=' + id_morceau
+    );
+  }
 });
 
 
@@ -702,7 +702,7 @@ function afficher_morceau(data)
     morceau = morceau+
     '<div class="row">'+
       '<div class="new_music_play col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
-          '<div class="row ">'+
+          '<div class="row icon_playlist">'+
             '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
             '<div class="col-md-9 p-3">'+
               '<h3 class="text-white" id="titre_music">'+
@@ -888,8 +888,8 @@ function afficher_morceaux_album(data)
         morceau.duree_morceau = seconds2minutes(morceau.duree_morceau);
         $('#album_songs').append('' +
             '<div class="new_music_play row" value="'+morceau.id_morceau+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
-            '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid" >' +
-            '    <div class="col-md-9">' +
+            '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid icon_playlist" >' +
+            '    <div class="col-md-9 icon_playlist">' +
             '        <div class="row">' +
             '            <div class="col-md-9">' +
             '                <h3 class="text-white" id="titre_music">'+morceau.nom_morceau+'</h3>' +
