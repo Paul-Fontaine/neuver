@@ -113,13 +113,11 @@ class Playlist
             $request = "
                 INSERT INTO playlist_morceau (
                     id_morceau,
-                    id_playlist,
-                    date_ajout_playlist
+                    id_playlist
                 )
                 VALUES (
                     :id_morceau,
-                    :id_playlist,
-                    CURRENT_DATE
+                    :id_playlist
                 )
             ;";
             $statement = $db->prepare($request);
@@ -133,12 +131,12 @@ class Playlist
         }
         catch (PDOException $exception)
         {
+            if ($exception->getCode() == 23505){
+                error_log('song was already in playlist. ');
+                return true;
+            }
             error_log('Request error: '.$exception->getMessage());
             return false;
         }
     }
 }
-
-$playliste = new Playlist(3);
-echo "songs : <br>";
-var_dump(json_encode($playliste->addSong(4)));
