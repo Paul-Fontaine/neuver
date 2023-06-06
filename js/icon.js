@@ -671,6 +671,16 @@ function afficher_album(data)
     '<br>';
   }
   document.getElementById("place_album").innerHTML = album;
+
+  $('.albums_recherché').on('click', (event) => {
+      let id_album = $(event.target).closest('.albums_recherché').attr('value');
+      ajaxRequest(
+          'GET',
+          '../php/request.php/infos_album',
+          afficher_infos_album,
+          'id_album='+id_album
+      );
+  })
 }
 
 function afficher_morceau(data)
@@ -685,6 +695,7 @@ function afficher_morceau(data)
     '<hr style="color: #FFFFFF;">'+
     '</div>';
   for(let i = 0; i<data.length;i++){
+    data[i]['duree_morceau'] = seconds2minutes(data[i]['duree_morceau']);
     morceau = morceau+
     '<div class="row">'+
       '<div class="new_music_play col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
@@ -813,6 +824,7 @@ function afficher_infos_album(data) {
     let album = JSON.parse(data);
     document.getElementById('name_page').textContent = 'Album';
 
+    document.getElementById("name_page").textContent = 'Album';
     currentElement.innerHTML = "" +
         "      <div class='row'>" +
         "          <div class='col-md-3 offset-md-2'>" +
