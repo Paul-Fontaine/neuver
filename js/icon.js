@@ -672,6 +672,16 @@ function afficher_album(data)
     '<br>';
   }
   document.getElementById("place_album").innerHTML = album;
+
+  $('.albums_recherché').on('click', (event) => {
+      let id_album = $(event.target).closest('.albums_recherché').attr('value');
+      ajaxRequest(
+          'GET',
+          '../php/request.php/infos_album',
+          afficher_infos_album,
+          'id_album='+id_album
+      );
+  })
 }
 
 function afficher_morceau(data)
