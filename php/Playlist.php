@@ -36,7 +36,7 @@ class Playlist
      * tested, it works
      * @return array|false all songs of the playlist with various infos for each song (cf SELECT)
      */
-    function getSongs()
+    function getSongs($id_playlist)
     {
         try {
             $db = DB::connexion();
@@ -57,7 +57,7 @@ class Playlist
             WHERE pl.id_playlist = :id_playlist
             ;";
             $statement = $db->prepare($request);
-            $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
+            $statement->bindParam(':id_playlist', $id_playlist, PDO::PARAM_INT);
             $statement->execute();
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -106,7 +106,7 @@ class Playlist
      * @param $id_morceau
      * @return array|false
      */
-    function addSong($id_morceau, $id_playlist)
+    function addSong($id_morceau)
     {
         try {
             $db = DB::connexion();
@@ -122,7 +122,7 @@ class Playlist
             ;";
             $statement = $db->prepare($request);
             $statement->bindParam(':id_morceau', $id_morceau);
-            $statement->bindParam(':id_playlist', $id_playlist);
+            $statement->bindParam(':id_playlist', $this->id_playlist);
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);
             
