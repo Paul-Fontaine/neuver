@@ -61,6 +61,8 @@ switch ($requestRessource)
         add_morceau_recent();
     case 'get_playlists':
         get_playlists($requestMethod);
+    case 'add_playlist':
+        add_playlist($requestMethod);
     case 'add_song_playlist':
         add_song_playlist();
     case 'delete_song_playlist':
@@ -495,6 +497,23 @@ function get_playlists(string $requestMethod)
     }
     header('HTTP/1.1 400 Bad Request');
     exit();
+}
+
+function add_playlist($requestMethod)
+{
+    if ($requestMethod === 'POST'){
+        if (isset($_POST['id_playlist']) and isset($_POST['id_morceau'])) {
+            $playlist = new Playlist($_POST['id_playlist']);
+            if ($playlist->addSong($_POST['id_morceau'])){
+                header('HTTP/1.1 201 Created');
+                exit();
+            }
+            header('HTTP/1.1 500 Internal Server Error');
+            exit();
+        }
+        header('HTTP/1.1 400 Bad Request');
+        exit();
+    }
 }
 
 function add_song_playlist(){

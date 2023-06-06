@@ -131,6 +131,10 @@ class Playlist
         }
         catch (PDOException $exception)
         {
+            if ($exception->getCode() == 23505){
+                error_log('song was already in playlist. ');
+                return true;
+            }
             error_log('Request error: '.$exception->getMessage());
             return false;
         }
