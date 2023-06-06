@@ -52,6 +52,8 @@ switch ($requestRessource)
         change_album_music();
     case 'change_playlist_music':
         change_playlist_music();
+    case 'create_new_playlist':
+        create_new_playlist();
 }
 
 function authentification()
@@ -392,6 +394,31 @@ function change_playlist_music(){
                 exit();
             }
             header('HTTP/1.1 400 Bad Request');
+            exit();
+    }
+}
+
+function create_new_playlist()
+{
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'POST':
+            if (!empty($_POST['nom_playlist'])){
+                header('Content-Type: text/plain; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+                $current_user= new User($_SESSION['id_utilisateur']);
+                $current_user->addPlaylist($_POST['nom_playlist']);
+                unset($current_user);
+                echo 'playlist_create';
+
+            }else {
+                //header('HTTP/1.1 400 Bad Request');
+                echo 'playlist_not_create';
+            }
+
             exit();
     }
 }

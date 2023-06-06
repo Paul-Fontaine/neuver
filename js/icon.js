@@ -240,7 +240,7 @@ $('#bouton_rechercher').on("click", () => {
     document.getElementById("bouton_rechercher").setAttribute("style", "color: #FFFFFF;");
     document.getElementById("bouton_acceuil").removeAttribute('style');
     document.getElementById("bouton_playlist").removeAttribute('style');
-    document.getElementById("iconProfil").classList.remove("d-none");
+    document.getElementById("iconProfil").classList.remove("d-none");;
     document.getElementById("name_page").textContent = "Rechercher";
     currentElement.innerHTML = ''+
     '<div class="row col-md-11 ">'+
@@ -384,12 +384,26 @@ currentElement.addEventListener("click", function(event) {
         '</a>'+
       '</div>'+
       '<div class="col-md-4 offset-md-2 ">'+
-          '<input type="text" class="form-control" placeholder="Nom de la cover">'+
+          '<input type="text" class="form-control" placeholder="Nom de la cover" id="name_new_playlist">'+
           '<br>'+
-          '<button class="btn btn-success bg-light-green">Créer la playlist</button>'+
+          '<div id="alert-erreur-creation" class="d-none alert alert-danger row col-md-8 offset-md-2" role="alert">'+
+          '<strong>Erreur lors de la creation :</strong> Remplissez bien toutes les cases.'+
+          '</div>'+
+          '<br>'+
+          '<button class="btn btn-success bg-light-green" id="create_new_playlist">Créer la playlist</button>'+
         '</div>'+
     '</div>';
   }
+  if (event.target.id === "create_new_playlist") {
+    let name_new_playlist = $('#name_new_playlist').val();
+    ajaxRequest(
+      'POST',
+      '../php/request.php/create_new_playlist',
+      create_new_playlist,
+      'nom_playlist='+name_new_playlist
+  );
+  }
+
   if (event.target.id === "fav_playlist") {
     document.getElementById("name_page").textContent = "Favoris";
     currentElement.innerHTML = ''+
@@ -548,6 +562,34 @@ function modif_profil(data)
   }
 }
 
+function create_new_playlist(data){
+  switch (data){
+    case 'playlist_not_create':
+      $('#alert-erreur-creation').toggleClass('d-none');
+      break;
+    case 'playlist_create':
+      document.getElementById("name_page").textContent = "Playlist";
+      currentElement.innerHTML = '' +
+      '<div class="row">' +
+          '<div class="col-md-3">' +
+            '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
+              '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
+            '</div>' +
+          '</div>' +
+          '<div class="col-md-3 offset-md-1">' +
+            '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
+                '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
+            '</div>' +
+          '</div>' +
+          '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
+          '</div>' +
+      '</div>' +
+      '<span id="print_playlists">' +
+      '</span>';
+      break;
+  }
+}
+
 function afficher_artiste(data)
 {
   data =JSON.parse(data);
@@ -565,7 +607,7 @@ function afficher_artiste(data)
         '<p class="text-white">'+data[i]['nom_artiste']+'</p>'+
     '</div>';
   }
-  document.getElementById("place_album").innerHTML = artiste+'</div>';
+  document.getElementById("place_artiste").innerHTML = artiste+'</div>';
 
   $('.artistes_recherché').on('click', (event) => {
       let id_artiste = $(event.target).closest('.artistes_recherché').attr('value');
@@ -591,7 +633,7 @@ function afficher_album(data)
     album = album+
     '<div class="row">'+
       '<div class="col-md-5 p-4 albums_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_album']+'">'+
-        '<div class="row">'+
+        '<div class="row icon_playlist">'+
           '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
           '<div class="col-md-9 p-3 text-white">'+
             '<h3 id="titre_music">'+
@@ -628,8 +670,8 @@ function afficher_morceau(data)
   for(let i = 0; i<data.length;i++){
     morceau = morceau+
     '<div class="row">'+
-      '<div class="col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
-          '<div class="row">'+
+      '<div class="new_music_play col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
+          '<div class="row icon_playlist">'+
             '<img src="..' + data[i]['cover_album'] + '" style="width: 25%; height: 25%;" />' +
             '<div class="col-md-9 p-3">'+
               '<h3 class="text-white" id="titre_music">'+
@@ -660,8 +702,12 @@ function play_new_morceau(data)
   data =JSON.parse(data);
 
   document.getElementById("music_current").src  = '../'+data[0]['lien'];
-  document.getElementById("music_current").value = "album";
-  document.getElementById("artiste_play").value = data[0]['id_album'];
+  if(name_page === 'Accueil' || name_page === 'Rechercher'){
+    document.getElementById("music_current").value = "album";
+    document.getElementById("artiste_play").value = data[0]['id_album'];
+  }else{
+    document.getElementById("music_current").value = "playlist";
+  }
   document.getElementById("album_play").value = data[0]['id_morceau'];
   document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
   document.getElementById("artiste_play").textContent = 'Par '+data[0]['nom_artiste'].charAt(0).toUpperCase() + data[0]['nom_artiste'].slice(1);
@@ -677,7 +723,7 @@ function afficher_infos_artiste(data)
         "<div class='container'>" +
         "        <div class='row'>" +
         "            <div class='col-md-6'>" +
-        "                  <img src='.."+data.photo_artiste+"' alt='photo artiste'>" +
+        "                  <img src='.."+data.photo_artiste+"'>" +
         "            </div>" +
         "            <div class='col-md-6 '>" +
         "                <div class='text-white section-info'>" +
@@ -751,64 +797,7 @@ function afficher_infos_album(data)
     data = JSON.parse(data);
     console.log(data);
 
-    currentElement.innerHTML = "" +
-        "       <div class='row'>" +
-        "            <div class='col-md-3 offset-md-2'>" +
-        "                <img src='.."+data.cover_album+"' class='img-fluid' alt='cover album'>" +
-        "            </div>" +
-        "            <div class='col-md-4 offset-md-1 text-white'>" +
-        "                <br>" +
-        "                Date de parution :<h5 id='date_parution'>"+data.date_parution_album+"</h5>" +
-        "                <br>" +
-        "                Style musical :<h5 class='text-white' id='style_musical'>"+data.style_album+"</h5>" +
-        "                <br>" +
-        "                Durée totale : <h5 class='text-white' id='duree_totale'>"+data.duree_totale+"</h5>" +
-        "                <br>" +
-        "            </div>" +
-        "            <div class='col-md-2 '>" +
-        "                <br>" +
-        "                <a href='#' >" +
-        "                    <i class='bi bi-play-fill custom-icon' style='color: #09FA4D; font-size: 12vw;'></i>" +
-        "                </a>" +
-        "            </div>" +
-        "        </div>" +
-        "        <div class='row'>" +
-        "            <div class='col-md-4 offset-md-2'>" +
-        "                <h3 class='text bg-black text-white' id='titre_album'>"+data.nom_album+"</h3>" +
-        "                <h5 class='text bg-black text-white' id='artiste'>"+data.nom_artiste+"</h5>" +
-        "            </div>" +
-        "        </div>" +
-        "        <br>" +
-        "        <br>" +
-        "      <div class='row'>" +
-        "        <div class='col-md-5 p-4' style='background-color: #2C2C2C;'>" +
-        "          <div class='row'>" +
-        "            <div class='col-md-3 p-3' style='background-color: #00EBEB;'>" +
-        "            </div>" +
-        "            <div class='col-md-9'>" +
-        "              <div class='row'>" +
-        "                <div class='col-md-9'>" +
-        "                  <h3 class='text-white' id='titre_music'>Titre musique</h3>" +
-        "                </div>" +
-        "                <div class='col-md-2'>" +
-        "                  <a href='#'>" +
-        "                    <i class='bi bi-plus-circle-dotted custom-icon' style='color: #FFFFFF;'></i>" +
-        "                </a>" +
-        "                </div>" +
-        "              </div>" +
-        "              " +
-        "              <p></p>" +
-        "              <div class='row'>" +
-        "                <div class='col-md-3'>" +
-        "                  <p class='text-white' id='artiste'>Artiste</p>" +
-        "                </div>" +
-        "                <div class='col-md-2 offset-md-6'>" +
-        "                  <p class='text-white' id='durée'>Durée</p>" +
-        "                </div>" +
-        "              </div>" +
-        "            </div>" +
-        "          </div>" +
-        "        </div>";
+    currentElement.innerHTML = '';
     document.getElementById("name_page").textContent = 'Album';
 }
 
