@@ -182,8 +182,6 @@ function user_playlist(data)
 
 
 
-
-
 $('#iconProfil').on("click", () => {
     document.getElementById("bouton_acceuil").removeAttribute('style');
     document.getElementById("bouton_playlist").removeAttribute('style');
@@ -758,28 +756,31 @@ function afficher_infos_artiste(data)
 function afficher_albums_artiste(data)
 {
     data = JSON.parse(data);
-    console.log(data)
-    $('#albums-artiste').html(
-        ""+
-        "<div class='row album' value='"+data.id_album+"' style='background-color: #2C2C2C; padding: 3%;'>" +
-        "    <div class='col-md-3'>" +
-        "        <img src='.."+data.cover_album+"' class='img-fluid' alt='cover album'>" +
-        "    </div>" +
-        "    <div class='col-md-6 offset-md-2'>" +
-        "        <h3 class='text-white' id='titre_music'>"+data.nom_album+"</h3>" +
-        "        <p></p>" +
-        "        <div class='row'>" +
-        "            <div class='col-md-5'>" +
-        "                <p class='text-white'>"+data.nom_artiste+"</p>" +
-        "                </a>" +
-        "            </div>" +
-        "            <div class='col-md-5 offset-md-2'>" +
-        "            <p class='text-white' id='date-parution'>"+data.date_parution_album+"</p>" +
-        "            </div>" +
-        "        </div>" +
-        "    </div>" +
-        "</div>"
-    );
+    $('#albums-artiste').html('');
+    for (const album of data){
+        $('#albums-artiste').append(
+            ""+
+            "<div class='row album' value='"+album.id_album+"' style='background-color: #2C2C2C; padding: 3%; margin: 5%;'>" +
+            "    <div class='col-md-3'>" +
+            "        <img src='.."+album.cover_album+"' class='img-fluid' alt='cover album'>" +
+            "    </div>" +
+            "    <div class='col-md-6 offset-md-2'>" +
+            "        <h3 class='text-white' id='titre_music'>"+album.nom_album+"</h3>" +
+            "        <p></p>" +
+            "        <div class='row'>" +
+            "            <div class='col-md-5'>" +
+            "                <p class='text-white'>"+album.nom_artiste+"</p>" +
+            "                </a>" +
+            "            </div>" +
+            "            <div class='col-md-5 offset-md-2'>" +
+            "            <p class='text-white' id='date-parution'>"+album.date_parution_album+"</p>" +
+            "            </div>" +
+            "        </div>" +
+            "    </div>" +
+            "</div>"
+        );
+    }
+
     $('.album').on('click', (event) => {
         let id_album = $(event.target).closest('.album').attr('value');
         ajaxRequest(
