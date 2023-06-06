@@ -210,6 +210,7 @@ $('#iconProfil').on("click", () => {
 
 
 $('#bouton_acceuil').on("click", () => {
+  if(document.getElementById("name_page").textContent != "Accueil"){
     document.getElementById("bouton_acceuil").setAttribute("style", "color: #FFFFFF;");
     document.getElementById("bouton_playlist").removeAttribute('style');
     document.getElementById("bouton_rechercher").removeAttribute('style');
@@ -221,37 +222,38 @@ $('#bouton_acceuil').on("click", () => {
     '</div>'+
     '<span id="recemment_ecoutes">'+
     '</span>';
+  }
 })
 
 $('#bouton_playlist').on("click", () => {
-  document.getElementById("bouton_playlist").setAttribute("style", "color: #FFFFFF;");
-  document.getElementById("bouton_acceuil").removeAttribute('style');
-  document.getElementById("bouton_rechercher").removeAttribute('style');
-  document.getElementById("iconProfil").classList.remove("d-none");;
-  document.getElementById("name_page").textContent = "Playlist";
-  currentElement.innerHTML = '' +
-  '<div class="row">' +
-      '<div class="col-md-3">' +
-        '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
-          '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
+  if(document.getElementById("name_page").textContent != "Playlist"){
+    document.getElementById("bouton_playlist").setAttribute("style", "color: #FFFFFF;");
+    document.getElementById("bouton_acceuil").removeAttribute('style');
+    document.getElementById("bouton_rechercher").removeAttribute('style');
+    document.getElementById("iconProfil").classList.remove("d-none");;
+    document.getElementById("name_page").textContent = "Playlist";
+    currentElement.innerHTML = '' +
+    '<div class="row">' +
+        '<div class="col-md-3">' +
+          '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
+            '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
+          '</div>' +
         '</div>' +
-      '</div>' +
-      '<div class="col-md-3 offset-md-1">' +
-        '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
-            '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
+        '<div class="col-md-3 offset-md-1">' +
+          '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
+              '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
+          '</div>' +
         '</div>' +
-      '</div>' +
-      '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
-      '</div>' +
-  '</div>' +
-  '<span id="print_playlists">' +
-  '</span>';
-
-  // Attachez un gestionnaire d'événements à l'élément nouvellement créé
-  
+        '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
+        '</div>' +
+    '</div>' +
+    '<span id="print_playlists">' +
+    '</span>';
+  }  
 });
 
 $('#bouton_rechercher').on("click", () => {
+  if(document.getElementById("name_page").textContent != "Rechercher"){
     document.getElementById("bouton_rechercher").setAttribute("style", "color: #FFFFFF;");
     document.getElementById("bouton_acceuil").removeAttribute('style');
     document.getElementById("bouton_playlist").removeAttribute('style');
@@ -288,6 +290,7 @@ $('#bouton_rechercher').on("click", () => {
         '<span id="place_morceau"></span>'+
         '<br>';
       '</span>'
+  }
 })
 
 
