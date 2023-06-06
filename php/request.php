@@ -56,6 +56,8 @@ switch ($requestRessource)
         create_new_playlist();
     case 'album_songs':
         album_songs($requestMethod);
+    case 'add_morceau_recent':
+        add_morceau_recent();
 }
 
 function authentification()
@@ -432,6 +434,30 @@ function create_new_playlist()
                 header('HTTP/1.1 200 OK');
                 $current_user= new User($_SESSION['id_utilisateur']);
                 $current_user->addPlaylist($_POST['nom_playlist']);
+                unset($current_user);
+                echo 'playlist_create';
+
+            }else {
+                //header('HTTP/1.1 400 Bad Request');
+                echo 'playlist_not_create';
+            }
+
+            exit();
+    }
+}
+
+function add_morceau_recent(){
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'POST':
+            if (!empty($_POST['id_morceau'])){
+                header('Content-Type: text/plain; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+                $current_user= new User($_SESSION['id_utilisateur']);
+                $current_user->addMorceauInRecemment_ecoutes($_POST['id_morceau']);
                 unset($current_user);
                 echo 'playlist_create';
 

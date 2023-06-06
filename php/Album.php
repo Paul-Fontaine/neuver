@@ -77,6 +77,7 @@ class Album
             $request = "
             SELECT nom_morceau,
                    lien,
+                   id_morceau,
                    duree_morceau,
                    cover_album,
                    nom_artiste
