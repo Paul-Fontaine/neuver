@@ -35,7 +35,7 @@ class Morceau
      * return all the infos about the instance of morceau
      * @return array|false
      */
-    function infosMorceau($id_morceau)
+    static function infosMorceau($id_morceau)
     {
         try {
             $db = DB::connexion();

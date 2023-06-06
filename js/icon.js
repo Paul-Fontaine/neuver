@@ -686,6 +686,7 @@ function afficher_morceau(data)
     '<hr style="color: #FFFFFF;">'+
     '</div>';
   for(let i = 0; i<data.length;i++){
+    data[i]['duree_morceau'] = seconds2minutes(data[i]['duree_morceau']);
     morceau = morceau+
     '<div class="row">'+
       '<div class="new_music_play col-md-5 p-4 morceaux_recherché" style="background-color: #2C2C2C;" value="'+data[i]['id_morceau']+'">'+
@@ -872,8 +873,8 @@ function afficher_morceaux_album(data)
     for (const morceau of morceaux) {
         morceau.duree_morceau = seconds2minutes(morceau.duree_morceau);
         $('#album_songs').append('' +
-            '<div class="row" value="'+morceau.lien+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
-            '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid" >' +
+            '<div class="row" value="'+morceau.id_morceau+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
+            '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid" alt="cover album">' +
             '    <div class="col-md-9">' +
             '        <div class="row">' +
             '            <div class="col-md-9">' +
