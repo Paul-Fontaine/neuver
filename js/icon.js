@@ -47,6 +47,17 @@ var config = { childList: true, subtree: true };
 // Démarrage de l'observation sur l'élément cible avec la configuration spécifiée
 observer_current_page.observe(currentElement, config);
 
+function seconds2minutes(sec){
+    let minutes = Math.floor(sec/60);
+    let seconds = sec%60;
+    if (minutes<10){
+        minutes = '0'+minutes;
+    }
+    if (seconds<10){
+        seconds = '0'+seconds;
+    }
+    return minutes+':'+seconds;
+}
 
 function recent_ecoutes(data)
 {
@@ -148,7 +159,7 @@ function info_profil(data)
 
 function user_playlist(data)
 {
-    data =JSON.parse(data)
+    data =JSON.parse(data);
     let playlist_list = "";
     let iter = 0;
     for(let i = 0; i<data.length-1;i++){
