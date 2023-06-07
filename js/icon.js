@@ -583,8 +583,8 @@ currentElement.addEventListener("click", function(event) {
       let id_playlist = event.target.getAttribute('value');
       ajaxRequest(
           'GET',
-          '../php/request.php/afficher_infos_playlist',
-          afficher_infos_playlist,
+          '../php/request.php/infos_playlist',
+          infos_playlist,
           'id_playlist='+id_playlist
       );
     }
@@ -613,6 +613,7 @@ function add_morceau_recent(data){
       add_morceau_recent
     );
   }
+  
     
 }
 
@@ -797,6 +798,7 @@ function play_new_morceau(data)
     document.getElementById("artiste_play").value = data[0]['id_album'];
   }else{
     document.getElementById("music_current").value = "playlist";
+    document.getElementById("artiste_play").value = document.getElementById('delete_playlist').getAttribute('data_id_playlist');
   }
   document.getElementById("album_play").value = data[0]['id_morceau'];
   document.getElementById("music_play").textContent = data[0]['nom_morceau'].charAt(0).toUpperCase() + data[0]['nom_morceau'].slice(1);
@@ -888,7 +890,6 @@ function afficher_albums_artiste(data)
 function afficher_infos_album(data) {
     let album = JSON.parse(data);
     document.getElementById('name_page').textContent = 'Album';
-    document.getElementById("name_page").textContent = 'Album';
     currentElement.innerHTML = "" +
         "      <div class='row'>" +
         "          <div class='col-md-3 offset-md-2'>" +
@@ -1073,8 +1074,8 @@ $('#prev_music').on("click", () => {
 });
 
 function changeMusic(){
+  let id = document.getElementById("artiste_play").value;
     if(document.getElementById("music_current").value === 'album'){
-        let id = document.getElementById("artiste_play").value;
         ajaxRequest(
             'GET',
             '../php/request.php/change_album_music',
@@ -1083,7 +1084,7 @@ function changeMusic(){
         )
     }
     if(document.getElementById("music_current").value === 'playlist'){
-        ajaxRequest(
+      ajaxRequest(
             'GET',
             '../php/request.php/change_playlist_music',
             change_music,
@@ -1134,9 +1135,15 @@ function change_music(data){
   ajaxRequest(
     'POST',
     '../php/request.php/add_morceau_recent',
-    add_morceau_recent,
+    () => {},
     'id_morceau=' + data[found]['id_morceau']
-);
+  );
+  ajaxRequest(
+  'GET',
+  '../php/request.php/accueil',
+  add_morceau_recent
+  );
+
   ajaxRequest(
     'GET',
     '../php/request.php/in_fav_playlist',
@@ -1206,6 +1213,97 @@ function delete_song_playlist(data){
   }
 }
 
-function afficher_infos_playlist(data){
+function infos_playlist(data){
+  data = JSON.parse(data);
+  let tempo = '';
+  document.getElementById("name_page").textContent = "Description Playlist";
+  tempo += '' +
+  '<div class="container">'+
+    '<div class="row">'+
+      '<div class="col-md-3 offset-md-1" style="background-color: #00EBEB; height: 18vw;">';
+  if(data['photo_playlist'] != ''){
+    tempo += '<img src="..' + data['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
+  }
+  tempo += ''+ 
+      '</div>'+
+      '<div class="col-md-3 offset-md-1 text-white">'+
+          '<br>'+
+          'Date de parution :<h5 id="date_parution">'+data['date_creation_playlist']+'</h5>'+
+          '<br>'+
+          'Durée totale : <h5 class="text-white" id="duree_totale">'+data['duree_totale']+'</h5>'+
+          '<br>'+
+      '</div>'+
+      '<div class="col-md-2 ">'+
+        '<br>'+
+        '<br>'+
+        '<br>'+
+        '<a href="#" >'+
+          '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;" id="delete_playlist" data_id_playlist="'+data['id_playlist']+'"></i>'+
+        '</a>'+
+      '</div>'+
+      '<div class="new_music_play col-md-2 " value="';
+      if(data['id_morceau'] != null){
+        tempo += data['id_morceau'];
+      }
+      tempo += ''+
+      '">'+
+        '<br>'+
+        '<br>'+
+        '<div class="icon_playlist" >'+
+          '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;" id="bouton_play_playlist"></i>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="row">'+
+      '<div class="col-md-3 offset-md-1">'+
+        '<h3 class="text bg-black text-white" id="titre_playlist">'+data['nom_playlist']+'</h3>'+
+      '</div>'+
+    '</div>'+
+    '<br>'+
+    '<br>'+
+    '<div class="text-white" id="morceau_of_playlist">'+
+      "<h4>Aucun titre n'a été ajouté pour le moment</h4>"+
+    '</div>'+
+  '</div>';
+  currentElement.innerHTML = tempo;
+  ajaxRequest(
+    'GET',
+    '../php/request.php/morceaux_playlist',
+    morceaux_playlist,
+    'id_playlist='+data['id_playlist']
+  );
+}
+
+
+function morceaux_playlist(data)
+{
+  let morceaux = JSON.parse(data);
+  if(morceaux.length !=0){
+    $('#morceau_of_playlist').html('');
+    for (const morceau of morceaux) {
+      morceau.duree_morceau = seconds2minutes(morceau.duree_morceau);
+      $('#morceau_of_playlist').append('' +
+          '<div class="new_music_play row" value="'+morceau.id_morceau+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
+          '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid icon_playlist" >' +
+          '    <div class="col-md-9 icon_playlist">' +
+          '        <div class="row">' +
+          '            <div class="col-md-9">' +
+          '                <h3 class="text-white" id="titre_music">'+morceau.nom_morceau+'</h3>' +
+          '            </div>' +
+          '        </div>' +
+          '        <p></p>' +
+          '        <div class="row">' +
+          '            <div class="col-md-3">' +
+          '                <p class="text-white" id="artiste">'+morceau.nom_artiste+'</p>' +
+          '            </div>' +
+          '            <div class="col-md-2 offset-md-6">' +
+          '                <p class="text-white" id="durée">'+morceau.duree_morceau+'</p>' +
+          '            </div>' +
+          '        </div>' +
+          '    </div>' +
+          '</div>' +
+          '');
+    }
+  }
 
 }
