@@ -169,7 +169,7 @@ function user_playlist(data)
                 first_playlist += ''+
                     '<div class="col-md-12 user_playlist" style="background-color: #00EBEB; height: 15vw;" value="'+data[i]['id_playlist']+'">';
                 if(data[i]['photo_playlist'] != ''){
-                    first_playlist +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
+                    first_playlist +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" class="icon_playlist" />';
                 }
                 first_playlist += ''+
                     '</div>';
@@ -190,7 +190,7 @@ function user_playlist(data)
                 playlist_list = playlist_list+
                     '<div class="col-md-12 user_playlist" style="background-color: #00EBEB; height: 15vw;" value="'+data[i]['id_playlist']+'">';
                 if(data[i]['photo_playlist'] != ''){
-                    playlist_list +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
+                    playlist_list +='<img src="..' + data[i]['photo_playlist'] + '"style="width: 100%; height: 100%;" class="icon_playlist" />';
                 }
                 playlist_list += ''+
                     '</div>'+
@@ -904,11 +904,11 @@ function afficher_infos_album(data) {
         "              Durée totale : <h5 class='text-white' id='duree_totale'>" + album.duree_totale + "</h5>" +
         "              <br>" +
         "          </div>" +
-        "          <div class='col-md-2 '>" +
+        "          <div class='new_music_play col-md-2' value='"+album.id_morceau+"'>" +
         "              <br>" +
-        "              <a href='#' >" +
+        "              <div class='icon_playlist'>" +
         "                  <i class='bi bi-play-fill custom-icon' style='color: #09FA4D; font-size: 12vw;'></i>" +
-        "              </a>" +
+        "              </div>" +
         "          </div>" +
         "      </div>" +
         "      <div class='row'>" +
@@ -1222,7 +1222,7 @@ function infos_playlist(data){
     '<div class="row">'+
       '<div class="col-md-3 offset-md-1" style="background-color: #00EBEB; height: 18vw;">';
   if(data['photo_playlist'] != ''){
-    tempo += '<img src="..' + data['photo_playlist'] + '"style="width: 100%; height: 100%;" />';
+    tempo += '<img src="..' + data['photo_playlist'] + '"style="width: 110%; height: 100%; margin-left: -1vw;" />';
   }
   tempo += ''+ 
       '</div>'+
