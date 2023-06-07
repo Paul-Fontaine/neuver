@@ -69,8 +69,11 @@ switch ($requestRessource)
         delete_song_playlist();
     case 'in_fav_playlist':
         in_fav_playlist();
-    case 'afficher_infos_playlist':
-        afficher_infos_playlist();
+    case 'infos_playlist':
+        infos_playlist();
+    case 'morceaux_playlist':
+        morceaux_playlist();
+
 }
 
 function authentification()
@@ -472,11 +475,12 @@ function add_morceau_recent(){
                 $current_user= new User($_SESSION['id_utilisateur']);
                 $current_user->addMorceauInRecemment_ecoutes($_POST['id_morceau']);
                 unset($current_user);
-                echo 'playlist_create';
+                exit();
 
             }else {
-                //header('HTTP/1.1 400 Bad Request');
+                header('HTTP/1.1 400 Bad Request');
                 echo 'playlist_not_create';
+                exit();
             }
 
             exit();
@@ -608,7 +612,30 @@ function in_fav_playlist(){
     }
 }
 
-function afficher_infos_playlist(){
+function infos_playlist(){
+    global $requestMethod;
+    switch ($requestMethod)
+    {
+        case 'GET':
+            if (!empty($_GET['id_playlist'])){
+                header('Content-Type: text/plain; charset=utf-8');
+                header('Cache-control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('HTTP/1.1 200 OK');
+                $current_playlist = new Playlist($_GET['id_playlist']);
+                $result = $current_playlist->infosPlaylist();
+                unset($current_playlist);
+                echo json_encode($result);
+                exit();
+            }else {
+                header('HTTP/1.1 400 Bad Request');
+                exit();
+            }
+    }
+
+}
+
+function morceaux_playlist(){
     global $requestMethod;
     switch ($requestMethod)
     {
@@ -620,6 +647,7 @@ function afficher_infos_playlist(){
                 header('HTTP/1.1 200 OK');
                 $result = Playlist::getSongs($_GET['id_playlist']);
                 echo json_encode($result);
+                exit();
             }else {
                 header('HTTP/1.1 400 Bad Request');
                 exit();
@@ -627,3 +655,5 @@ function afficher_infos_playlist(){
     }
 
 }
+
+

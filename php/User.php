@@ -257,8 +257,8 @@ class User
             // create a new playlist named 'nom_playlist' and get its id_playlist
             
             $request = "
-            INSERT INTO playlist(nom_playlist) VALUES 
-            (:nom_playlist)
+            INSERT INTO playlist(nom_playlist, photo_playlist) VALUES 
+            (:nom_playlist, '')
             RETURNING id_playlist;
             ";
             $statement = $db->prepare($request);
