@@ -844,7 +844,7 @@ function afficher_infos_album(data)
     console.log(data);
 
     currentElement.innerHTML = '';
-    document.getElementById("name_page").textContent = 'Album';
+    document.getElementById("name_page").textContent = 'Album'; 
 }
 
 $('#add_favoris').on("click", () => {
