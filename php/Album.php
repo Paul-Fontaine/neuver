@@ -61,6 +61,20 @@ class Album
             $duree_totale = $statement->fetch(PDO::FETCH_NUM)[0];
 
             $result['duree_totale'] = seconds2minutes($duree_totale);
+            
+            $request = "
+            SELECT id_morceau
+            FROM morceau
+            WHERE id_album = :id_album
+            ORDER BY id_morceau
+            LIMIT 1
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_album', $this->id_album, PDO::PARAM_INT);
+            $statement->execute();
+            $first_id = $statement->fetch(PDO::FETCH_NUM)[0];
+
+            $result['id_morceau'] = $first_id;
             return $result;
         }
         catch (PDOException $exception)
