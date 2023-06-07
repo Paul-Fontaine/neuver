@@ -669,16 +669,17 @@ function delete_playlist(){
         case 'DELETE':
             parse_str(file_get_contents('php://input'), $_GET);
             if (!empty($_GET['id_playlist'])){
-                header('Content-Type: text/plain; charset=utf-8');
-                header('Cache-control: no-store, no-cache, must-revalidate');
-                header('Pragma: no-cache');
-                header('HTTP/1.1 200 OK');
                 $current_user= new User($_SESSION['id_utilisateur']);
-                if($current_user->deletePlaylist($id_playlist)){
+                if($current_user->deletePlaylist($_GET['id_playlist'])){
+                    header('Content-Type: text/plain; charset=utf-8');
+                    header('Cache-control: no-store, no-cache, must-revalidate');
+                    header('Pragma: no-cache');
+                    header('HTTP/1.1 200 OK');
                     unset($current_user);
                     echo 'playlist_delete';
                     exit();
                 }
+                header('HTTP/1.1 500 Internal Server Error');
                 unset($current_user);
                 echo 'playlist_not_delete';
                 exit();

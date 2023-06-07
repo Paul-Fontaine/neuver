@@ -36,7 +36,7 @@ class Playlist
      * tested, it works
      * @return array|false all songs of the playlist with various infos for each song (cf SELECT)
      */
-    function getSongs($id_playlist)
+    static function getSongs($id_playlist)
     {
         try {
             $db = DB::connexion();
@@ -231,7 +231,7 @@ class Playlist
                    p.nom_playlist,
                    p.photo_playlist
             FROM playlist p
-            WHERE p.id_playlist = 1
+            WHERE p.id_playlist = :id_playlist
             ;";
             $statement = $db->prepare($request);
             $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
