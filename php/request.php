@@ -540,7 +540,7 @@ function add_song_playlist(){
                 header('Cache-control: no-store, no-cache, must-revalidate');
                 header('Pragma: no-cache');
                 header('HTTP/1.1 200 OK');
-                $current_user= new User($_SESSION['id_utilisateur'], );
+                $current_user= new User($_SESSION['id_utilisateur']);
                 $id_fav = $current_user->id_playlist_favoris;
                 $playlist = new Playlist($id_fav);
                 if ($playlist->addSong($_POST['id_morceau'])){
