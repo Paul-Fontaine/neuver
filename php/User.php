@@ -211,6 +211,45 @@ class User
         }
     }
 
+
+    function addMorceauInRecemment_ecoutes($id_morceau): bool
+    {
+        try {
+            $db = DB::connexion();
+
+            $request = "
+            INSERT INTO recemment_ecoutes (id_morceau, id_utilisateur)
+            VALUES (:id_morceau, :id_utilisateur)
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_morceau', $id_morceau);
+            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
+            $statement->execute();
+
+
+            $request = "
+            UPDATE recemment_ecoutes
+            SET id_morceau = :id_morceau,
+                id_utilisateur = :id_utilisateur
+            WHERE id_morceau = :id_morceau and id_utilisateur = :id_utilisateur
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_morceau', $id_morceau);
+            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
+            $statement->execute();
+
+            
+
+            return true;
+            
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
+
     /**
      * @return array|false the list of the user's playlist
      */
@@ -287,37 +326,56 @@ class User
             return false;
         }
     }
+    
 
-    function addMorceauInRecemment_ecoutes($id_morceau): bool
+    function deletePlaylist($id_playlist): bool
     {
+        
         try {
             $db = DB::connexion();
 
-            $request = "
-            INSERT INTO recemment_ecoutes (id_morceau, id_utilisateur)
-            VALUES (:id_morceau, :id_utilisateur)
-            ;";
-            $statement = $db->prepare($request);
-            $statement->bindParam(':id_morceau', $id_morceau);
-            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
-            $statement->execute();
-
-
-            $request = "
-            UPDATE recemment_ecoutes
-            SET id_morceau = :id_morceau,
-                id_utilisateur = :id_utilisateur
-            WHERE id_morceau = :id_morceau and id_utilisateur = :id_utilisateur
-            ;";
-            $statement = $db->prepare($request);
-            $statement->bindParam(':id_morceau', $id_morceau);
-            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
-            $statement->execute();
-
+            // delete in user_playlist table only for the user who wants to delete
             
+            $request = "
+            DELETE FROM user_playlist
+            WHERE id_playlist = :id_playlist AND id_utilisateur = :id_utilisateur
+            ";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $id_playlist);
+            $statement->bindParam(':id_utilisateur', $this->id_utilisateur);
+            $statement->execute();
+            /*
+            // delete in user_playlist table
+            
+            $request = "
+            DELETE FROM user_playlist
+            WHERE id_playlist = :id_playlist
+            ";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $id_playlist);
+            $statement->execute();
 
+            // delete in playlist_morceau table
+            
+            $request = "
+            DELETE FROM playlist_morceau
+            WHERE id_playlist = :id_playlist
+            ";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $id_playlist);
+            $statement->execute();
+
+            // delete in playlist table
+            
+            $request = "
+            DELETE FROM playlist
+            WHERE id_playlist = :id_playlist
+            ";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $id_playlist);
+            $statement->execute();*/
+        
             return true;
-            
         }
         catch (PDOException $exception)
         {

@@ -221,7 +221,63 @@ class Playlist
         }
     }
 
+
+
+    function infosPlaylistFavoris(){
+        try {
+            $db = DB::connexion();
+            $request = "
+            SELECT p.id_playlist,
+                   p.nom_playlist,
+                   p.photo_playlist
+            FROM playlist p
+            WHERE p.id_playlist = 1
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            $request = "
+            SELECT SUM(m.duree_morceau)
+            FROM morceau m
+            JOIN playlist_morceau pm on pm.id_morceau = m.id_morceau
+            WHERE id_playlist = :id_playlist
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
+            $statement->execute();
+            $duree_totale = $statement->fetch(PDO::FETCH_NUM)[0];
+            if($duree_totale === null){
+                $duree_totale = 0;
+            }
+
+            $result['duree_totale'] = seconds2minute($duree_totale);
+
+            $request = "
+            SELECT id_morceau
+            FROM playlist_morceau
+            WHERE id_playlist = :id_playlist
+            ORDER BY id_morceau
+            LIMIT 1
+            ;";
+            $statement = $db->prepare($request);
+            $statement->bindParam(':id_playlist', $this->id_playlist, PDO::PARAM_INT);
+            $statement->execute();
+            $first_id = $statement->fetch(PDO::FETCH_NUM)[0];
+
+            $result['id_morceau'] = $first_id;
+            return $result;
+        }
+        catch (PDOException $exception)
+        {
+            error_log('Request error: '.$exception->getMessage());
+            return false;
+        }
+    }
+
 }
+
 
 function seconds2minute(int $seconds): string
 {
