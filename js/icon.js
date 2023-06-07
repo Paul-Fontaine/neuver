@@ -439,36 +439,11 @@ currentElement.addEventListener("click", function(event) {
     }
 
     if (event.target.id === "fav_playlist") {
-        document.getElementById("name_page").textContent = "Favoris";
-        currentElement.innerHTML = ''+
-            '<div class="row">' +
-            '<div class="col-md-3 offset-md-1">'+
-            '<a href="#">'+
-            '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">'+
-            '<i class="bi bi-suit-heart-fill text-white plus-icon"></i></i>'+
-            '</div>'+
-            '</a>'+
-            '</div>'+
-            '<div class="col-md-3 offset-md-1 text-white">' +
-            '<br>' +
-            'Date de parution :<h5 id="date_parution">'+
-            '</h5>' +
-            '<br>' +
-            'Durée totale : <h5 class="text-white" id="duree_totale">'+
-            '</h5>' +
-            '<br>' +
-            '</div>' +
-            '<div class="col-md-2 ">' +
-            '<a href="#">' +
-            '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;"></i>' +
-            '</a>' +
-            '</div>' +
-            '</div>' +
-            '<div class="row">' +
-            '<div class="col-md-3 offset-md-1">' +
-            '<h3 class="text bg-black text-white" id="titre_album">Playlist Favoris</h3>' +
-            '</div>' +
-            '</div>';
+        ajaxRequest(
+          'GET',
+          '../php/request.php/infos_playlist_favoris',
+          infos_playlist_favoris,
+      );
     }
     if (event.target.id === "research_all"){
         document.getElementById("all_place").innerHTML= ''+
@@ -586,6 +561,25 @@ currentElement.addEventListener("click", function(event) {
           '../php/request.php/infos_playlist',
           infos_playlist,
           'id_playlist='+id_playlist
+      );
+    }
+    if(event.target.id === "deleted_playlist"){
+      let id_playlist = event.target.getAttribute('value');
+      ajaxRequest(
+        'DELETE',
+        '../php/request.php/delete_playlist',
+        delete_playlist,
+        'id_playlist='+id_playlist
+      );
+    }
+    if(event.target.id === "delete_one_song"){
+      let id_morceau = event.target.getAttribute('value');
+      let id_playlist = document.getElementById('delete_playlist').getAttribute('data_id_playlist');
+      ajaxRequest(
+        'DELETE',
+        '../php/request.php/delete_one_song_of_playlist',
+        delete_one_song_of_playlist,
+        'id_morceau='+id_morceau+'&id_playlist='+id_playlist
       );
     }
 });
@@ -1193,6 +1187,13 @@ function add_song_playlist(data){
       document.getElementById("icon_favori").classList.toggle("be_white");
       document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
       document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
+      if(document.getElementById("name_page").textContent === 'Favoris'){
+        ajaxRequest(
+          'GET',
+          '../php/request.php/infos_playlist_favoris',
+          infos_playlist_favoris,
+        );
+      }
       break;
     case 'morceau_non_ajouté':
         //$('#alert-erreur-inscription').toggleClass('d-none');
@@ -1206,12 +1207,69 @@ function delete_song_playlist(data){
       document.getElementById("icon_favori").classList.toggle("be_white");
       document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
       document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
+      if(document.getElementById("name_page").textContent === 'Favoris'){
+        ajaxRequest(
+          'GET',
+          '../php/request.php/infos_playlist_favoris',
+          infos_playlist_favoris,
+        );
+      }
       break;
     case 'morceau_non_enlevé':
         //$('#alert-erreur-inscription').toggleClass('d-none');
         break;
   }
 }
+
+function infos_playlist_favoris(data){
+  data = JSON.parse(data);
+  let tempo = '';
+  document.getElementById("name_page").textContent = "Favoris";
+  tempo += '' +
+  '<div class="container">'+
+    '<div class="row">'+
+      '<div class="col-md-3 offset-md-1" style="background-color: #f70a0a; height: 18vw;" id="fav_playlist">'+
+        '<i class="bi bi-suit-heart-fill text-white plus-icon"></i>'+
+      '</div>'+
+      '<div class="col-md-3 offset-md-1 text-white">'+
+          '<br>'+
+          'Durée totale : <h5 class="text-white" id="duree_totale">'+data['duree_totale']+'</h5>'+
+          '<br>'+
+      '</div>'+
+      '<div class="new_music_play col-md-2 " value="';
+      if(data['id_morceau'] != null){
+        tempo += data['id_morceau'];
+      }
+      tempo += ''+
+      '">'+
+        '<br>'+
+        '<br>'+
+        '<div class="icon_playlist" >'+
+          '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;" id="delete_playlist" data_id_playlist="'+data['id_playlist']+'"></i>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="row">'+
+      '<div class="col-md-3 offset-md-1">'+
+        '<h3 class="text bg-black text-white" id="titre_playlist">'+data['nom_playlist'].charAt(0).toUpperCase() + data['nom_playlist'].slice(1)+'</h3>'+
+      '</div>'+
+    '</div>'+
+    '<br>'+
+    '<br>'+
+    '<div class="text-white" id="morceau_of_playlist">'+
+      "<h4>Aucun titre n'a été ajouté pour le moment</h4>"+
+    '</div>'+
+  '</div>';
+  
+  currentElement.innerHTML = tempo;
+  ajaxRequest(
+    'GET',
+    '../php/request.php/morceaux_playlist',
+    morceaux_playlist,
+    'id_playlist='+data['id_playlist']
+  );
+}
+
 
 function infos_playlist(data){
   data = JSON.parse(data);
@@ -1233,13 +1291,13 @@ function infos_playlist(data){
           'Durée totale : <h5 class="text-white" id="duree_totale">'+data['duree_totale']+'</h5>'+
           '<br>'+
       '</div>'+
-      '<div class="col-md-2 ">'+
+      '<div class="col-md-2 " id="deleted_playlist" value="'+data['id_playlist']+'">'+
         '<br>'+
         '<br>'+
         '<br>'+
-        '<a href="#" >'+
-          '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;" id="delete_playlist" data_id_playlist="'+data['id_playlist']+'"></i>'+
-        '</a>'+
+        '<div class="icon_playlist" >'+
+          '<i class="bi bi-trash3" style="color: #fa0909; font-size: 8vw;" ></i>'+
+        '</div>'+
       '</div>'+
       '<div class="new_music_play col-md-2 " value="';
       if(data['id_morceau'] != null){
@@ -1250,13 +1308,13 @@ function infos_playlist(data){
         '<br>'+
         '<br>'+
         '<div class="icon_playlist" >'+
-          '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;" id="bouton_play_playlist"></i>'+
+          '<i class="bi bi-play-fill custom-icon" style="color: #09FA4D; font-size: 12vw;" id="delete_playlist" data_id_playlist="'+data['id_playlist']+'"></i>'+
         '</div>'+
       '</div>'+
     '</div>'+
     '<div class="row">'+
       '<div class="col-md-3 offset-md-1">'+
-        '<h3 class="text bg-black text-white" id="titre_playlist">'+data['nom_playlist']+'</h3>'+
+        '<h3 class="text bg-black text-white" id="titre_playlist">'+data['nom_playlist'].charAt(0).toUpperCase() + data['nom_playlist'].slice(1)+'</h3>'+
       '</div>'+
     '</div>'+
     '<br>'+
@@ -1265,6 +1323,7 @@ function infos_playlist(data){
       "<h4>Aucun titre n'a été ajouté pour le moment</h4>"+
     '</div>'+
   '</div>';
+  
   currentElement.innerHTML = tempo;
   ajaxRequest(
     'GET',
@@ -1285,9 +1344,10 @@ function morceaux_playlist(data)
       $('#morceau_of_playlist').append('' +
           '<div class="new_music_play row" value="'+morceau.id_morceau+'" style="background-color: #2C2C2C; padding: 3%; margin: 5%;">' +
           '    <img src="..'+morceau.cover_album+'" class="col-md-3 p-3 img-fluid icon_playlist" >' +
-          '    <div class="col-md-9 icon_playlist">' +
+          '    <div class="col-md-8 icon_playlist">' +
           '        <div class="row">' +
           '            <div class="col-md-9">' +
+          '            <br>'+
           '                <h3 class="text-white" id="titre_music">'+morceau.nom_morceau+'</h3>' +
           '            </div>' +
           '        </div>' +
@@ -1301,9 +1361,82 @@ function morceaux_playlist(data)
           '            </div>' +
           '        </div>' +
           '    </div>' +
+          '   <div class="col-md-1" id="delete_one_song" value="'+morceau.id_morceau+'">'+
+          '     <i class="icon_playlist bi bi-trash3" style="color: #fa0909; font-size: 3vw;" ></i>'+
+          '   </div>'+
           '</div>' +
           '');
     }
   }
 
 }
+
+function delete_playlist(data){
+  console.log(data);
+  switch (data){
+    case 'playlist_delete':
+        if(document.getElementById("name_page").textContent != "Playlist"){
+          document.getElementById("bouton_playlist").setAttribute("style", "color: #FFFFFF;");
+          document.getElementById("bouton_acceuil").removeAttribute('style');
+          document.getElementById("bouton_rechercher").removeAttribute('style');
+          document.getElementById("iconProfil").classList.remove("d-none");;
+          document.getElementById("name_page").textContent = "Playlist";
+          currentElement.innerHTML = '' +
+              '<div class="row">' +
+              '<div class="col-md-3">' +
+              '<div class="col-md-12 " style="background-color: #00EBEB; height: 15vw;" id="nouv_playlist">' +
+              '<i class="bi bi-plus-lg text-white plus-icon icon_playlist"></i>'+
+              '</div>' +
+              '</div>' +
+              '<div class="col-md-3 offset-md-1">' +
+              '<div class="col-md-12 " style="background-color: #f70a0a; height: 15vw;" id="fav_playlist">' +
+              '<i class="bi bi-suit-heart-fill text-white plus-icon icon_playlist"> </i>' +
+              '</div>' +
+              '</div>' +
+              '<div class="col-md-3 offset-md-1" id="fisrt_playlist">' +
+              '</div>' +
+              '</div>' +
+              '<span id="print_playlists">' +
+              '</span>';
+      }
+      break;
+    case 'playlist_not_delete':
+        //$('#alert-erreur-inscription').toggleClass('d-none');
+        break;
+  }
+}
+
+function delete_one_song_of_playlist(data){
+  data = JSON.parse(data);
+  switch (data[0]){
+      case 'morceau_enlevé':
+        if(document.getElementById('name_page').textContent === 'Favoris'){
+          if(parseInt(data[1]) === parseInt(document.getElementById("album_play").value)){
+            document.getElementById("icon_favori").classList.toggle("be_white");
+            document.getElementById("icon_favori").classList.toggle("bi-suit-heart-fill");
+            document.getElementById("icon_favori").classList.toggle("bi-suit-heart");
+          }
+          ajaxRequest(
+            'GET',
+            '../php/request.php/infos_playlist_favoris',
+            infos_playlist_favoris,
+          );
+        }else{
+          let id_playlist = document.getElementById('delete_playlist').getAttribute('data_id_playlist');
+          ajaxRequest(
+            'GET',
+            '../php/request.php/infos_playlist',
+            infos_playlist,
+            'id_playlist='+id_playlist
+          );
+        }
+        break;
+      case 'morceau_non_enlevé':
+        //$('#alert-erreur-inscription').toggleClass('d-none');
+        break;
+
+
+  }
+}
+
+
